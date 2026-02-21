@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吉祥女子中学校 - 受験生のための徹底ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: #fafafa;
+        }
+
+        .hero-pattern {
+            background-color: #8B1E3F;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239c254d' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(139, 30, 63, 0.1);
+        }
+
+        .chat-container {
+            height: 300px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .bg-kichijo {
+            background-color: #8B1E3F;
+        }
+
+        .text-kichijo {
+            color: #8B1E3F;
+        }
+
+        .border-kichijo {
+            border-color: #8B1E3F;
+        }
+
+        .range-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #e5e7eb;
+            outline: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #8B1E3F;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .option-btn {
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #ffeef2;
+            border-color: #fca5a5;
+        }
+    </style>
+</head>
+
+<body class="text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-kichijo text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold tracking-wider">吉祥女子中学校 研究ガイド</h1>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#about" class="hover:text-pink-200 transition">教育方針</a>
+                <a href="#exam" class="hover:text-pink-200 transition">過去問模試</a>
+                <a href="#analysis"
+                    class="hover:text-pink-200 transition font-bold border-b border-transparent hover:border-pink-200">成績診断</a>
+                <a href="#life" class="hover:text-pink-200 transition">学校生活</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-pattern text-white py-12 md:py-20 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10 text-center animate-fade-in">
+            <h1 class="text-2xl md:text-4xl font-bold mb-4 leading-tight">社会に貢献する自立した女性へ</h1>
+            <p class="max-w-xl mx-auto text-sm md:text-base text-gray-100 mb-6">
+                目標を見定め、現在地を知る。<br>
+                AIがあなたの合格可能性を最大化します。
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#analysis"
+                    class="glass-panel text-kichijo px-6 py-2 rounded-full font-bold hover:bg-white transition shadow-lg text-sm">
+                    成績から診断する
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Grid -->
+    <main class="container mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- Main Content Column -->
+        <div class="lg:col-span-2 space-y-12">
+
+            <!-- Analysis & Input Section -->
+            <section id="analysis" class="glass-panel p-8 rounded-2xl animate-fade-in border-l-4 border-kichijo">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <div class="flex items-center">
+                            <span class="bg-kichijo text-white p-2 rounded-lg mr-4">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                    </path>
+                                </svg>
+                            </span>
+                            <h2 class="text-2xl font-bold text-gray-800">合格ライン比較診断</h2>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 ml-14">直近のテストの偏差値(40-70)を入力して、<br>吉祥女子の合格傾向とのギャップを確認しましょう。
+                        </p>
+                    </div>
+                    <button onclick="toggleEditMode()" id="edit-btn"
+                        class="text-sm bg-gray-100 px-4 py-2 rounded-full hover:bg-gray-200 transition text-gray-600 font-bold">
+                        ✏️ 成績を修正
+                    </button>
+                </div>
+
+                <!-- Input Panel (Hidden by default or toggled) -->
+                <div id="input-panel"
+                    class="hidden bg-pink-50 p-6 rounded-xl mb-8 border border-pink-100 animate-fade-in relative">
+                    <div class="absolute top-4 right-4">
+                        <label for="pdf-upload"
+                            class="cursor-pointer bg-white text-kichijo text-xs font-bold py-2 px-3 rounded border border-kichijo hover:bg-pink-50 transition flex items-center shadow-sm">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                            </svg>
+                            PDF読込
+                        </label>
+                        <input id="pdf-upload" type="file" accept=".pdf" class="hidden"
+                            onchange="handleFileUpload(this)">
+                    </div>
+
+                    <h3 class="font-bold text-kichijo mb-1 text-sm">成績データ (SAPIX分類)</h3>
+                    <p id="file-status"
+                        class="text-xs text-gray-500 mb-4 bg-white p-2 rounded border border-gray-200 flex items-center">
+                        <span class="mr-2 text-green-500">✔</span>
+                        <span>検出: <strong>2026/01 新学年組分け.pdf</strong> (暫定値)</span>
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                        <!-- Math Inputs -->
+                        <div class="space-y-3">
+                            <p class="text-xs font-bold text-gray-500 border-b pb-1">算数</p>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>平面図形</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="58"
+                                    oninput="updateScore('math', 0, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-math-0">58</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>立体図形</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="52"
+                                    oninput="updateScore('math', 1, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-math-1">52</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>速さ</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="55"
+                                    oninput="updateScore('math', 2, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-math-2">55</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>割合と比</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="60"
+                                    oninput="updateScore('math', 3, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-math-3">60</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>数の性質</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="56"
+                                    oninput="updateScore('math', 4, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-math-4">56</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>規則性</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="54"
+                                    oninput="updateScore('math', 5, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-math-5">54</span>
+                            </div>
+                        </div>
+                        <!-- Science Inputs -->
+                        <div class="space-y-3">
+                            <p class="text-xs font-bold text-gray-500 border-b pb-1">理科</p>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>力学(計算)</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="53"
+                                    oninput="updateScore('science', 0, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-science-0">53</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>化学(計算)</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="58"
+                                    oninput="updateScore('science', 1, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-science-1">58</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>電気</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="50"
+                                    oninput="updateScore('science', 2, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-science-2">50</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>天体</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="55"
+                                    oninput="updateScore('science', 3, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-science-3">55</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>生物</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="52"
+                                    oninput="updateScore('science', 4, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-science-4">52</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <label>人体</label>
+                                <input type="range" class="range-slider w-24 mx-2" min="30" max="75" value="50"
+                                    oninput="updateScore('science', 5, this.value)">
+                                <span class="font-bold w-6 text-right" id="val-science-5">50</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Math Chart -->
+                    <div class="glass-panel p-4 rounded-xl shadow-sm relative">
+                        <h3 class="text-center font-bold text-gray-700 mb-2 text-sm bg-gray-50 rounded py-1">算数 比較チャート
+                        </h3>
+                        <div class="h-56 w-full">
+                            <canvas id="chartMath"></canvas>
+                        </div>
+                        <div id="advice-math" class="mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg hidden"></div>
+                    </div>
+
+                    <!-- Science Chart -->
+                    <div class="glass-panel p-4 rounded-xl shadow-sm relative">
+                        <h3 class="text-center font-bold text-gray-700 mb-2 text-sm bg-gray-50 rounded py-1">理科 比較チャート
+                        </h3>
+                        <div class="h-56 w-full">
+                            <canvas id="chartScience"></canvas>
+                        </div>
+                        <div id="advice-science" class="mt-4 p-3 bg-blue-50 text-blue-700 text-xs rounded-lg hidden">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Advice -->
+                <div class="mt-8 bg-gray-800 text-white p-6 rounded-xl shadow-lg relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl">🤖</div>
+                    <h3 class="font-bold text-lg mb-2">AI合格診断サマリー</h3>
+                    <p id="total-feedback" class="text-sm leading-relaxed text-gray-300">
+                        成績を入力すると、ここに詳細なアドバイスが表示されます。
+                    </p>
+                </div>
+            </section>
+
+            <!-- Mock Exam Section -->
+            <section id="exam" class="glass-panel p-8 rounded-2xl animate-fade-in">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <span class="bg-kichijo text-white p-2 rounded-lg mr-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                                </path>
+                            </svg>
+                        </span>
+                        <h2 class="text-xl font-bold text-gray-800">過去問模試 (各5問)</h2>
+                    </div>
+                </div>
+                <!-- Subject Tabs -->
+                <div class="flex space-x-1 mb-6 border-b border-gray-200 overflow-x-auto">
+                    <button onclick="switchSubject('japanese')" id="tab-japanese"
+                        class="px-4 py-2 text-sm font-bold text-kichijo border-b-2 border-kichijo focus:outline-none bg-pink-50 rounded-t-lg whitespace-nowrap">国語</button>
+                    <button onclick="switchSubject('math')" id="tab-math"
+                        class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-kichijo whitespace-nowrap">算数</button>
+                    <button onclick="switchSubject('science')" id="tab-science"
+                        class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-kichijo whitespace-nowrap">理科</button>
+                    <button onclick="switchSubject('social')" id="tab-social"
+                        class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-kichijo whitespace-nowrap">社会</button>
+                </div>
+                <div id="quiz-container" class="space-y-6"></div>
+            </section>
+
+        </div>
+
+        <!-- Sidebar / Chatbot Column -->
+        <div class="lg:col-span-1 space-y-6">
+            <div id="chatbot" class="sticky top-24">
+                <div class="glass-panel rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+                    <div
+                        class="bg-gradient-to-r from-pink-800 to-pink-700 text-white p-4 flex justify-between items-center">
+                        <h3 class="font-bold flex items-center text-sm">
+                            <span class="mr-2">💬</span> 吉祥チャットボット
+                        </h3>
+                    </div>
+                    <div id="chat-messages" class="chat-container bg-slate-50 p-4">
+                        <div class="message-bubble bg-white shadow-sm text-gray-600 border border-gray-200 text-xs">
+                            こんにちは！吉祥女子中学校について、何でも聞いてください。<br>
+                            「PDFの入試結果」も読み込めるようになったよ。（一部機能）
+                        </div>
+                    </div>
+                    <div class="p-3 bg-white border-t border-gray-100">
+                        <form id="chat-form" class="flex gap-2">
+                            <input type="text" id="user-input"
+                                class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-kichijo text-xs"
+                                placeholder="質問を入力...">
+                            <button type="submit"
+                                class="bg-pink-700 text-white rounded-lg px-3 py-2 hover:bg-pink-800 transition text-xs font-bold">
+                                送信
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-8 text-center text-xs mt-12 mb-0">
+        <p>© 2026 吉祥女子中学校 受験生応援ガイド (非公式)</p>
+    </footer>
+
+    <script>
+        // --- Score Comparison Logic ---
+        const targetData = {
+            math: [62, 62, 64, 58, 55, 55], // 平面, 立体, 速さ, 割合, 数, 規則
+            science: [60, 60, 52, 55, 50, 48] // 力学, 化学, 電気, 天体, 生物, 人体
+        };
+        // Use detected pseudo-values
+        let currentData = {
+            math: [58, 52, 55, 60, 56, 54],
+            science: [53, 58, 50, 55, 52, 50]
+        };
+
+        let mathChart, scienceChart;
+
+        function initCharts() {
+            const commonOptions = {
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0,0,0,0.1)' },
+                        grid: { color: 'rgba(0,0,0,0.1)' },
+                        pointLabels: { font: { size: 10, family: "'Zen Kaku Gothic New', sans-serif" }, color: '#4b5563' },
+                        suggestedMin: 30,
+                        suggestedMax: 70, // Slight zoom
+                        ticks: { display: true, stepSize: 10, backdropColor: 'transparent', font: { size: 8 } }
+                    }
+                },
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 10, font: { size: 10 } } } },
+                maintainAspectRatio: false
+            };
+
+            mathChart = new Chart(document.getElementById('chartMath'), {
+                type: 'radar',
+                data: {
+                    labels: ['平面図形', '立体図形', '速さ', '割合と比', '数の性質', '規則性'],
+                    datasets: [
+                        {
+                            label: '吉祥女子 合格目安',
+                            data: targetData.math,
+                            borderColor: '#8B1E3F',
+                            backgroundColor: 'rgba(139, 30, 63, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'あなたの現在地',
+                            data: currentData.math,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#3b82f6'
+                        }
+                    ]
+                },
+                options: commonOptions
+            });
+
+            scienceChart = new Chart(document.getElementById('chartScience'), {
+                type: 'radar',
+                data: {
+                    labels: ['力学(計算)', '化学(実・計)', '電気', '天体', '生物', '人体'],
+                    datasets: [
+                        {
+                            label: '吉祥女子 合格目安',
+                            data: targetData.science,
+                            borderColor: '#8B1E3F',
+                            backgroundColor: 'rgba(139, 30, 63, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'あなたの現在地',
+                            data: currentData.science,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#10b981'
+                        }
+                    ]
+                },
+                options: commonOptions
+            });
+        }
+
+        function toggleEditMode() {
+            const panel = document.getElementById('input-panel');
+            panel.classList.toggle('hidden');
+            const btn = document.getElementById('edit-btn');
+            if (panel.classList.contains('hidden')) {
+                btn.textContent = '✏️ 成績を修正';
+                btn.classList.remove('bg-pink-100', 'text-pink-700');
+                btn.classList.add('bg-gray-100', 'text-gray-600');
+            } else {
+                btn.textContent = '▲ 修正完了';
+                btn.classList.remove('bg-gray-100', 'text-gray-600');
+                btn.classList.add('bg-pink-100', 'text-pink-700');
+            }
+        }
+
+        function updateScore(subject, index, value) {
+            value = parseInt(value);
+            document.getElementById(`val-${subject}-${index}`).textContent = value;
+            if (subject === 'math') {
+                currentData.math[index] = value;
+                mathChart.data.datasets[1].data = currentData.math;
+                mathChart.update();
+                analyzeGap('math', targetData.math, currentData.math, ['平面図形', '立体図形', '速さ', '割合と比', '数の性質', '規則性']);
+            } else {
+                currentData.science[index] = value;
+                scienceChart.data.datasets[1].data = currentData.science;
+                scienceChart.update();
+                analyzeGap('science', targetData.science, currentData.science, ['力学(計算)', '化学(計算)', '電気', '天体', '生物', '人体']);
+            }
+            updateTotalFeedback();
+        }
+
+        function analyzeGap(subject, target, current, labels) {
+            let maxGap = 0;
+            let worstTopic = '';
+            for (let i = 0; i < target.length; i++) {
+                const gap = target[i] - current[i];
+                if (gap > 0 && gap > maxGap) {
+                    maxGap = gap;
+                    worstTopic = labels[i];
+                }
+            }
+            const feedbackDiv = document.getElementById(`advice-${subject}`);
+            feedbackDiv.classList.remove('hidden');
+
+            if (maxGap <= 0) {
+                feedbackDiv.className = "mt-4 p-3 bg-green-50 text-green-700 text-xs rounded-lg animate-fade-in";
+                feedbackDiv.innerHTML = `<strong>素晴らしい！</strong><br>現在、すべての分野で目安ラインをクリアしています。`;
+            } else {
+                feedbackDiv.className = subject === 'math' ? "mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg animate-fade-in" : "mt-4 p-3 bg-blue-50 text-blue-700 text-xs rounded-lg animate-fade-in";
+                feedbackDiv.innerHTML = `<strong>⚠️ 対策優先: ${worstTopic}</strong><br>吉祥女子での最重要分野「${worstTopic}」の補強が必要です（乖離: ${maxGap}）。`;
+            }
+        }
+
+        function updateTotalFeedback() {
+            const mathSpeed = currentData.math[2];
+            const mathSolid = currentData.math[1];
+            let msg = "";
+            if (mathSpeed < targetData.math[2] - 5) {
+                msg += "吉祥女子の算数で最も差がつく「速さ（ダイヤグラム）」の対策が急務です。<br>";
+            }
+            if (mathSolid < targetData.math[1] - 5) {
+                msg += "「立体図形（切断）」は毎年のように出題されます。空間把握能力を鍛えましょう。<br>";
+            }
+            if (currentData.science[0] < 55) msg += "理科の「力学計算」での失点を防ぐため、基本公式の定着を確認しましょう。";
+
+            if (msg === "") msg = "全体的に良いバランスです！この調子で過去問演習（実践形式）へ移行しましょう。";
+            document.getElementById('total-feedback').innerHTML = msg;
+        }
+
+        // Mock PDF Upload Handler (Demo)
+        function handleFileUpload(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                alert(`「${file.name}」を読み込んでいます...\n(デモ機能: ランダムな値を生成します)`);
+
+                // Simulate parsing delay
+                setTimeout(() => {
+                    // Update detected file name
+                    document.getElementById('file-status').innerHTML = `<span class="mr-2 text-green-500">✔</span><span>解析完了: <strong>${file.name}</strong></span>`;
+
+                    // Simulate random scores
+                    const newMath = currentData.math.map(v => Math.floor(Math.random() * 20) + 45);
+                    const newScience = currentData.science.map(v => Math.floor(Math.random() * 20) + 45);
+
+                    // Update UI Controls
+                    newMath.forEach((v, i) => {
+                        const slider = document.querySelector(`input[oninput="updateScore('math', ${i}, this.value)"]`);
+                        if (slider) { slider.value = v; updateScore('math', i, v); }
+                    });
+                    newScience.forEach((v, i) => {
+                        const slider = document.querySelector(`input[oninput="updateScore('science', ${i}, this.value)"]`);
+                        if (slider) { slider.value = v; updateScore('science', i, v); }
+                    });
+
+                    alert('解析が完了しました。グラフが更新されました。');
+                }, 1000);
+            }
+        }
+
+        // Chatbot & Mock Exam Logic 
+        // (Simplified for brevity, same as previous)
+        const knowledgeBase = [
+            { keywords: ['塾', '予備校'], answer: '中学の間は多くの生徒が塾に通っていませんが、高校2年秋頃から通い始める生徒が増えます。' },
+            { keywords: ['スマホ', '携帯'], answer: '持ち込み可ですが、中学生はロッカー管理がルールです。' },
+            { keywords: ['理系', '進路'], answer: '約60%が理系を選択しており、医学部への進学実績も豊富です。' },
+            { keywords: ['食堂'], answer: 'カフェテリアがあります。お弁当派も多いですよ。' },
+            { keywords: ['合格'], answer: '東大・京大・医学部など、難関大への合格実績が多数あります。' }
+        ];
+
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        function appendMessage(text, isUser) {
+            const div = document.createElement('div');
+            div.className = `message-bubble ${isUser ? 'bg-pink-700 text-white ml-auto' : 'bg-white shadow-sm text-gray-600 border border-gray-200'} animate-fade-in`;
+            div.innerHTML = text;
+            chatMessages.appendChild(div);
+            // chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function findAnswer(question) {
+            const q = question.toLowerCase();
+            for (const item of knowledgeBase) {
+                if (item.keywords.some(k => q.includes(k))) return item.answer;
+            }
+            return 'ごめんなさい、詳細は学校説明会などで確認してね！';
+        }
+
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if (!text) return;
+            userInput.value = '';
+            appendMessage(text, true);
+            setTimeout(() => appendMessage(findAnswer(text), false), 600);
+        });
+
+        // Mock Exam Data
+        const examData = {
+            japanese: [
+                { q: "『彼女は（　　）な態度で信頼を得た』", options: ["頑固", "毅然", "横柄", "柔軟"], correct: 1, explanation: "凛とした態度を表す「毅然」が適切です。" },
+                { q: "「舌を巻く」の意味は？", options: ["驚いて感心する", "悔しがる", "嘘をつく", "怒る"], correct: 0, explanation: "相手の能力に驚嘆することです。" },
+                { q: "主人公が『唇を噛み締めた』心情は？", options: ["恥ずかしさ", "悔しさ", "寒さ", "退屈"], correct: 1, explanation: "悔しさや我慢を表す動作です。" },
+                { q: "「まるで氷のような視線」の技法は？", options: ["擬人法", "直喩", "隠喩", "倒置法"], correct: 1, explanation: "「まるで～ようだ」は直喩です。" },
+                { q: "『手間をかけることの豊かさ』の主旨は？", options: ["技術批判", "懐古主義", "精神的価値の再考", "無駄の排除"], correct: 2, explanation: "便利さと引き換えに失うものへの警鐘です。" }
+            ],
+            math: [
+                { q: "分速60mと80mで反対方向へ。1.4km離れるのは？", options: ["8分", "10分", "12分", "14分"], correct: 1, explanation: "1400÷(60+80)=10分。" },
+                { q: "立方体の3頂点を通る平面で切断した切り口は？", options: ["正三角形", "二等辺三角形", "正方形", "長方形"], correct: 0, explanation: "切り口は正三角形になります。" },
+                { q: "10%食塩水200gと5%300gを混ぜると？", options: ["6%", "7%", "7.5%", "8%"], correct: 1, explanation: "(20+15)÷500×100 = 7%です。" },
+                { q: "1,2,3,4で3桁の偶数は何通り？", options: ["6通り", "12通り", "18通り", "24通り"], correct: 1, explanation: "一の位が2か4。3×2×2=12通り。" },
+                { q: "半径4cmの円の面積は？(π=3.14)", options: ["12.56", "25.12", "50.24", "75.36"], correct: 2, explanation: "4×4×3.14=50.24cm²。" }
+            ],
+            science: [
+                { q: "15%の食塩水200gの食塩量は？", options: ["15g", "20g", "30g", "35g"], correct: 2, explanation: "200×0.15=30g。" },
+                { q: "てこの原理。左20cmに30g。右15cmには？", options: ["30g", "40g", "45g", "50g"], correct: 1, explanation: "20×30=600。600÷15=40g。" },
+                { q: "双子葉類の特徴は？", options: ["ひげ根", "葉脈は網状", "花弁は3枚", "維管束バラバラ"], correct: 1, explanation: "双子葉類は網状脈です。" },
+                { q: "太陽の南中高度が最も高い日は？", options: ["春分", "夏至", "秋分", "冬至"], correct: 1, explanation: "夏至の日です。" },
+                { q: "酸性で赤くなる指示薬は？", options: ["フェノール", "BTB", "青リトマス", "赤リトマス"], correct: 2, explanation: "青リトマス紙が赤くなります。" }
+            ],
+            social: [
+                { q: "製造品出荷額1位の工業地帯は？", options: ["京浜", "阪神", "中京", "北関東"], correct: 2, explanation: "中京工業地帯です。" },
+                { q: "聖徳太子の役人登用制度は？", options: ["憲法", "冠位十二階", "公地公民", "班田収授"], correct: 1, explanation: "冠位十二階です。" },
+                { q: "日本国憲法の三大原則でないものは？", options: ["国民主権", "人権尊重", "平和主義", "三権分立"], correct: 3, explanation: "三権分立は統治機構の仕組みです。" },
+                { q: "SDGsは何の略？", options: ["持続可能な開発目標", "平和維持活動", "国際通貨基金", "防衛構想"], correct: 0, explanation: "Sustainable Development Goalsです。" },
+                { q: "平安時代の日本風文化は？", options: ["飛鳥文化", "天平文化", "国風文化", "鎌倉文化"], correct: 2, explanation: "国風文化です。" }
+            ]
+        };
+
+        let currentSubject = 'japanese';
+        function switchSubject(subject) {
+            currentSubject = subject;
+            const t = { japanese: 'tab-japanese', math: 'tab-math', science: 'tab-science', social: 'tab-social' };
+            for (const key in t) {
+                const el = document.getElementById(t[key]);
+                el.className = key === subject ? "px-4 py-2 text-sm font-bold text-kichijo border-b-2 border-kichijo focus:outline-none bg-pink-50 rounded-t-lg whitespace-nowrap" : "px-4 py-2 text-sm font-medium text-gray-500 hover:text-kichijo whitespace-nowrap";
+            }
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const questions = examData[currentSubject];
+            if (!questions) { container.innerHTML = ''; return; }
+            let html = '';
+            questions.forEach((q, index) => {
+                html += `<div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition hover:shadow-md"><p class="font-bold text-sm mb-3 text-gray-800">Q${index + 1}. ${q.q}</p><div class="space-y-2">${q.options.map((opt, i) => `<button onclick="alert('${i === q.correct ? '正解！' : '不正解...'} ${q.explanation}')" class="w-full text-left px-4 py-2 border border-gray-200 rounded text-sm hover:bg-gray-50 text-gray-600 transition">${opt}</button>`).join('')}</div></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            renderQuiz();
+            // Initial update
+            updateScore('math', 0, 58);
+            updateScore('science', 0, 53);
+        });
+
+    </script>
+</body>
+
+</html>

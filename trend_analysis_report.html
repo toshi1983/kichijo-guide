@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3回分のテストふりかえり・特別レポート</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #5D9CEC;
+            /* 落ち着いた青 */
+            --accent-color: #FF6B6B;
+            /* パワフルな赤 */
+            --success-color: #48CFAD;
+            /* 爽やかな緑 */
+            --text-color: #434A54;
+            --bg-color: #E6E9ED;
+            --card-bg: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(120deg, var(--primary-color), #4A89DC);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .hero-message {
+            background-color: #F5F7FA;
+            border-left: 6px solid var(--success-color);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+            line-height: 1.8;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-message strong {
+            color: var(--success-color);
+            font-size: 1.2em;
+        }
+
+        .chart-container {
+            margin: 40px 0;
+            height: 350px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 1.6em;
+            color: var(--primary-color);
+            border-bottom: 3px solid #E6E9ED;
+            padding-bottom: 10px;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-good {
+            border-top-color: var(--success-color);
+        }
+
+        .card-challenge {
+            border-top-color: var(--accent-color);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+        }
+
+        .analysis-text {
+            font-size: 1em;
+            color: #656D78;
+            margin-bottom: 15px;
+        }
+
+        .advice-box {
+            background-color: #F0F4F8;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .mission-area {
+            background: #37BC9B;
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .mission-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .mission-list {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .mission-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .mission-icon {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #AAB2BD;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>📈 キミの進化レポート</h1>
+            <p>過去3回のテスト結果から、未来へのヒントを見つけたよ！</p>
+        </header>
+
+        <div class="content">
+
+            <div class="hero-message">
+                すごい発見があります！<br>
+                キミの記録を見ると、<strong>「失敗してもすぐに修正できる力」</strong>があることがわかりました。<br>
+                これは6年生で成績を伸ばすために一番大切な力です。<br>
+                そして、国語が「最強の武器」になったことも証明されました！
+            </div>
+
+            <div class="section-title">📊 3回のキセキ（成績の推移）</div>
+            <div class="chart-container">
+                <canvas id="scoreChart"></canvas>
+            </div>
+
+            <div class="section-title">🔍 教科ごとの発見</div>
+
+            <div class="card-grid">
+                <div class="card card-good">
+                    <h3>📚 国語：覚醒モード突入！</h3>
+                    <p class="analysis-text">
+                        12月(47.1) → 1月組分け(52.0) → 1月復習(61.5) 📈<br>
+                        3回連続で成績アップ！特に今回の伸びはスゴイ。
+                    </p>
+                    <div class="advice-box">
+                        💡 <span style="color: #333;">アドバイス</span><br>
+                        今の勉強法がカンペキです。読解力は一生の宝物。この感覚を忘れずに！
+                    </div>
+                </div>
+
+                <div class="card card-good">
+                    <h3>📐 算数：修正力がすごい！</h3>
+                    <p class="analysis-text">
+                        1月組分けで0点だった「割合」を、復習テストで満点にしました！<br>
+                        「やればできる」を証明しましたね。
+                    </p>
+                    <div class="advice-box">
+                        💡 <span style="color: #333;">アドバイス</span><br>
+                        次は**「速さ」**です。組分け0点 → 復習6点。ここをクリアすれば算数は無敵！
+                    </div>
+                </div>
+
+                <div class="card card-challenge">
+                    <h3>🌏 社会：ここが一番のチャンス</h3>
+                    <p class="analysis-text">
+                        3回とも偏差値41くらいで止まっています。<br>
+                        逆に言えば、ここさえクリアすれば、総合偏差値は一気に55〜58まで上がります！
+                    </p>
+                    <div class="advice-box">
+                        💡 <span style="color: #333;">アドバイス</span><br>
+                        「眺める」から「書く・話す」へ。お家の人にクイズを出してみよう！
+                    </div>
+                </div>
+
+                <div class="card card-challenge">
+                    <h3>⚗️ 理科：「光」を味方にしよう</h3>
+                    <p class="analysis-text">
+                        「物の燃え方」は得意だけど、「光」が2回連続で苦戦中。<br>
+                        苦手なところがはっきりしているのは良いことです。
+                    </p>
+                    <div class="advice-box">
+                        💡 <span style="color: #333;">アドバイス</span><br>
+                        今週末、「光」の作図特訓をしよう！一度わかればずっと解けるよ。
+                    </div>
+                </div>
+            </div>
+
+            <div class="mission-area">
+                <div class="mission-title">🚀 次のステージへの3つのミッション</div>
+                <div class="mission-list">
+                    <div class="mission-item">
+                        <span class="mission-icon">🏃‍♂️</span>
+                        <strong>「速さ」を攻略せよ！</strong><br>
+                        算数の最大の敵は「速さ」。ここが得意になれば世界が変わる！
+                    </div>
+                    <div class="mission-item">
+                        <span class="mission-icon">🔦</span>
+                        <strong>「光」を照らせ！</strong><br>
+                        理科の作図問題を、納得いくまで解き直そう。
+                    </div>
+                    <div class="mission-item">
+                        <span class="mission-icon">🗣️</span>
+                        <strong>社会の先生になろう！</strong><br>
+                        覚えたことを、お家の人に授業してみよう。「説明できる」＝「最強」！
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                Prepared for Tsumugi Nishimura | 2026.02 Analysis
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        const scoreChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['12月マンスリー', '1月組分け', '1月復習'],
+                datasets: [
+                    {
+                        label: '国語 (急上昇！)',
+                        data: [47.1, 52.0, 61.5],
+                        borderColor: '#FF6B6B', // Red
+                        backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                        borderWidth: 3,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#FF6B6B',
+                        tension: 0.3
+                    },
+                    {
+                        label: '算数 (V字回復)',
+                        data: [49.5, 41.7, 51.2],
+                        borderColor: '#5D9CEC', // Blue
+                        backgroundColor: 'rgba(93, 156, 236, 0.2)',
+                        borderWidth: 3,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#5D9CEC',
+                        tension: 0.3
+                    },
+                    {
+                        label: '4教科総合',
+                        data: [45.2, 44.9, 50.2],
+                        borderColor: '#48CFAD', // Green
+                        backgroundColor: 'rgba(72, 207, 173, 0.2)',
+                        borderWidth: 4,
+                        pointRadius: 8,
+                        pointBackgroundColor: '#48CFAD',
+                        borderDash: [5, 5],
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 30,
+                        max: 70,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        title: {
+                            display: true,
+                            text: '偏差値',
+                            color: '#656D78',
+                            font: {
+                                family: "'Zen Maru Gothic', sans-serif"
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: "'Zen Maru Gothic', sans-serif",
+                                size: 14
+                            },
+                            color: '#434A54'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: "'Zen Maru Gothic', sans-serif",
+                                size: 14
+                            },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(67, 74, 84, 0.9)',
+                        titleFont: {
+                            family: "'Zen Maru Gothic', sans-serif",
+                            size: 14
+                        },
+                        bodyFont: {
+                            family: "'Zen Maru Gothic', sans-serif",
+                            size: 14
+                        },
+                        padding: 12,
+                        cornerRadius: 8
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

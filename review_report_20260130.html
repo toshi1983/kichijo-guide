@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1月度復習テスト ふりかえりシート</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4A90E2; /* 明るい青 */
+            --accent-color: #F5A623; /* 元気なオレンジ */
+            --success-color: #7ED321; /* 成長の緑 */
+            --text-color: #333;
+            --bg-color: #F0F4F8;
+            --card-bg: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-image: radial-gradient(#E1E8ED 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #50C9C3);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--bg-color);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            margin-top: 40px;
+        }
+
+        .section-title span {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .hero-message {
+            background-color: #E3F2FD;
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card.good {
+            border-color: var(--success-color);
+            background: #F9FFF0;
+        }
+
+        .card.challenge {
+            border-color: var(--accent-color);
+            background: #FFFBF0;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            font-size: 1.3em;
+        }
+
+        .point-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .point-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+        }
+
+        .point-list li::before {
+            content: 'check_circle';
+            font-family: 'Material Icons'; /* Fallback or use emoji */
+            content: '✨';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+        }
+
+        .challenge .point-list li::before {
+            content: '🔥';
+        }
+
+        .score-box {
+            background: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .score-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--success-color);
+        }
+        
+        .score-label {
+             font-size: 0.9em;
+             opacity: 0.8;
+        }
+
+        .action-plan {
+            background-color: #333;
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-plan::before {
+             content: '';
+             position: absolute;
+             top: -50px;
+             right: -50px;
+             width: 150px;
+             height: 150px;
+             background: rgba(255,255,255,0.1);
+             border-radius: 50%;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .action-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>1月度 復習テスト<br>けっか発表！</h1>
+        <p>〜 新6年生へのロケットスタート！ 〜</p>
+    </header>
+
+    <div class="content">
+        <div class="hero-message">
+            <h2>🚀 すごいぞ！V字回復！</h2>
+            <p>10月のテストから、成績がグンと上がりました！<br>
+            あきらめずに頑張った成果が出ています。特に「国語」と「算数の図形」がキミの最強の武器になりつつあります。</p>
+        </div>
+
+        <div class="section-title">
+            <span>🌟</span> キミのすごいところ！ (Good!)
+        </div>
+
+        <div class="card-grid">
+            <div class="card good">
+                <h3>📚 国語：クラスのリーダー！</h3>
+                <div class="score-box">
+                    <div class="score-label">偏差値</div>
+                    <div class="score-value">61.5</div>
+                </div>
+                <ul class="point-list">
+                    <li>漢字も読解もバッチリ！</li>
+                    <li>安定して点数が取れる最強の武器です。</li>
+                    <li>この調子でキープしよう！</li>
+                </ul>
+            </div>
+
+            <div class="card good">
+                <h3>📐 算数：6年生の必須スキル</h3>
+                <div class="score-box">
+                    <div class="score-label">図形・比</div>
+                    <div class="score-value">高得点</div>
+                </div>
+                <ul class="point-list">
+                    <li>「図形」と「比・割合」がめちゃくちゃ得意！</li>
+                    <li>ここは6年生で一番難しいところ。ここができるのは本当にすごい才能だよ！</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <span>🔥</span> もっと伸びるチャンス！ (Challenge!)
+        </div>
+
+        <div class="card-grid">
+            <div class="card challenge">
+                <h3>🌏 社会：ここが一番の伸びしろ</h3>
+                <ul class="point-list">
+                    <li><strong>内閣総理大臣・政治</strong>の仕組みを整理しよう。</li>
+                    <li>今のうちに覚えておくと、6年生で楽になるよ。</li>
+                    <li>ニュースやマンガで流れをつかもう！</li>
+                </ul>
+            </div>
+            
+             <div class="card challenge">
+                <h3>🔢 算数：もったいないミスをなくそう</h3>
+                <ul class="point-list">
+                    <li><strong>計算問題</strong>でのミスが見られます。</li>
+                    <li>計算を全問正解するだけで、偏差値はもっと上がる！</li>
+                    <li><strong>ニュートン算・場合の数</strong>は基本からやり直せば大丈夫。</li>
+                </ul>
+            </div>
+            
+            <div class="card challenge">
+                <h3>⚗️ 理科：光と浮力</h3>
+                <ul class="point-list">
+                    <li><strong>化学（中和）</strong>は得意になれているよ！</li>
+                    <li>物理（光・浮力）が苦手みたい。図を描いて考えてみよう。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <span>📝</span> これからの作戦 (Mission)
+        </div>
+
+        <div class="action-plan">
+            <div class="action-item">
+                <div class="action-icon">🎯</div>
+                <div>
+                    <strong>その1：計算マスターになろう</strong><br>
+                    毎日5分、集中して計算練習。「絶対に間違えない」気持ちで！
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon">📖</div>
+                <div>
+                    <strong>その2：社会は「仕組み」を知ろう</strong><br>
+                    「総理大臣はどうやって決まる？」など、家族でクイズを出し合ってみよう。
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon">💡</div>
+                <div>
+                    <strong>その3：理科の「なぜ？」を大切に</strong><br>
+                    「光」や「浮力（浮く力）」の問題は、図を描いて解き直してみよう。
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; font-size: 1.2em; color: var(--primary-color);">
+            <p><strong>自信を持って！キミならもっと上に行けるよ！👍</strong></p>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
