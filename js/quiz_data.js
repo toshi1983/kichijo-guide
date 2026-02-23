@@ -33,7 +33,7 @@ const quizData = [
         "id": "dec_1_3",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (3)",
-        "img": "quiz_images/dec_p3.png",
+        "img": "quiz_images/dec_monthly_p3.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -49,7 +49,7 @@ const quizData = [
         "id": "dec_1_4",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (4)",
-        "img": "quiz_images/dec_p3.png",
+        "img": "quiz_images/dec_monthly_p3.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -65,7 +65,7 @@ const quizData = [
         "id": "dec_1_5",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (5)",
-        "img": "quiz_images/dec_p3.png",
+        "img": "quiz_images/dec_monthly_p3.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -81,7 +81,7 @@ const quizData = [
         "id": "dec_1_6",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (6)",
-        "img": "quiz_images/dec_p4.png",
+        "img": "quiz_images/dec_monthly_p4.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -97,7 +97,7 @@ const quizData = [
         "id": "dec_1_7",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (7)",
-        "img": "quiz_images/dec_p4.png",
+        "img": "quiz_images/dec_monthly_p4.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -113,7 +113,7 @@ const quizData = [
         "id": "dec_1_8",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (8)",
-        "img": "quiz_images/dec_p4.png",
+        "img": "quiz_images/dec_monthly_p4.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -129,7 +129,7 @@ const quizData = [
         "id": "dec_1_9",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (9)",
-        "img": "quiz_images/dec_p5.png",
+        "img": "quiz_images/dec_monthly_p5.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -145,7 +145,7 @@ const quizData = [
         "id": "dec_1_10",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (10)",
-        "img": "quiz_images/dec_p5.png",
+        "img": "quiz_images/dec_monthly_p5.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -161,7 +161,7 @@ const quizData = [
         "id": "dec_2_1",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (1)",
-        "img": "quiz_images/dec_p2.png",
+        "img": "quiz_images/dec_monthly_p2.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -177,7 +177,7 @@ const quizData = [
         "id": "dec_2_2",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (2)",
-        "img": "quiz_images/dec_p2.png",
+        "img": "quiz_images/dec_monthly_p2.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -193,7 +193,7 @@ const quizData = [
         "id": "dec_2_3",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (3)",
-        "img": "quiz_images/dec_p3.png",
+        "img": "quiz_images/dec_monthly_p3.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -209,7 +209,7 @@ const quizData = [
         "id": "dec_2_4",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (4)",
-        "img": "quiz_images/dec_p3.png",
+        "img": "quiz_images/dec_monthly_p3.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -225,7 +225,7 @@ const quizData = [
         "id": "dec_2_5",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (5)",
-        "img": "quiz_images/dec_p3.png",
+        "img": "quiz_images/dec_monthly_p3.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -241,7 +241,7 @@ const quizData = [
         "id": "dec_2_6",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (6)",
-        "img": "quiz_images/dec_p4.png",
+        "img": "quiz_images/dec_monthly_p4.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -257,7 +257,7 @@ const quizData = [
         "id": "dec_2_7",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (7)",
-        "img": "quiz_images/dec_p4.png",
+        "img": "quiz_images/dec_monthly_p4.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -273,7 +273,7 @@ const quizData = [
         "id": "dec_2_8",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (8)",
-        "img": "quiz_images/dec_p4.png",
+        "img": "quiz_images/dec_monthly_p4.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -289,7 +289,7 @@ const quizData = [
         "id": "dec_2_9",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (9)",
-        "img": "quiz_images/dec_p5.png",
+        "img": "quiz_images/dec_monthly_p5.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -305,7 +305,7 @@ const quizData = [
         "id": "dec_2_10",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (10)",
-        "img": "quiz_images/dec_p5.png",
+        "img": "quiz_images/dec_monthly_p5.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -321,7 +321,7 @@ const quizData = [
         "id": "dec_3_1",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (1)",
-        "img": "quiz_images/dec_p2.png",
+        "img": "quiz_images/dec_monthly_p2.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -337,7 +337,7 @@ const quizData = [
         "id": "dec_3_2",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (2)",
-        "img": "quiz_images/dec_p2.png",
+        "img": "quiz_images/dec_monthly_p2.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -353,7 +353,7 @@ const quizData = [
         "id": "dec_3_3",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (3)",
-        "img": "quiz_images/dec_p3.png",
+        "img": "quiz_images/dec_monthly_p3.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -369,7 +369,7 @@ const quizData = [
         "id": "dec_3_4",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (4)",
-        "img": "quiz_images/dec_p3.png",
+        "img": "quiz_images/dec_monthly_p3.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -385,7 +385,7 @@ const quizData = [
         "id": "dec_3_5",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (5)",
-        "img": "quiz_images/dec_p3.png",
+        "img": "quiz_images/dec_monthly_p3.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -401,7 +401,7 @@ const quizData = [
         "id": "dec_3_6",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (6)",
-        "img": "quiz_images/dec_p4.png",
+        "img": "quiz_images/dec_monthly_p4.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -417,7 +417,7 @@ const quizData = [
         "id": "dec_3_7",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (7)",
-        "img": "quiz_images/dec_p4.png",
+        "img": "quiz_images/dec_monthly_p4.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -433,7 +433,7 @@ const quizData = [
         "id": "dec_3_8",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (8)",
-        "img": "quiz_images/dec_p4.png",
+        "img": "quiz_images/dec_monthly_p4.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -449,7 +449,7 @@ const quizData = [
         "id": "dec_3_9",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (9)",
-        "img": "quiz_images/dec_p5.png",
+        "img": "quiz_images/dec_monthly_p5.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -465,7 +465,7 @@ const quizData = [
         "id": "dec_3_10",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (10)",
-        "img": "quiz_images/dec_p5.png",
+        "img": "quiz_images/dec_monthly_p5.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
