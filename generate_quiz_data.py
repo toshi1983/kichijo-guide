@@ -326,8 +326,10 @@ jan_rev_data = [
 
 # Create remaining dummies for dec if not explicitly added
 dec_ids = [q["id"] for q in dec_data]
-for dai in range(1, 4):
-    for sho in range(1, 11):
+dec_counts = {1: 11, 2: 12}
+for dai in range(1, 3):
+    max_sho = dec_counts[dai]
+    for sho in range(1, max_sho + 1):
         key = f"dec_monthly_{dai}_{sho}"
         if key not in dec_ids:
             p = min(7, max(1, sho // 3 + 2))
@@ -340,8 +342,10 @@ for dai in range(1, 4):
 
 # Create remaining dummies for jan_rev
 jan_rev_ids = [q["id"] for q in jan_rev_data]
-for dai in range(1, 4):
-    for sho in range(1, 11):
+jan_rev_counts = {1: 13, 2: 14}
+for dai in range(1, 3):
+    max_sho = jan_rev_counts[dai]
+    for sho in range(1, max_sho + 1):
         key = f"jan_review_{dai}_{sho}"
         if key not in jan_rev_ids:
             p = min(7, max(1, sho // 3 + 2))
