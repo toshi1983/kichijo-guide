@@ -82,22 +82,71 @@ dec_data = [
             "陸奥宗光 - 領事裁判権の撤廃",
             "小村寿太郎 - 領事裁判権の撤廃",
             "陸奥宗光 - 関税自主権の回復",
-            "小村寿太郎 - 関税自主権の回復"
+            "小村寿太郎 - 関税自主権의回復"
         ], "ans": 0, "hint": "日清戦争の直前（1894年）に領事裁判権（治外法権）の撤廃に成功したのは陸奥宗光です。"
+    },
+    {
+        "id": "dec_monthly_2_5", "test_name": "12月度マンスリー", "q_num": "大問2 (5)", "img": "quiz_images/dec_monthly_p6.png",
+        "title": "近代化の技術", "q": "明治時代にイギリスを手本として導入された施設や技術として【ふさわしくないもの】を選びなさい。",
+        "choices": [
+            "富岡製糸場",
+            "鹿鳴館",
+            "横浜・新橋間の鉄道",
+            "郵便制度"
+        ], "ans": 0, "hint": "富岡製糸場はフランスの技術を手本として建設されました。"
+    },
+    {
+        "id": "dec_monthly_2_6", "test_name": "12月度マンスリー", "q_num": "大問2 (6)", "img": "quiz_images/dec_monthly_p6.png",
+        "title": "明治時代の変化", "q": "明治時代になると銀座のまちなみは大きく変化しました。変化を説明する組み合わせとして【ふさわしくないもの】を選びなさい。",
+        "choices": [
+            "ちょんまげ → ざんぎり頭",
+            "人力車 → 馬車",
+            "ちょうちん → ガス灯",
+            "かわら版 → 新聞"
+        ], "ans": 1, "hint": "（問題の意図を確認）人力車も馬車も明治時代に登場・普及したものであり、置き換わった関係ではありません。"
+    },
+    {
+        "id": "dec_monthly_2_7", "test_name": "12月度マンスリー", "q_num": "大問2 (7)", "img": "quiz_images/dec_monthly_p6.png",
+        "title": "鎖国の窓口", "q": "江戸時代にオランダ船や中国船が来航し、唯一の貿易港として人工島が置かれた場所を漢字2文字で答えなさい。",
+        "choices": [
+            "出島",
+            "堺",
+            "博多",
+            "下関"
+        ], "ans": 0, "hint": "長崎にある扇形の人工島「出島」で、鎖国中もオランダと中国のみ貿易が続けられました。"
+    },
+    {
+        "id": "dec_monthly_2_8", "test_name": "12月度マンスリー", "q_num": "大問2 (8)", "img": "quiz_images/dec_monthly_p6.png",
+        "title": "鎖国中の外国との関わり", "q": "江戸時代の鎖国中における外国との関わりについて、正しい説明を選びなさい。",
+        "choices": [
+            "薩摩藩は、琉球王国を支配し独自の貿易を認めていた。",
+            "幕府は、オランダ船が入港する度に「風説書」を提出させ海外情報を入手した。",
+            "対馬藩は、将軍の代わりごとに来日する朝鮮通信使を江戸まで案内した。",
+            "中国船との貿易は、幕府が発行する朱印状を持つ船にのみ認められた。"
+        ], "ans": 1, "hint": "幕府はオランダから「オランダ風説書」を提出させて、キリスト教の状況や海外の情報を得ていました。朝鮮通信使は将軍の代替わりなどの祝いに慶長年間から行われました。"
+    },
+    {
+        "id": "dec_monthly_2_9", "test_name": "12月度マンスリー", "q_num": "大問2 (9)", "img": "quiz_images/dec_monthly_p6.png",
+        "title": "江戸時代の改革", "q": "徳川吉宗が政治改革（享保の改革）を行っていたころの元号は、次のうちどれですか。",
+        "choices": [
+            "元禄",
+            "天保",
+            "寛永",
+            "安政",
+            "享保"
+        ], "ans": 4, "hint": "徳川吉宗が行った改革は、元号をとって「享保（きょうほう）の改革」と呼ばれます。"
+    },
+    {
+        "id": "dec_monthly_2_10", "test_name": "12月度マンスリー", "q_num": "大問2 (10)", "img": "quiz_images/dec_monthly_p7.png",
+        "title": "蝦夷地の測量", "q": "江戸時代後半におよそ17年間にわたって全国を歩いて測量し、『大日本沿海輿地全図』の作成の指揮をとった人物は誰ですか。",
+        "choices": [
+            "杉田玄白",
+            "本居宣長",
+            "伊能忠敬",
+            "間宮林蔵"
+        ], "ans": 2, "hint": "伊能忠敬（いのうただたか）は、精密な日本地図を実測で作ったことで知られます。"
     }
 ]
-
-# Create remaining dummies for dec
-for i in range(1, 11):
-    id_str = f"dec_monthly_1_{i+6}"
-    if len(dec_data) < 16: # pad up to some point
-        dec_data.append({
-            "id": id_str, "test_name": "12月度マンスリー", "q_num": f"大問2 ({i+2})",
-            "img": f"quiz_images/dec_monthly_p{min(7, i//2 + 5)}.png", "title": "総合問題",
-            "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-            "choices": ["ア", "イ", "ウ", "エ"], "ans": 0, "hint": "準備中です。"
-        })
-
 
 #################################
 # 1月復習
@@ -137,11 +186,11 @@ jan_rev_data = [
         "id": "jan_review_1_4", "test_name": "1月復習", "q_num": "大問1 (4)", "img": "quiz_images/jan_review_p3.png",
         "title": "5・15事件", "q": "1932年に犬養毅首相が暗殺される事件が起こりました。このころの流れとして起こっていない出来事を選びなさい。",
         "choices": [
-            "海軍の青年将校らによる反乱であった。",
+            "海軍の青年 officers らによる反乱であった。",
             "この事件により、政党政治が途絶えることとなった。",
             "この事件のあと、国際連盟からの脱退を決定した。",
             "この事件の首謀者は、二・二六事件も起こした。"
-        ], "ans": 3, "hint": "（仮の選択肢です）1932年の五・一五事件で犬養毅が暗殺され、政党内閣の時代は終わりました。二・二六事件は1936年で陸軍の将校によるものです。"
+        ], "ans": 3, "hint": "1932年の五・一五事件で犬養毅が暗殺され、政党内閣の時代は終わりました。二・二六事件は1936年で陸軍の将校によるものです。"
     },
     {
         "id": "jan_review_1_5", "test_name": "1月復習", "q_num": "大問1 (5)", "img": "quiz_images/jan_review_p4.png",
@@ -172,22 +221,137 @@ jan_rev_data = [
             "田中角栄",
             "中曽根康弘"
         ], "ans": 1, "hint": "1972年に沖縄の本土復帰を実現させたのは佐藤栄作首相です。"
+    },
+    {
+        "id": "jan_review_2_3", "test_name": "1月復習", "q_num": "大問2 (3)", "img": "quiz_images/jan_review_p5.png",
+        "title": "日露戦争の内容", "q": "日露戦争について説明した内容として【誤っているもの】を1つ選びなさい。",
+        "choices": [
+            "日本はイギリスと同盟を結びロシアとの戦争に踏み切った。",
+            "ロシア南部や千島列島を主な戦場とし、日本軍が優勢に進んだ。",
+            "戦費を補うための増税により国民の負担が大きくなった。",
+            "東郷平八郎率いる海軍が日本海海戦で勝利した。"
+        ], "ans": 1, "hint": "主な戦場はロシア領土ではなく、満州（中国東北部）や朝鮮半島、日本海でした。"
+    },
+    {
+        "id": "jan_review_2_4", "test_name": "1月復習", "q_num": "大問2 (4)", "img": "quiz_images/jan_review_p5.png",
+        "title": "ポーツマス条約", "q": "日露戦争の講和条約（ポーツマス条約）に関する説明として正しいものを選びなさい。",
+        "choices": [
+            "アメリカの仲介で、ロシアのポーツマスで条約を締結した。",
+            "ロシアは朝鮮が完全な独立国であることを認めた。",
+            "日本は旅順や大連を含む遼東半島の租借権などを得た。",
+            "ロシアは賠償金として2億円を日本に支払うことを約束した。"
+        ], "ans": 0, "hint": "アメリカ大統領セオドア・ルーズベルトの仲介で締結されましたが、下関条約と違い賠償金は得られませんでした。"
+    },
+    {
+        "id": "jan_review_2_5", "test_name": "1月復習", "q_num": "大問2 (5)", "img": "quiz_images/jan_review_p5.png",
+        "title": "憲法の神様", "q": "第一次護憲運動の中心となり、「憲法の神様」と呼ばれた人物を次の中から選びなさい。",
+        "choices": [
+            "尾崎行雄",
+            "吉野作造",
+            "北里柴三郎",
+            "新渡戸稲造"
+        ], "ans": 0, "hint": "尾崎行雄（犬養毅とともに活動）は憲政の神様・神髄と呼ばれました。"
+    },
+    {
+        "id": "jan_review_2_6", "test_name": "1月復習", "q_num": "大問2 (6)", "img": "quiz_images/jan_review_p6.png",
+        "title": "環境対策基本法", "q": "大気汚染や水質汚濁が深刻となったため、1967年に制定された法律の名前を答えなさい。",
+        "choices": [
+            "公害対策基本法",
+            "環境基本法",
+            "工場法",
+            "労働基準法"
+        ], "ans": 0, "hint": "高度経済成長期の公害問題に対処するため、1967年に「公害対策基本法」が制定されました。"
+    },
+    {
+        "id": "jan_review_2_7", "test_name": "1月復習", "q_num": "大問2 (7)", "img": "quiz_images/jan_review_p6.png",
+        "title": "日韓基本条約", "q": "1965年に佐藤栄作内閣で締結された日韓基本条約の内容として、正しいものを選びなさい。",
+        "choices": [
+            "この国は、日本の国連加盟を支持することに同意した。",
+            "1910年以前に結ばれたすべての条約はもはや無効であることを確認した。",
+            "日本は過去の戦争を通じてこの国に損害を与えたことを深く反省した。",
+            "日朝間の国交正常化に向けた交渉を再開することを確認した。"
+        ], "ans": 1, "hint": "日韓基本条約では、植民地支配下以前に結ばれた条約の無効などが定められました。"
+    },
+    {
+        "id": "jan_review_2_8", "test_name": "1月復習", "q_num": "大問2 (8)", "img": "quiz_images/jan_review_p6.png",
+        "title": "占領下の沖縄", "q": "アメリカ軍の領下にあった時代の沖縄について説明した文として【ふさわしくないもの】を選びなさい。",
+        "choices": [
+            "強制的に土地を取り上げられる住民もいた。",
+            "沖縄本島全体に、鉄道網が広がった。",
+            "通貨の単位は、円からドルに変更された。",
+            "本州から沖縄への旅行にはパスポートが必要だった。"
+        ], "ans": 1, "hint": "戦後の沖縄には鉄道はなく（戦前はあったが破壊）、移動手段はバスや自家用車が中心でした。"
+    },
+    {
+        "id": "jan_review_2_9", "test_name": "1月復習", "q_num": "大問2 (9)", "img": "quiz_images/jan_review_p6.png",
+        "title": "立憲改進党", "q": "1882年に大隈重信が中心となって結成された政党の名前を答えなさい。",
+        "choices": [
+            "自由党",
+            "立憲改進党",
+            "立憲政友会",
+            "日本社会党"
+        ], "ans": 1, "hint": "板垣退助が「自由党」、大隈重信が「立憲改進党」を結成しました。"
+    },
+    {
+        "id": "jan_review_2_10", "test_name": "1月復習", "q_num": "大問2 (10)", "img": "quiz_images/jan_review_p6.png",
+        "title": "自由民権運動と秩父事件", "q": "自由民権運動の時期に起こった秩父事件について説明した内容として正しいものを選びなさい。",
+        "choices": [
+            "板垣退助が西南戦争を起こした際の農民一揆である。",
+            "税金の引き下げや借金の返済延長を求める激化事件である。",
+            "内閣制度の創設に反対した武士による反乱である。",
+            "元首が天皇であることを認めて政治の刷新を求めた運動である。"
+        ], "ans": 1, "hint": "1884年に埼玉県で起こった激化事件（反政府運動）の一つです。"
+    },
+    {
+        "id": "jan_review_2_11", "test_name": "1月復習", "q_num": "大問2 (11)", "img": "quiz_images/jan_review_p6.png",
+        "title": "帝国議会の構成", "q": "明治憲法下における帝国議会の議員と選出方法の組み合わせとして正しいものを選びなさい。",
+        "choices": [
+            "衆議院 - 国民による選挙",
+            "貴族院 - 国民による選挙",
+            "庶民院 - 天皇による任命",
+            "参議院 - 天皇による任命"
+        ], "ans": 0, "hint": "衆議院は制限選挙（当初は一定の納税義務者のみ）による議員、貴族院は華族や勅任議員で構成されました。"
+    },
+    {
+        "id": "jan_review_2_12", "test_name": "1月復習", "q_num": "大問2 (12)", "img": "quiz_images/jan_review_p7.png",
+        "title": "総理大臣の比較", "q": "伊藤博文と吉田茂のそれぞれの憲法に関する説明として、正しい組み合わせを選びなさい。",
+        "choices": [
+            "伊藤：ドイツ憲法を手本に作成 / 吉田：平和主義を施行",
+            "伊藤：天皇は法律により政治を行う / 吉田：天皇が国の統治権を持つ",
+            "伊藤：建国記念の日に憲法を発布 / 吉田：国民の義務は納税のみ",
+            "伊藤：憲法あ（大日本帝国憲法） / 吉田：憲法い（日本国憲法）"
+        ], "ans": 0, "hint": "伊藤博文はドイツ（プロイセン）憲法を参考にし、吉田茂は戦後の平和主義を掲げた日本国憲法の制定に関わりました。"
     }
 ]
 
-for i in range(1, 11):
-    id_str = f"jan_review_1_{i+7}"
-    if len(jan_rev_data) < 18:
-        jan_rev_data.append({
-            "id": id_str, "test_name": "1月復習", "q_num": f"大問2 ({i+2})",
-            "img": f"quiz_images/jan_review_p{min(7, i//2 + 5)}.png", "title": "総合問題",
-            "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-            "choices": ["ア", "イ", "ウ", "エ"], "ans": 0, "hint": "準備中です。"
-        })
+# Create remaining dummies for dec if not explicitly added
+dec_ids = [q["id"] for q in dec_data]
+for dai in range(1, 4):
+    for sho in range(1, 11):
+        key = f"dec_monthly_{dai}_{sho}"
+        if key not in dec_ids:
+            p = min(7, max(1, sho // 3 + 2))
+            dec_data.append({
+                "id": key, "test_name": "12月度マンスリー", "q_num": f"大問{dai} ({sho})",
+                "img": f"quiz_images/dec_monthly_p{p}.png", "title": "総合問題",
+                "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+                "choices": ["ア", "イ", "ウ", "エ"], "ans": 0, "hint": "準備中です。"
+            })
 
-#################################
-# 1月組分け (Keep EXACTLY as previously loaded/updated)
-#################################
+# Create remaining dummies for jan_rev
+jan_rev_ids = [q["id"] for q in jan_rev_data]
+for dai in range(1, 4):
+    for sho in range(1, 11):
+        key = f"jan_review_{dai}_{sho}"
+        if key not in jan_rev_ids:
+            p = min(7, max(1, sho // 3 + 2))
+            jan_rev_data.append({
+                "id": key, "test_name": "1月復習", "q_num": f"大問{dai} ({sho})",
+                "img": f"quiz_images/jan_review_p{p}.png", "title": "総合問題",
+                "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+                "choices": ["ア", "イ", "ウ", "エ"], "ans": 0, "hint": "準備中です。"
+            })
+
 # Read existing quizData to extract jan_kumiwake
 with open("js/quiz_data.js", "r") as f:
     text = f.read()
@@ -199,6 +363,21 @@ jan_kum_data = [q for q in existing_quiz if q["test_name"] == "1月組分け"]
 quiz.extend(dec_data)
 quiz.extend(jan_kum_data)
 quiz.extend(jan_rev_data)
+
+# Sort quizData by test and q_num for consistency
+def sort_key(q):
+    test_prio = {"12月度マンスリー": 1, "1月組分け": 2, "1月復習": 3}
+    t_v = test_prio.get(q["test_name"], 9)
+    # Extract numbers from q_num like "大問1 (2)"
+    try:
+        parts = q["q_num"].replace(" ","").replace("(","").replace(")","").split("問")
+        dai = int(parts[1][0])
+        sho = int(parts[1][1:])
+        return (t_v, dai, sho)
+    except:
+        return (t_v, 0, 0)
+
+quiz.sort(key=sort_key)
 
 with open("js/quiz_data.js", "w") as f:
     f.write("const quizData = " + json.dumps(quiz, ensure_ascii=False, indent=4) + ";\n")
