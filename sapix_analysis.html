@@ -177,7 +177,33 @@
                 </div>
             </div>
         </div>
+        <!-- 2.5 Score per Question (大問別得点率) -->
+        <div class="glass-card rounded-3xl p-6 md:p-8 animate-fade-in" style="animation-delay: 0.25s;">
+            <div
+                class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b border-gray-100 pb-4">
+                <h3 class="text-xl font-bold flex items-center gap-2"><span class="text-2xl">📋</span> 大問別得点率（最新1月組分け等）
+                </h3>
+                <div class="flex bg-gray-100 rounded-lg p-1 w-full md:w-auto overflow-x-auto" id="subject-tabs">
+                    <button onclick="changeSubject('math', this)"
+                        class="subj-btn bg-white shadow py-2 px-5 rounded-md font-bold text-blue-600 transition min-w-[80px]">算数</button>
+                    <button onclick="changeSubject('jap', this)"
+                        class="subj-btn py-2 px-5 rounded-md font-bold text-gray-500 hover:text-red-500 transition min-w-[80px]">国語</button>
+                    <button onclick="changeSubject('sci', this)"
+                        class="subj-btn py-2 px-5 rounded-md font-bold text-gray-500 hover:text-green-600 transition min-w-[80px]">理科</button>
+                    <button onclick="changeSubject('soc', this)"
+                        class="subj-btn py-2 px-5 rounded-md font-bold text-gray-500 hover:text-orange-500 transition min-w-[80px]">社会</button>
+                </div>
+            </div>
 
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[500px]" id="question-table">
+                    <!-- Javascript will render rows here -->
+                </table>
+            </div>
+            <div id="question-advice" class="mt-6 p-5 rounded-xl text-sm md:text-base leading-relaxed hidden">
+                <!-- Javascript will render advice here -->
+            </div>
+        </div>
         <!-- 3. Goal Setter -->
         <div class="glass-card rounded-3xl p-6 md:p-8 animate-fade-in bg-gradient-to-br from-blue-50 to-white"
             style="animation-delay: 0.3s;">
@@ -195,28 +221,36 @@
                     class="w-full md:w-auto bg-theme text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-blue-700 transition">戦略を生成</button>
             </div>
 
-            <div id="strategy-result" class="hidden mt-6 pt-6 border-t border-blue-100">
-                <h4 class="font-bold text-blue-800 text-lg mb-3">AIアドバイス＆戦略</h4>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-center">
-                    <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
-                        <div class="text-xs text-gray-500">算数 目標</div>
-                        <div class="text-xl font-bold text-blue-600" id="goal-math">--</div>
+            <div id="strategy-result" class="hidden mt-6 pt-6 border-t border-blue-100 animate-fade-in">
+                <h4 class="font-bold text-blue-800 text-lg mb-4 flex items-center gap-2"><span>🎯</span>
+                    必要な目標点数（おおよその目安）</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center">
+                    <div class="bg-white p-4 rounded-xl border-2 border-blue-100 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
+                        <div class="text-xs text-gray-500 mb-1 font-bold">算数 (偏差値 <span id="goal-math-dev"></span>)
+                        </div>
+                        <div class="text-2xl font-bold text-blue-600" id="goal-math-pts">--</div>
                     </div>
-                    <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
-                        <div class="text-xs text-gray-500">国語 目標</div>
-                        <div class="text-xl font-bold text-red-500" id="goal-jap">--</div>
+                    <div class="bg-white p-4 rounded-xl border-2 border-red-50 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+                        <div class="text-xs text-gray-500 mb-1 font-bold">国語 (偏差値 <span id="goal-jap-dev"></span>)</div>
+                        <div class="text-2xl font-bold text-red-500" id="goal-jap-pts">--</div>
                     </div>
-                    <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
-                        <div class="text-xs text-gray-500">理科 目標</div>
-                        <div class="text-xl font-bold text-green-600" id="goal-sci">--</div>
+                    <div class="bg-white p-4 rounded-xl border-2 border-green-50 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-green-500"></div>
+                        <div class="text-xs text-gray-500 mb-1 font-bold">理科 (偏差値 <span id="goal-sci-dev"></span>)</div>
+                        <div class="text-2xl font-bold text-green-600" id="goal-sci-pts">--</div>
                     </div>
-                    <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
-                        <div class="text-xs text-gray-500">社会 目標</div>
-                        <div class="text-xl font-bold text-orange-500" id="goal-soc">--</div>
+                    <div class="bg-white p-4 rounded-xl border-2 border-orange-50 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-orange-500"></div>
+                        <div class="text-xs text-gray-500 mb-1 font-bold">社会 (偏差値 <span id="goal-soc-dev"></span>)</div>
+                        <div class="text-2xl font-bold text-orange-500" id="goal-soc-pts">--</div>
                     </div>
                 </div>
-                <div id="strategy-text"
-                    class="bg-white p-5 rounded-xl text-sm leading-relaxed text-gray-700 border border-blue-50">
+
+                <h4 class="font-bold text-blue-800 text-lg mb-3 flex items-center gap-2"><span>🗺️</span>
+                    AI戦略：科目別アクションプラン</h4>
+                <div id="strategy-text" class="flex flex-col gap-3">
                     <!-- Generated text -->
                 </div>
             </div>
@@ -312,41 +346,177 @@
             }
         });
 
+        // 2.5 Score per Question logic
+        const questionData = {
+            math: {
+                themeColor: 'blue',
+                questions: [
+                    { title: "１ 小問集合", score: "25", max: "47", rate: 53.2, avg: 28.0 },
+                    { title: "２ 図形集合", score: "6", max: "30", rate: 20.0, avg: 11.6 },
+                    { title: "３ 点の移動", score: "5", max: "17", rate: 29.4, avg: 3.7 },
+                    { title: "４ 速さ", score: "0", max: "18", rate: 0.0, avg: 6.3 },
+                    { title: "５ 割合（食塩水）", score: "0", max: "18", rate: 0.0, avg: 6.4 },
+                    { title: "６ 規則性", score: "0", max: "20", rate: 0.0, avg: 4.7 }
+                ],
+                advice: "💡 <b>AIの着眼点:</b> 大問1の小問集合で5割強取れていますが、まだまだ伸ばせます。大問2以降の図形や後半の応用問題で0点が連続している点が最も大きな伸びしろです。"
+            },
+            jap: {
+                themeColor: 'red',
+                questions: [
+                    { title: "１ 漢字の読み書き", score: "14", max: "20", rate: 70.0, avg: 14.2 },
+                    { title: "２ 慣用句・ことば", score: "10", max: "20", rate: 50.0, avg: 13.0 },
+                    { title: "３ 説明文の読解", score: "34", max: "52", rate: 65.4, avg: 29.7 },
+                    { title: "４ 物語文の読解", score: "35", max: "58", rate: 60.3, avg: 31.8 }
+                ],
+                advice: "💡 <b>AIの着眼点:</b> 読解問題（大問3,4）でしっかり6割以上獲得できているため全体の偏差値が安定しています。大問1,2の知識問題で100%を目指せばさらに上に行けます。"
+            },
+            sci: {
+                themeColor: 'green',
+                questions: [
+                    { title: "１ 季節と生物", score: "9", max: "18", rate: 50.0, avg: 12.8 },
+                    { title: "２ 火山と地震", score: "18", max: "27", rate: 66.7, avg: 18.2 },
+                    { title: "３ 物質の燃焼", score: "21", max: "30", rate: 70.0, avg: 19.6 },
+                    { title: "４ 光", score: "15", max: "25", rate: 60.0, avg: 12.7 }
+                ],
+                advice: "💡 <b>AIの着眼点:</b> 大問2,3（地学・化学分野）は全体平均よりしっかりと点が取れています！一方で生物分野にやや穴があるため、次回マンスリー対策では暗記の見直しを。"
+            },
+            soc: {
+                themeColor: 'orange',
+                questions: [
+                    { title: "１ 年表を用いた総合問題", score: "15", max: "41", rate: 36.6, avg: 23.0 },
+                    { title: "２ 地図を題材とした総合問題", score: "26", max: "59", rate: 44.1, avg: 33.3 }
+                ],
+                advice: "💡 <b>AIの着眼点:</b> 大問単位の長い総合問題に苦戦しています。単なる用語暗記ではなく「いつの時代のどこで起きたか」を地図上で確認・整理するクセをつけましょう。"
+            }
+        };
+
+        function changeSubject(subj, btnElement) {
+            // Reset buttons
+            document.querySelectorAll('.subj-btn').forEach(btn => {
+                btn.className = 'subj-btn py-2 px-5 rounded-md font-bold text-gray-500 hover:text-gray-700 transition min-w-[80px]';
+            });
+            // Set active
+            const activeColors = { 'math': 'text-blue-600', 'jap': 'text-red-500', 'sci': 'text-green-600', 'soc': 'text-orange-500' };
+            if (btnElement) btnElement.className = `subj-btn bg-white shadow py-2 px-5 rounded-md font-bold transition min-w-[80px] ${activeColors[subj]}`;
+
+            const data = questionData[subj];
+            const tbody = document.getElementById('question-table');
+
+            let html = `
+                <thead class="bg-gray-50 border-b-2 border-gray-200">
+                    <tr>
+                        <th class="p-3 font-bold text-gray-700">大問・分野</th>
+                        <th class="p-3 font-bold text-gray-700 text-center">得点 / 配点</th>
+                        <th class="p-3 font-bold text-gray-700 text-center">得点率</th>
+                        <th class="p-3 font-bold text-gray-700 text-center hidden md:table-cell">全体平均</th>
+                        <th class="p-3 font-bold text-gray-700">達成度</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 text-sm md:text-base">
+            `;
+
+            data.questions.forEach(q => {
+                const isGood = q.score >= q.avg;
+                const barColor = isGood ? '#48CFAD' : '#FF6B6B'; // Success Green / Alert Red
+                const textCol = isGood ? 'text-green-600' : 'text-red-500';
+
+                html += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-3 font-bold text-gray-800">${q.title}</td>
+                        <td class="p-3 text-center"><span class="text-lg font-bold">${q.score}</span> <span class="text-gray-400 text-sm">/ ${q.max}</span></td>
+                        <td class="p-3 text-center font-bold ${textCol}">${q.rate.toFixed(1)}%</td>
+                        <td class="p-3 text-center text-gray-500 hidden md:table-cell">${q.avg.toFixed(1)}</td>
+                        <td class="p-3 align-middle w-1/4">
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="h-2 rounded-full" style="width: ${Math.min(100, q.rate)}%; background-color: ${barColor}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            html += '</tbody>';
+            tbody.innerHTML = html;
+
+            const advDiv = document.getElementById('question-advice');
+            const bgClasses = { 'math': 'bg-blue-50 border-blue-200 text-blue-800', 'jap': 'bg-red-50 border-red-200 text-red-800', 'sci': 'bg-green-50 border-green-200 text-green-800', 'soc': 'bg-orange-50 border-orange-200 text-orange-800' };
+            advDiv.className = `mt-4 p-4 rounded-xl text-sm leading-relaxed border ${bgClasses[subj]}`;
+            advDiv.innerHTML = data.advice;
+            advDiv.classList.remove('hidden');
+        }
+
+        // Initialize First Tab
+        setTimeout(() => changeSubject('math', document.querySelector('.subj-btn')), 100);
+
         // 3. Goal Strategy
         function calculateStrategy() {
             const target = parseFloat(document.getElementById('target-dev').value);
             if (isNaN(target)) return;
 
-            // Current averages
-            const cM = parseFloat(avgCalc(mathData));
-            const cJ = parseFloat(avgCalc(japData));
-            const cS = parseFloat(avgCalc(sciData));
-            const cSo = parseFloat(avgCalc(socData));
+            // Simple point estimator based on SAPIX norms (very rough estimations)
+            // 150 points total, SD~25. Dev 50 = ~85.  Point = 85 + (Dev-50)*2.5
+            // 100 points total, SD~18. Dev 50 = ~55.  Point = 55 + (Dev-50)*1.8
+            const getPts150 = dev => Math.min(150, Math.max(0, 85 + (dev - 50) * 2.5)).toFixed(0);
+            const getPts100 = dev => Math.min(100, Math.max(0, 55 + (dev - 50) * 1.8)).toFixed(0);
 
             // Strategy: Language is strong, keep it slightly above target. 
             // Math needs to reach target exactly. Science/Society can be slightly below if language compensates.
             let gJ = Math.min(70, target + 3).toFixed(1);
-            let gM = (target + 1).toFixed(1);
+            let gM = target.toFixed(1);
             let gS = (target - 1).toFixed(1);
-            let gSo = Math.max(40, target - 3).toFixed(1);
+            let gSo = Math.max(40, target - 2).toFixed(1);
 
-            document.getElementById('goal-math').innerText = gM;
-            document.getElementById('goal-jap').innerText = gJ;
-            document.getElementById('goal-sci').innerText = gS;
-            document.getElementById('goal-soc').innerText = gSo;
+            document.getElementById('goal-math-dev').innerText = gM;
+            document.getElementById('goal-math-pts').innerHTML = `${getPts150(gM)}<span class="text-sm font-normal text-gray-500">点 / 150</span>`;
 
-            const diff = target - parseFloat(avgCalc(totData));
-            let advice = "";
+            document.getElementById('goal-jap-dev').innerText = gJ;
+            document.getElementById('goal-jap-pts').innerHTML = `${getPts150(gJ)}<span class="text-sm font-normal text-gray-500">点 / 150</span>`;
 
-            if (diff > 10) {
-                advice = `<b>【チャレンジ目標です！】</b> 現在の総合偏差値(${avgCalc(totData)})から${diff.toFixed(1)}ポイントのアップが必要です。<br>まずは得意な「国語」で確実に${gJ}を取り、大崩れを防ぎましょう。最大の課題は「社会」と「算数の速さ・割合」です。毎日の基礎トレーニング（計算・基礎トレ）を倍に増やし、社会は地図記号と年表をトイレに貼って暗記を日常化する作戦がおすすめです。`;
-            } else if (diff > 0) {
-                advice = `<b>【十分射程圏内です！】</b> あと${diff.toFixed(1)}ポイント伸びれば目標到達です。<br>「国語」の調子が良いため、全体を引っ張ってくれます。算数は「小問集合」でのポロ落としを完全に無くすだけで偏差値は${gM}が見えます。理科の「光・浮力」など特定の苦手単元を週末に1つずつ潰すだけで、数ヶ月で到達できる現実的な目標です。`;
-            } else {
-                advice = `<b>【現状キープで安全圏です】</b> すでに目標偏差値以上の実力を発揮しています。<br>このまま「国語」の安定感を維持しつつ、算数の難問（平面図形や速さの応用）にチャレンジして、上位校への扉をさらに広げる戦略を取りましょう！`;
+            document.getElementById('goal-sci-dev').innerText = gS;
+            document.getElementById('goal-sci-pts').innerHTML = `${getPts100(gS)}<span class="text-sm font-normal text-gray-500">点 / 100</span>`;
+
+            document.getElementById('goal-soc-dev').innerText = gSo;
+            document.getElementById('goal-soc-pts').innerHTML = `${getPts100(gSo)}<span class="text-sm font-normal text-gray-500">点 / 100</span>`;
+
+            // Setup Specific Subject Action Plans
+            let plansHTML = "";
+            let diff = target - parseFloat(avgCalc(totData));
+
+            // Math Advice
+            let mathNeedPts = getPts150(gM) - 60; // Assume current avg pts around 60
+            plansHTML += `
+                <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl text-blue-900 text-sm md:text-base">
+                    <b>📐 算数戦略 (目標 ${getPts150(gM)}点):</b> 現在平均より約+${mathNeedPts > 0 ? mathNeedPts : 0}点必要です。<br>
+                    大問1の小問集合（計算・基本図形・食塩水など）で絶対に落とさないことが最優先ミッション。大問1・2だけで70点の配点があります。<br>
+                    後半の大問（速さ・規則性）は、(1)だけを確実に取り、(2)(3)は捨てる判断力も身につけましょう。
+                </div>`;
+
+            // Jap Advice
+            plansHTML += `
+                <div class="bg-red-50 border border-red-100 p-4 rounded-xl text-red-900 text-sm md:text-base">
+                    <b>📚 国語戦略 (目標 ${getPts150(gJ)}点):</b> 強みであるため、高い水準を維持します。<br>
+                    読解は現在のペースでOK。確実な得点源である「漢字」「言葉・慣用句」の満点を狙うため、毎朝のコアプラス・言葉ナビの反復を日課にしてください。
+                </div>`;
+
+            // Sci Advice
+            plansHTML += `
+                <div class="bg-green-50 border border-green-100 p-4 rounded-xl text-green-900 text-sm md:text-base">
+                    <b>🔬 理科戦略 (目標 ${getPts100(gS)}点):</b><br>
+                    得意な暗記分野（燃焼・植物）はテスト前日に見直すだけでOK。「光」「浮力」といった計算や作図問題は、週末のまとまった時間に基礎から解き直すサイクルを作ります。分からない問題はすぐに質問し、放置しないのが鉄則です。
+                </div>`;
+
+            // Soc Advice
+            let socNeedPts = getPts100(gSo) - 55;
+            plansHTML += `
+                <div class="bg-orange-50 border border-orange-100 p-4 rounded-xl text-orange-900 text-sm md:text-base">
+                    <b>🌏 社会戦略 (目標 ${getPts100(gSo)}点):</b><br>
+                    総合問題の長文に慣れる必要があります。テキストの「基本問題」レベルの暗記は済んでいますが、「実戦問題」を解く時間を増やし、地図や年表という『面』で捉える演習にシフトしてください。
+                </div>`;
+
+            if (diff > 5) {
+                plansHTML = `<div class="bg-red-100 text-red-800 p-3 rounded-lg font-bold text-center mb-2 animate-pulse">⚠️ チャレンジ目標！まずは基礎問題の徹底からスタートしましょう</div>` + plansHTML;
             }
 
-            document.getElementById('strategy-text').innerHTML = advice;
+            document.getElementById('strategy-text').innerHTML = plansHTML;
             document.getElementById('strategy-result').classList.remove('hidden');
         }
 
