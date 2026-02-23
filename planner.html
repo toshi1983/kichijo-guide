@@ -137,11 +137,11 @@
                 const div = document.createElement('div');
                 div.className = `message-bubble ${msg.isUser ? 'bg-theme text-white ml-auto relative' : 'bg-white shadow-sm text-gray-800 border border-gray-200 relative'} animate-fade-in`;
 
-                let contentHTML = msg.text.replace(/\\n/g, '<br>');
+                let contentHTML = msg.text.replace(/\n/g, '<br>');
 
                 // Replace basic markdown lists with interactive checkboxes
                 let cbIndex = 0;
-                contentHTML = contentHTML.replace(/- \\[( |x)\\] (.*?)(<br>|$)/g, (match, check, task, lineBreak) => {
+                contentHTML = contentHTML.replace(/- \[( |x)\] (.*?)(<br>|$)/g, (match, check, task, lineBreak) => {
                     const isChecked = check === 'x' ? 'checked' : '';
                     const id = `cb-${idx}-${cbIndex++}`;
                     return `<label class="flex items-start gap-2 my-1 cursor-pointer select-none">
@@ -223,7 +223,7 @@
         function toggleCheck(msgIdx, cbIdx, checkbox) {
             let text = planHistory[msgIdx].text;
             let count = 0;
-            text = text.replace(/- \\[( |x)\\]/g, (match) => {
+            text = text.replace(/- \[( |x)\]/g, (match) => {
                 if (count === cbIdx) {
                     count++;
                     return checkbox.checked ? '- [x]' : '- [ ]';
@@ -247,7 +247,7 @@
             const completed = [];
             const incomplete = [];
 
-            const regex = /- \\[( |x)\\] (.*?)(?:\\n|$)/g;
+            const regex = /- \[( |x)\] (.*?)(?:\n|$)/g;
             let match;
             while ((match = regex.exec(text)) !== null) {
                 if (match[1] === 'x') {
@@ -262,10 +262,10 @@
                 return;
             }
 
-            let reflectionText = "【一日の振り返り】\\n";
-            if (completed.length > 0) reflectionText += "✅ できたこと：\\n" + completed.map(t => "・" + t).join("\\n") + "\\n";
-            if (incomplete.length > 0) reflectionText += "⚠️ できなかったこと：\\n" + incomplete.map(t => "・" + t).join("\\n") + "\\n";
-            reflectionText += "\\nこの結果を踏まえて、今日の労いの言葉と、明日以降の学習に向けた具体的なアドバイスを提案してください。";
+            let reflectionText = "【一日の振り返り】\n";
+            if (completed.length > 0) reflectionText += "✅ できたこと：\n" + completed.map(t => "・" + t).join("\n") + "\n";
+            if (incomplete.length > 0) reflectionText += "⚠️ できなかったこと：\n" + incomplete.map(t => "・" + t).join("\n") + "\n";
+            reflectionText += "\nこの結果を踏まえて、今日の労いの言葉と、明日以降の学習に向けた具体的なアドバイスを提案してください。";
 
             submitMessage(reflectionText);
         }
