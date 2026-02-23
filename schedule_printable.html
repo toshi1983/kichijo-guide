@@ -143,8 +143,9 @@
 
                 // 特定のテキスト（チェックボックス関連）を見やすく変換する簡単なハック
                 let html = targetDiv.innerHTML;
-                html = html.replace(/\[ \]/g, '<span style="display:inline-block; width:16px; height:16px; border:1.5px solid #8B1E3F; border-radius:3px; vertical-align:middle; margin-right:5px;"></span>');
-                html = html.replace(/☑️/g, '<span style="color:#8B1E3F; font-weight:bold; font-size:18px; vertical-align:middle;">☑️</span>');
+                // 印刷時に薄くならないよう線を太く、色を真っ黒(#000)に変更
+                html = html.replace(/\[ \]/g, '<span style="display:inline-block; width:18px; height:18px; border:2px solid #000; border-radius:3px; vertical-align:middle; margin-right:5px; box-sizing:border-box;"></span>');
+                html = html.replace(/\[x\]/g, '<span style="display:inline-block; width:18px; height:18px; border:2px solid #000; background-color: #eee; border-radius:3px; vertical-align:middle; margin-right:5px; box-sizing:border-box; text-align:center; line-height:14px; font-weight:bold;">✔</span>');
                 targetDiv.innerHTML = html;
             } else {
                 targetDiv.innerHTML = `
