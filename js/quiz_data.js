@@ -1,103 +1,136 @@
 const quizData = [
     {
-        "img": "quiz_images/dec_monthly_p2.png",
-        "title": "江戸幕府の仕組みと法律",
-        "q": "江戸幕府が定めた「武家諸法度（ぶけしょはっと）」について、正しいものを1つ選びなさい。",
-        "choices": [
-            "城を無断で修理・新築してはいけない",
-            "大名同士が幕府の許可なく結婚してよい",
-            "キリスト教の信仰を奨励する"
-        ],
-        "ans": 0,
-        "hint": "問(3)を参照。大名が力を持ち、幕府に反抗させないための厳しいルールとして定められました。",
         "id": "dec_monthly_1_1",
         "test_name": "12月度マンスリー",
-        "q_num": "大問1 (1)"
-    },
-    {
-        "img": "quiz_images/dec_monthly_p3.png",
-        "title": "大名の配置",
-        "q": "親藩・譜代・外様大名の配置の工夫について、もっともふさわしいものはどれですか。",
+        "q_num": "大問1 (1)",
+        "img": "quiz_images/dec_monthly_p2.png",
+        "title": "江戸幕府の役職",
+        "q": "江戸幕府の役職について説明した文としてもっともふさわしいものを選びなさい。",
         "choices": [
-            "江戸から遠い辺境の地を中心に親藩を集めた",
-            "幕府を守るため、江戸周辺や交通の要所に親藩・譜代を配置した",
-            "外様大名はすべて江戸市中に住まわせた"
+            "幕府の政治をまとめる臨時の最高職として、老中が置かれた。",
+            "朝廷の監視や、京都の警備を担当する京都所司代が置かれた。",
+            "幕府の財政管理や幕領の管理をするために、政所が置かれた。",
+            "各地の荘園ごとに、年貢の徴収などを担当する地頭が置かれた。"
         ],
         "ans": 1,
-        "hint": "問(1)を参照。昔からの家臣や身内（親藩・譜代）を重要な場所に置き、関ケ原の戦い以降に従った外様大名は遠くに配置しました。",
+        "hint": "老中は常置です。政所や地頭は鎌倉〜室町時代の役職です。"
+    },
+    {
         "id": "dec_monthly_1_2",
         "test_name": "12月度マンスリー",
-        "q_num": "大問1 (2)"
+        "q_num": "大問1 (2)",
+        "img": "quiz_images/dec_monthly_p2.png",
+        "title": "関所の役割",
+        "q": "江戸時代の木戸や関所の役割としても【もっともふさわしくないもの】を選びなさい。",
+        "choices": [
+            "夜になると閉められ、不審者の出入りを防ぐ。",
+            "町で火災が起きていないかを見張る。",
+            "旅人から通行料を取り、幕府の収入を増やす。",
+            "無断で大名の妻子が出ていかないかを監視する。"
+        ],
+        "ans": 2,
+        "hint": "関所は「入り鉄砲に出女」を取り締まるなど治安維持が目的であり、通行料を徴収して収入を増やす目的ではありませんでした。"
     },
     {
         "id": "dec_monthly_1_3",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (3)",
-        "img": "quiz_images/dec_monthly_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "img": "quiz_images/dec_monthly_p2.png",
+        "title": "武家諸法度",
+        "q": "1615年に定められた武家諸法度の内容として【ふさわしくないもの】を選びなさい。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "城を新築することや、幕府に届け出なく城を修理することは固く禁ずる。",
+            "家柄がよくても能力の足りない者を、摂政や関白に任命してはいけない。",
+            "幕府の許可を得ることなく、大名家同士が勝手に結婚してはならない。",
+            "文武弓馬を常に心がけ、平和なときでも戦乱を忘れず修練に励むこと。"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 1,
+        "hint": "「摂政や関白に任命してはいけない」というのは朝廷向けの「禁中並公家諸法度」の内容です。"
     },
     {
         "id": "dec_monthly_1_4",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (4)",
         "img": "quiz_images/dec_monthly_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "title": "大名の配置",
+        "q": "徳川氏が三河にいたころから家臣であった大名の呼び名を選びなさい。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "親藩",
+            "譜代大名",
+            "外様大名"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 1,
+        "hint": "関ヶ原の戦い以前から徳川氏に従っていた家臣を譜代大名と呼びます。"
     },
     {
         "id": "dec_monthly_1_5",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (5)",
-        "img": "quiz_images/dec_monthly_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "img": "quiz_images/dec_monthly_p4.png",
+        "title": "農具",
+        "q": "御米蔵に納める年貢米などの米づくりで使われていた農具を組み合わせる問題です。脱穀を行うための農具の名前は何ですか。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "千歯こき",
+            "唐箕（とうみ）",
+            "千歯こきと唐箕の両方",
+            "備中ぐわ"
         ],
         "ans": 0,
-        "hint": "準備中です。"
+        "hint": "稲の穂先から籾（もみ）を落とす（脱穀）ために江戸時代に普及したのが「千歯こき」です。"
     },
     {
         "id": "dec_monthly_1_6",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (6)",
         "img": "quiz_images/dec_monthly_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "title": "税制の変化",
+        "q": "江戸時代から明治時代の税制の変化として、江戸時代は（　）に基づいて米を納め、明治時代は地価に基づいて（　）を納めるようになりました。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "石高、現金",
+            "面積、米",
+            "身分、労働力",
+            "収穫量、特産物"
         ],
         "ans": 0,
-        "hint": "準備中です。"
+        "hint": "江戸時代は石高（米の収穫量）に応じて年貢を納めましたが、明治時代の地租改正では土地の価格の3%を「現金」で納めるようになりました。"
+    },
+    {
+        "id": "dec_monthly_2_1",
+        "test_name": "12月度マンスリー",
+        "q_num": "大問2 (1)",
+        "img": "quiz_images/dec_monthly_p5.png",
+        "title": "ペリー来航",
+        "q": "1853年にペリーが来航した場所として正しいものを選びなさい。",
+        "choices": [
+            "浦賀（神奈川県）",
+            "下田（静岡県）",
+            "長崎",
+            "函館（北海道）"
+        ],
+        "ans": 0,
+        "hint": "アメリカのペリーの艦隊は、現在の神奈川県にある浦賀（うらが）に来航しました。"
+    },
+    {
+        "id": "dec_monthly_2_2",
+        "test_name": "12月度マンスリー",
+        "q_num": "大問2 (2)",
+        "img": "quiz_images/dec_monthly_p6.png",
+        "title": "不平等条約の改正",
+        "q": "1894年に初めてイギリスとの間で条約改正に成功した外務大臣と、その改正内容の組み合わせを選びなさい。",
+        "choices": [
+            "陸奥宗光 - 領事裁判権の撤廃",
+            "小村寿太郎 - 領事裁判権の撤廃",
+            "陸奥宗光 - 関税自主権の回復",
+            "小村寿太郎 - 関税自主権の回復"
+        ],
+        "ans": 0,
+        "hint": "日清戦争の直前（1894年）に領事裁判権（治外法権）の撤廃に成功したのは陸奥宗光です。"
     },
     {
         "id": "dec_monthly_1_7",
         "test_name": "12月度マンスリー",
-        "q_num": "大問1 (7)",
-        "img": "quiz_images/dec_monthly_p4.png",
+        "q_num": "大問2 (3)",
+        "img": "quiz_images/dec_monthly_p5.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -112,8 +145,8 @@ const quizData = [
     {
         "id": "dec_monthly_1_8",
         "test_name": "12月度マンスリー",
-        "q_num": "大問1 (8)",
-        "img": "quiz_images/dec_monthly_p4.png",
+        "q_num": "大問2 (4)",
+        "img": "quiz_images/dec_monthly_p6.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -128,8 +161,8 @@ const quizData = [
     {
         "id": "dec_monthly_1_9",
         "test_name": "12月度マンスリー",
-        "q_num": "大問1 (9)",
-        "img": "quiz_images/dec_monthly_p5.png",
+        "q_num": "大問2 (5)",
+        "img": "quiz_images/dec_monthly_p6.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -144,104 +177,8 @@ const quizData = [
     {
         "id": "dec_monthly_1_10",
         "test_name": "12月度マンスリー",
-        "q_num": "大問1 (10)",
-        "img": "quiz_images/dec_monthly_p5.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_2_1",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問2 (1)",
-        "img": "quiz_images/dec_monthly_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_2_2",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問2 (2)",
-        "img": "quiz_images/dec_monthly_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_2_3",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問2 (3)",
-        "img": "quiz_images/dec_monthly_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_2_4",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問2 (4)",
-        "img": "quiz_images/dec_monthly_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_2_5",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問2 (5)",
-        "img": "quiz_images/dec_monthly_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_2_6",
-        "test_name": "12月度マンスリー",
         "q_num": "大問2 (6)",
-        "img": "quiz_images/dec_monthly_p4.png",
+        "img": "quiz_images/dec_monthly_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -254,10 +191,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_monthly_2_7",
+        "id": "dec_monthly_1_11",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (7)",
-        "img": "quiz_images/dec_monthly_p4.png",
+        "img": "quiz_images/dec_monthly_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -270,10 +207,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_monthly_2_8",
+        "id": "dec_monthly_1_12",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (8)",
-        "img": "quiz_images/dec_monthly_p4.png",
+        "img": "quiz_images/dec_monthly_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -286,10 +223,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_monthly_2_9",
+        "id": "dec_monthly_1_13",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (9)",
-        "img": "quiz_images/dec_monthly_p5.png",
+        "img": "quiz_images/dec_monthly_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -302,170 +239,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_monthly_2_10",
+        "id": "dec_monthly_1_14",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (10)",
-        "img": "quiz_images/dec_monthly_p5.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_1",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (1)",
-        "img": "quiz_images/dec_monthly_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_2",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (2)",
-        "img": "quiz_images/dec_monthly_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_3",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (3)",
-        "img": "quiz_images/dec_monthly_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_4",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (4)",
-        "img": "quiz_images/dec_monthly_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_5",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (5)",
-        "img": "quiz_images/dec_monthly_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_6",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (6)",
-        "img": "quiz_images/dec_monthly_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_7",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (7)",
-        "img": "quiz_images/dec_monthly_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_8",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (8)",
-        "img": "quiz_images/dec_monthly_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_9",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (9)",
-        "img": "quiz_images/dec_monthly_p5.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "dec_monthly_3_10",
-        "test_name": "12月度マンスリー",
-        "q_num": "大問3 (10)",
-        "img": "quiz_images/dec_monthly_p5.png",
+        "img": "quiz_images/dec_monthly_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -881,118 +658,118 @@ const quizData = [
         "test_name": "1月復習",
         "q_num": "大問1 (1)",
         "img": "quiz_images/jan_review_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "title": "第一次世界大戦と日本",
+        "q": "第一次世界大戦が行われていたころの日本について説明した文としてもっともふさわしいものを選びなさい。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "急激に富を得た成金と、生活に苦しむ労働者の間で経済格差が生まれた。",
+            "ドイツに対して二十一か条の要求を出し、ドイツが中国に持つ権益を得た。",
+            "ヨーロッパやアジアの国々への輸出が増加し、日本国内は好景気となった。",
+            "シベリア出兵をみこして商人が米を買い占めたことで、米騒動が起こった。"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 2,
+        "hint": "大戦中、日本はアジア市場への輸出を独占的に行い「大戦景気（好景気）」となりました。"
     },
     {
         "id": "jan_review_1_2",
         "test_name": "1月復習",
         "q_num": "大問1 (2)",
-        "img": "quiz_images/jan_review_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "img": "quiz_images/jan_review_p3.png",
+        "title": "普通選挙法",
+        "q": "1925年に制定された普通選挙法で定められた有権者の資格として正しいものを選びなさい。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "直接国税15円以上を納める25歳以上の男子",
+            "直接国税3円以上を納める25歳以上の男子",
+            "納税額の制限なしで25歳以上の男子",
+            "納税額の制限なしで20歳以上の男女"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 2,
+        "hint": "1925年の普通選挙法では、納税額の制限が撤廃され、満25歳以上のすべての男子に選挙権が与えられました。"
     },
     {
         "id": "jan_review_1_3",
         "test_name": "1月復習",
         "q_num": "大問1 (3)",
         "img": "quiz_images/jan_review_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "title": "女性の地位向上",
+        "q": "雑誌『青鞜』を創刊するなど、女性の社会的地位を向上させるために活動した人物を選びなさい。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "福沢諭吉",
+            "井上馨",
+            "平塚らいてう",
+            "樋口一葉"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 2,
+        "hint": "「元始、女性は太陽であった」の言葉で知られ、青鞜社を設立したのは平塚らいてうです。"
     },
     {
         "id": "jan_review_1_4",
         "test_name": "1月復習",
         "q_num": "大問1 (4)",
         "img": "quiz_images/jan_review_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "title": "5・15事件",
+        "q": "1932年に犬養毅首相が暗殺される事件が起こりました。このころの流れとして起こっていない出来事を選びなさい。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "海軍の青年将校らによる反乱であった。",
+            "この事件により、政党政治が途絶えることとなった。",
+            "この事件のあと、国際連盟からの脱退を決定した。",
+            "この事件の首謀者は、二・二六事件も起こした。"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 3,
+        "hint": "（仮の選択肢です）1932年の五・一五事件で犬養毅が暗殺され、政党内閣の時代は終わりました。二・二六事件は1936年で陸軍の将校によるものです。"
     },
     {
         "id": "jan_review_1_5",
         "test_name": "1月復習",
         "q_num": "大問1 (5)",
-        "img": "quiz_images/jan_review_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "img": "quiz_images/jan_review_p4.png",
+        "title": "第二次世界大戦の流れ",
+        "q": "1945年に起こった出来事を古い順に並べたとき、3番目にくるものを選びなさい。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "アメリカ軍が沖縄に上陸し地上戦が始まった（3月）",
+            "アメリカ軍が広島に原子爆弾を投下した（8月6日）",
+            "ソ連が日ソ中立条約を破って参戦した（8月8日）/長崎原爆（8月9日）",
+            "日本はポツダム宣言を受諾した（8月14日・15日）"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 2,
+        "hint": "沖縄上陸→広島原爆→（ソ連参戦・長崎原爆）→ポツダム宣言受諾、の流れです。"
     },
     {
         "id": "jan_review_1_6",
         "test_name": "1月復習",
-        "q_num": "大問1 (6)",
-        "img": "quiz_images/jan_review_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "q_num": "大問2 (1)",
+        "img": "quiz_images/jan_review_p5.png",
+        "title": "講和条約と総理大臣",
+        "q": "1951年にサンフランシスコ平和条約に調印し、日本の独立を回復させた内閣総理大臣は誰ですか。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "西園寺公望",
+            "佐藤栄作",
+            "伊藤博文",
+            "吉田茂"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 3,
+        "hint": "サンフランシスコ平和条約と同じ日に日米安全保障条約も調印したのは吉田茂です。"
     },
     {
         "id": "jan_review_1_7",
         "test_name": "1月復習",
-        "q_num": "大問1 (7)",
-        "img": "quiz_images/jan_review_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "q_num": "大問2 (2)",
+        "img": "quiz_images/jan_review_p6.png",
+        "title": "非核三原則",
+        "q": "「持たず、作らず、持ち込ませず」の非核三原則を提唱し、沖縄返還を実現してノーベル平和賞を受賞した総理大臣は誰ですか。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "吉田茂",
+            "佐藤栄作",
+            "田中角栄",
+            "中曽根康弘"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 1,
+        "hint": "1972年に沖縄の本土復帰を実現させたのは佐藤栄作首相です。"
     },
     {
         "id": "jan_review_1_8",
         "test_name": "1月復習",
-        "q_num": "大問1 (8)",
-        "img": "quiz_images/jan_review_p4.png",
+        "q_num": "大問2 (3)",
+        "img": "quiz_images/jan_review_p5.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -1007,8 +784,8 @@ const quizData = [
     {
         "id": "jan_review_1_9",
         "test_name": "1月復習",
-        "q_num": "大問1 (9)",
-        "img": "quiz_images/jan_review_p5.png",
+        "q_num": "大問2 (4)",
+        "img": "quiz_images/jan_review_p6.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -1023,88 +800,8 @@ const quizData = [
     {
         "id": "jan_review_1_10",
         "test_name": "1月復習",
-        "q_num": "大問1 (10)",
-        "img": "quiz_images/jan_review_p5.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_2_1",
-        "test_name": "1月復習",
-        "q_num": "大問2 (1)",
-        "img": "quiz_images/jan_review_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_2_2",
-        "test_name": "1月復習",
-        "q_num": "大問2 (2)",
-        "img": "quiz_images/jan_review_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_2_3",
-        "test_name": "1月復習",
-        "q_num": "大問2 (3)",
-        "img": "quiz_images/jan_review_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_2_4",
-        "test_name": "1月復習",
-        "q_num": "大問2 (4)",
-        "img": "quiz_images/jan_review_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_2_5",
-        "test_name": "1月復習",
         "q_num": "大問2 (5)",
-        "img": "quiz_images/jan_review_p3.png",
+        "img": "quiz_images/jan_review_p6.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -1117,10 +814,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "jan_review_2_6",
+        "id": "jan_review_1_11",
         "test_name": "1月復習",
         "q_num": "大問2 (6)",
-        "img": "quiz_images/jan_review_p4.png",
+        "img": "quiz_images/jan_review_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -1133,10 +830,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "jan_review_2_7",
+        "id": "jan_review_1_12",
         "test_name": "1月復習",
         "q_num": "大問2 (7)",
-        "img": "quiz_images/jan_review_p4.png",
+        "img": "quiz_images/jan_review_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -1149,10 +846,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "jan_review_2_8",
+        "id": "jan_review_1_13",
         "test_name": "1月復習",
         "q_num": "大問2 (8)",
-        "img": "quiz_images/jan_review_p4.png",
+        "img": "quiz_images/jan_review_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -1165,10 +862,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "jan_review_2_9",
+        "id": "jan_review_1_14",
         "test_name": "1月復習",
         "q_num": "大問2 (9)",
-        "img": "quiz_images/jan_review_p5.png",
+        "img": "quiz_images/jan_review_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -1181,10 +878,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "jan_review_2_10",
+        "id": "jan_review_1_15",
         "test_name": "1月復習",
         "q_num": "大問2 (10)",
-        "img": "quiz_images/jan_review_p5.png",
+        "img": "quiz_images/jan_review_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -1197,10 +894,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "jan_review_3_1",
+        "id": "jan_review_1_16",
         "test_name": "1月復習",
-        "q_num": "大問3 (1)",
-        "img": "quiz_images/jan_review_p2.png",
+        "q_num": "大問2 (11)",
+        "img": "quiz_images/jan_review_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
@@ -1213,138 +910,10 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "jan_review_3_2",
+        "id": "jan_review_1_17",
         "test_name": "1月復習",
-        "q_num": "大問3 (2)",
-        "img": "quiz_images/jan_review_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_3_3",
-        "test_name": "1月復習",
-        "q_num": "大問3 (3)",
-        "img": "quiz_images/jan_review_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_3_4",
-        "test_name": "1月復習",
-        "q_num": "大問3 (4)",
-        "img": "quiz_images/jan_review_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_3_5",
-        "test_name": "1月復習",
-        "q_num": "大問3 (5)",
-        "img": "quiz_images/jan_review_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_3_6",
-        "test_name": "1月復習",
-        "q_num": "大問3 (6)",
-        "img": "quiz_images/jan_review_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_3_7",
-        "test_name": "1月復習",
-        "q_num": "大問3 (7)",
-        "img": "quiz_images/jan_review_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_3_8",
-        "test_name": "1月復習",
-        "q_num": "大問3 (8)",
-        "img": "quiz_images/jan_review_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_3_9",
-        "test_name": "1月復習",
-        "q_num": "大問3 (9)",
-        "img": "quiz_images/jan_review_p5.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_review_3_10",
-        "test_name": "1月復習",
-        "q_num": "大問3 (10)",
-        "img": "quiz_images/jan_review_p5.png",
+        "q_num": "大問2 (12)",
+        "img": "quiz_images/jan_review_p7.png",
         "title": "総合問題",
         "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
         "choices": [
