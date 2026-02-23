@@ -200,7 +200,7 @@
         <div class="messages-area" id="messages">
             <!-- Initial greeting -->
             <div class="flex gap-3 mb-4 fade-in">
-                <div class="w-16 h-16 select-none flex-none">
+                <div class="w-24 h-24 select-none flex-none">
                     <img src="usa_transparent.png" alt="うさぴょん" class="w-full h-full object-contain">
                 </div>
                 <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
@@ -433,7 +433,7 @@
                 .replace(/\n/g, '<br>');
 
             div.innerHTML = `
-                <div class="w-16 h-16 select-none flex-none">
+                <div class="w-24 h-24 select-none flex-none">
                     <img src="usa_transparent.png" alt="うさぴょん" class="w-full h-full object-contain">
                 </div>
                 <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed markdown-reply">${html}</div>
@@ -448,7 +448,7 @@
             div.id = id;
             div.className = 'flex gap-3 mb-4';
             div.innerHTML = `
-                <div class="w-16 h-16 select-none flex-none">
+                <div class="w-24 h-24 select-none flex-none">
                     <img src="usa_transparent.png" alt="うさぴょん" class="w-full h-full object-contain">
                 </div>
                 <div class="bubble-bot p-4 flex items-center gap-2">
@@ -465,7 +465,7 @@
             if (!confirm('会話をリセットしますか？')) return;
             document.getElementById('messages').innerHTML = `
                 <div class="flex gap-3 mb-4 fade-in">
-                    <div class="w-16 h-16 select-none flex-none">
+                    <div class="w-24 h-24 select-none flex-none">
                         <img src="usa_transparent.png" alt="うさぴょん" class="w-full h-full object-contain">
                     </div>
                     <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
