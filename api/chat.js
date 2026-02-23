@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { question, school } = req.body;
+  const { question, school, history = [] } = req.body;
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
@@ -14,11 +14,16 @@ export default async function handler(req, res) {
     return res.status(400).json({ reply: "質問と学校名が必要です。" });
   }
 
+  // Build conversational history text if it exists
+  const historyText = history.length > 0
+    ? `\n--- これまでの会話履歴 ---\n${history.map(h => `${h.isUser ? '質問者' : 'AI'}: ${h.text}`).join('\n')}\n--------------------\n`
+    : '';
+
   const prompt = `あなたは中学受験のプロフェッショナルAIアドバイザーです。
 質問者が志望している学校は「${school}」です。
 この学校の出題傾向や入試情報、その他学習に関する以下の質問に対して、専門的かつ分かりやすく、そして受験生や保護者を励ますようなトーンで丁寧に答えてください。
 ※回答は文字の装飾(太字のためのアスタリスクなど)を極力使わずプレーンなテキストにし、適度に改行を入れてください。
-
+${historyText}
 質問: ${question}`;
 
   try {
@@ -35,10 +40,10 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    
+
     if (data.error) {
-       console.error("Gemini API Error:", data.error);
-       return res.status(500).json({ reply: `エラー: API連携に失敗しました。(${data.error.message})` });
+      console.error("Gemini API Error:", data.error);
+      return res.status(500).json({ reply: `エラー: API連携に失敗しました。(${data.error.message})` });
     }
 
     const reply = data.candidates[0].content.parts[0].text;

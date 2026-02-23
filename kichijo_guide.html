@@ -498,6 +498,13 @@
         let currentData = JSON.parse(JSON.stringify(schoolData.kichijo.charts)); // default user data (mock)
         let charts = {};
 
+        // Load chat history from localStorage or initialize empty defaults
+        let chatHistories = JSON.parse(localStorage.getItem('chatHistories')) || {};
+
+        function saveChatHistories() {
+            localStorage.setItem('chatHistories', JSON.stringify(chatHistories));
+        }
+
         function createRadarChart(canvasId, labels, target, current, color, bgColor) {
             return new Chart(document.getElementById(canvasId), {
                 type: 'radar',
@@ -563,7 +570,8 @@
             document.getElementById('target-soc-score').innerText = data.target.soc_score;
             document.getElementById('target-soc-desc').innerText = data.target.soc_desc;
 
-            document.getElementById('chat-welcome').innerText = `${data.name}の出題傾向や学校行事など、気になることを聞いてください。`;
+            // Re-render chat for the new school
+            renderChat();
 
             // Reset user data to be slightly below the school's target for demo purposes
             if (!isInit) {
@@ -694,14 +702,46 @@
             }
         }
 
-        // Chatbot logic
+        // Chat rendering and logic
+        function renderChat() {
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = '';
+
+            // Add welcome message
+            const welcomeDiv = document.createElement('div');
+            welcomeDiv.className = 'message-bubble bg-white shadow-sm text-gray-600 border border-gray-200 text-xs animate-fade-in';
+            welcomeDiv.id = 'chat-welcome';
+            welcomeDiv.innerText = `${schoolData[currentSchool].name}の出題傾向や学校行事など、気になることを聞いてください。`;
+            container.appendChild(welcomeDiv);
+
+            // Render existing history
+            if (chatHistories[currentSchool]) {
+                chatHistories[currentSchool].forEach(msg => {
+                    const div = document.createElement('div');
+                    div.className = `message-bubble ${msg.isUser ? 'bg-theme text-white ml-auto' : 'bg-white shadow-sm text-gray-600 border border-gray-200'} text-xs animate-fade-in`;
+                    div.innerHTML = msg.text.replace(/\\n/g, '<br>');
+                    container.appendChild(div);
+                });
+            } else {
+                chatHistories[currentSchool] = [];
+            }
+            container.scrollTop = container.scrollHeight;
+        }
+
         document.getElementById('chat-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('user-input');
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
-            appendMessage(text, true);
+
+            // Ensure history array exists
+            if (!chatHistories[currentSchool]) chatHistories[currentSchool] = [];
+
+            // Save user message to history and render
+            chatHistories[currentSchool].push({ isUser: true, text: text });
+            saveChatHistories();
+            renderChat();
 
             // Add loading indicator
             const loadingId = 'loading-' + Date.now();
@@ -714,10 +754,17 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
             try {
+                // Determine context history to send (last 10 interactions to save tokens)
+                const historyToSend = chatHistories[currentSchool].slice(-10).slice(0, -1);
+
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ question: text, school: schoolData[currentSchool].name })
+                    body: JSON.stringify({
+                        question: text,
+                        school: schoolData[currentSchool].name,
+                        history: historyToSend
+                    })
                 });
 
                 const el = document.getElementById(loadingId);
@@ -725,28 +772,29 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    appendMessage(data.reply, false);
+
+                    // Add AI response to history and render
+                    chatHistories[currentSchool].push({ isUser: false, text: data.reply });
+                    saveChatHistories();
+                    renderChat();
+
                 } else {
-                    appendMessage('<span class="text-red-500 font-bold">エラー:</span> サーバーの応答がありません。Vercelの環境変数でGEMINI_API_KEYが設定されているか確認してください。', false);
+                    alert('エラー: サーバーの応答がありません。');
+                    chatHistories[currentSchool].pop(); // remove user message if failed
+                    saveChatHistories();
+                    renderChat();
                 }
             } catch (error) {
                 const el = document.getElementById(loadingId);
                 if (el) el.remove();
 
                 // Fallback for local testing without serverless function running
-                appendMessage('<span class="text-red-500 font-bold">エラー:</span> AIと通信できませんでした。<br>※ファイルを直接開いている場合、AIチャットは動作しません。<br><code>npx vercel dev</code> コマンドで起動してアクセスしてください。', false);
+                alert('エラー: AIと通信できませんでした。');
+                chatHistories[currentSchool].pop(); // remove user message if failed
+                saveChatHistories();
+                renderChat();
             }
         });
-
-        function appendMessage(text, isUser) {
-            const div = document.createElement('div');
-            div.className = `message-bubble ${isUser ? 'bg-theme text-white ml-auto' : 'bg-white shadow-sm text-gray-600 border border-gray-200'} animate-fade-in text-xs`;
-            div.innerHTML = text.replace(/\\n/g, '<br>'); // 改行対応
-            const chatMessages = document.getElementById('chat-messages');
-            chatMessages.appendChild(div);
-            // Auto scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
 
         // Quiz Logic
         let currentSubject = 'japanese';
