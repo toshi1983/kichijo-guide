@@ -382,23 +382,25 @@
 
                 document.getElementById(typingId)?.remove();
 
-                if (response.ok) {
-                    const data = await response.json();
-                    const reply = data.reply;
-                    appendBotMessage(reply);
+                let data = null;
+                try { data = await response.json(); } catch (e) { }
+
+                if (response.ok && data?.reply) {
+                    appendBotMessage(data.reply);
                     conversationHistory.push({ role: 'user', text: question || '(画像)' });
-                    conversationHistory.push({ role: 'bot', text: reply });
+                    conversationHistory.push({ role: 'bot', text: data.reply });
                     if (conversationHistory.length > 20) conversationHistory = conversationHistory.slice(-20);
                 } else {
-                    appendBotMessage('ごめんね、エラーが起きちゃった…もう一度試してみて！🐰');
+                    const errMsg = data?.reply || data?.error || `HTTPエラー ${response.status}`;
+                    appendBotMessage(`🐰 ごめんね、エラーが起きちゃった�\n\n詳細: ${errMsg}`);
                 }
             } catch (err) {
                 document.getElementById(typingId)?.remove();
-                appendBotMessage('通信エラーだぴょん😥 ネット接続を確認してね。');
+                appendBotMessage(`🐰 通信エラーだぴょん😥\n\n詳細: ${err.message}`);
+            } finally {
+                sendBtn.disabled = false;
+                input.focus();
             }
-
-            sendBtn.disabled = false;
-            input.focus();
         }
 
         function appendUserMessage(text, imgSrc) {
