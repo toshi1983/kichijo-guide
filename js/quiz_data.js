@@ -10,7 +10,7 @@ const quizData = [
         ],
         "ans": 0,
         "hint": "問(3)を参照。大名が力を持ち、幕府に反抗させないための厳しいルールとして定められました。",
-        "id": "dec_1_1",
+        "id": "dec_monthly_1_1",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (1)"
     },
@@ -25,12 +25,12 @@ const quizData = [
         ],
         "ans": 1,
         "hint": "問(1)を参照。昔からの家臣や身内（親藩・譜代）を重要な場所に置き、関ケ原の戦い以降に従った外様大名は遠くに配置しました。",
-        "id": "dec_1_2",
+        "id": "dec_monthly_1_2",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (2)"
     },
     {
-        "id": "dec_1_3",
+        "id": "dec_monthly_1_3",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (3)",
         "img": "quiz_images/dec_monthly_p3.png",
@@ -46,7 +46,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_1_4",
+        "id": "dec_monthly_1_4",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (4)",
         "img": "quiz_images/dec_monthly_p3.png",
@@ -62,7 +62,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_1_5",
+        "id": "dec_monthly_1_5",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (5)",
         "img": "quiz_images/dec_monthly_p3.png",
@@ -78,7 +78,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_1_6",
+        "id": "dec_monthly_1_6",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (6)",
         "img": "quiz_images/dec_monthly_p4.png",
@@ -94,7 +94,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_1_7",
+        "id": "dec_monthly_1_7",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (7)",
         "img": "quiz_images/dec_monthly_p4.png",
@@ -110,7 +110,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_1_8",
+        "id": "dec_monthly_1_8",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (8)",
         "img": "quiz_images/dec_monthly_p4.png",
@@ -126,7 +126,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_1_9",
+        "id": "dec_monthly_1_9",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (9)",
         "img": "quiz_images/dec_monthly_p5.png",
@@ -142,7 +142,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_1_10",
+        "id": "dec_monthly_1_10",
         "test_name": "12月度マンスリー",
         "q_num": "大問1 (10)",
         "img": "quiz_images/dec_monthly_p5.png",
@@ -158,7 +158,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_1",
+        "id": "dec_monthly_2_1",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (1)",
         "img": "quiz_images/dec_monthly_p2.png",
@@ -174,7 +174,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_2",
+        "id": "dec_monthly_2_2",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (2)",
         "img": "quiz_images/dec_monthly_p2.png",
@@ -190,7 +190,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_3",
+        "id": "dec_monthly_2_3",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (3)",
         "img": "quiz_images/dec_monthly_p3.png",
@@ -206,7 +206,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_4",
+        "id": "dec_monthly_2_4",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (4)",
         "img": "quiz_images/dec_monthly_p3.png",
@@ -222,7 +222,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_5",
+        "id": "dec_monthly_2_5",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (5)",
         "img": "quiz_images/dec_monthly_p3.png",
@@ -238,7 +238,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_6",
+        "id": "dec_monthly_2_6",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (6)",
         "img": "quiz_images/dec_monthly_p4.png",
@@ -254,7 +254,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_7",
+        "id": "dec_monthly_2_7",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (7)",
         "img": "quiz_images/dec_monthly_p4.png",
@@ -270,7 +270,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_8",
+        "id": "dec_monthly_2_8",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (8)",
         "img": "quiz_images/dec_monthly_p4.png",
@@ -286,7 +286,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_9",
+        "id": "dec_monthly_2_9",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (9)",
         "img": "quiz_images/dec_monthly_p5.png",
@@ -302,7 +302,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_2_10",
+        "id": "dec_monthly_2_10",
         "test_name": "12月度マンスリー",
         "q_num": "大問2 (10)",
         "img": "quiz_images/dec_monthly_p5.png",
@@ -318,7 +318,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_1",
+        "id": "dec_monthly_3_1",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (1)",
         "img": "quiz_images/dec_monthly_p2.png",
@@ -334,7 +334,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_2",
+        "id": "dec_monthly_3_2",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (2)",
         "img": "quiz_images/dec_monthly_p2.png",
@@ -350,7 +350,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_3",
+        "id": "dec_monthly_3_3",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (3)",
         "img": "quiz_images/dec_monthly_p3.png",
@@ -366,7 +366,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_4",
+        "id": "dec_monthly_3_4",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (4)",
         "img": "quiz_images/dec_monthly_p3.png",
@@ -382,7 +382,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_5",
+        "id": "dec_monthly_3_5",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (5)",
         "img": "quiz_images/dec_monthly_p3.png",
@@ -398,7 +398,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_6",
+        "id": "dec_monthly_3_6",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (6)",
         "img": "quiz_images/dec_monthly_p4.png",
@@ -414,7 +414,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_7",
+        "id": "dec_monthly_3_7",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (7)",
         "img": "quiz_images/dec_monthly_p4.png",
@@ -430,7 +430,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_8",
+        "id": "dec_monthly_3_8",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (8)",
         "img": "quiz_images/dec_monthly_p4.png",
@@ -446,7 +446,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_9",
+        "id": "dec_monthly_3_9",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (9)",
         "img": "quiz_images/dec_monthly_p5.png",
@@ -462,7 +462,7 @@ const quizData = [
         "hint": "準備中です。"
     },
     {
-        "id": "dec_3_10",
+        "id": "dec_monthly_3_10",
         "test_name": "12月度マンスリー",
         "q_num": "大問3 (10)",
         "img": "quiz_images/dec_monthly_p5.png",
@@ -592,6 +592,22 @@ const quizData = [
     {
         "id": "jan_kumiwake_1_8",
         "test_name": "1月組分け",
+        "q_num": "大問1 (8)",
+        "img": "quiz_images/jan_kumiwake_p4.png",
+        "title": "人々のくらしと時期",
+        "q": "問(8) 「この時期は、肥料や農具の発達で農業生産力が向上し、商品作物の栽培もさかんになりました。また、自治を要求する大地域での一揆をおこす人々も現れました。」この時期としてもっともふさわしいものを選びなさい。",
+        "choices": [
+            "鎌倉時代",
+            "安土桃山時代",
+            "江戸時代",
+            "室町時代"
+        ],
+        "ans": 3,
+        "hint": "肥料の発達、商品作物、一揆（土一揆など）、近江や堺の自治といえば室町時代の特徴です。"
+    },
+    {
+        "id": "jan_kumiwake_2_1",
+        "test_name": "1月組分け",
         "q_num": "大問2 (1)",
         "img": "quiz_images/jan_kumiwake_p4.png",
         "title": "地理 - 山と川",
@@ -606,12 +622,12 @@ const quizData = [
         "hint": "熊本県の中央部に位置し、世界最大級のカルデラを持つ火山は阿蘇山です。"
     },
     {
-        "id": "jan_kumiwake_1_9",
+        "id": "jan_kumiwake_2_2",
         "test_name": "1月組分け",
         "q_num": "大問2 (2)",
         "img": "quiz_images/jan_kumiwake_p4.png",
         "title": "長崎での貿易相手国",
-        "q": "地図中の①の都市（長崎市）は、古くから貿易の窓口として栄えました。日本が鎖国中にこの港町で貿易していた国の現在の様子として、もっともふさわしいものを選びなさい。",
+        "q": "地図中の①の都市（長崎市）は貿易の窓口でした。鎖国中に取引していた国の現在の様子として、もっともふさわしいものを選びなさい。",
         "choices": [
             "14億を超える人口の約8割が、牛を神の使いとする宗教を信仰している",
             "ヨーロッパ連合を離脱し、環太平洋パートナーシップ協定に加盟している",
@@ -622,7 +638,7 @@ const quizData = [
         "hint": "鎖国中に長崎で貿易を許されていたのはオランダと中国（清）です。選択肢の中でオランダの特徴を表しているのはポルダー（干拓地）の記述です。"
     },
     {
-        "id": "jan_kumiwake_1_10",
+        "id": "jan_kumiwake_2_3",
         "test_name": "1月組分け",
         "q_num": "大問2 (3)",
         "img": "quiz_images/jan_kumiwake_p4.png",
@@ -638,7 +654,7 @@ const quizData = [
         "hint": "筑紫平野では、水を集めるための水路「クリーク」が発達しており、米と麦の二毛作が盛んです。"
     },
     {
-        "id": "jan_kumiwake_2_1",
+        "id": "jan_kumiwake_2_4",
         "test_name": "1月組分け",
         "q_num": "大問2 (4)",
         "img": "quiz_images/jan_kumiwake_p4.png",
@@ -654,7 +670,7 @@ const quizData = [
         "hint": "神岡鉱山からカドミウムが流れ込んでイタイイタイ病を引き起こしたのは「神通川（じんづうがわ）」です。「黒部川」ではありません。"
     },
     {
-        "id": "jan_kumiwake_2_2",
+        "id": "jan_kumiwake_2_5",
         "test_name": "1月組分け",
         "q_num": "大問2 (5)",
         "img": "quiz_images/jan_kumiwake_p4.png",
@@ -670,7 +686,7 @@ const quizData = [
         "hint": "北九州の工業は、かつては鉄鋼業（金属）が中心でしたが、現在はICや自動車（機械）が多くなり、また食料品工業の割合が他の工業地帯に比べて高めなのが特徴です。"
     },
     {
-        "id": "jan_kumiwake_2_3",
+        "id": "jan_kumiwake_2_6",
         "test_name": "1月組分け",
         "q_num": "大問2 (6)",
         "img": "quiz_images/jan_kumiwake_p5.png",
@@ -686,7 +702,7 @@ const quizData = [
         "hint": "（う）は千葉県にあたる「房総半島」、（え）は和歌山県から奈良県・三重県にまたがる「紀伊山地」です。"
     },
     {
-        "id": "jan_kumiwake_2_4",
+        "id": "jan_kumiwake_2_7",
         "test_name": "1月組分け",
         "q_num": "大問2 (7)",
         "img": "quiz_images/jan_kumiwake_p5.png",
@@ -702,7 +718,7 @@ const quizData = [
         "hint": "群馬県で大規模な自動車組み立て工場があるのは太田市（おおたし）です（富士重工業・SUBARU）。"
     },
     {
-        "id": "jan_kumiwake_2_5",
+        "id": "jan_kumiwake_2_8",
         "test_name": "1月組分け",
         "q_num": "大問2 (8)",
         "img": "quiz_images/jan_kumiwake_p5.png",
@@ -718,7 +734,7 @@ const quizData = [
         "hint": "正倉院の校倉造（あぜくらづくり）は、床を高くして風通しを良くし、湿気から宝物を守る（湿度が調節される）工夫がされています。"
     },
     {
-        "id": "jan_kumiwake_2_6",
+        "id": "jan_kumiwake_2_9",
         "test_name": "1月組分け",
         "q_num": "大問2 (9)",
         "img": "quiz_images/jan_kumiwake_p5.png",
@@ -734,7 +750,7 @@ const quizData = [
         "hint": "訪日外国人をインバウンド、外国通貨に対して円の価値が下がることを「円安」、観光客が多すぎて地元に悪影響が出ることを「オーバーツーリズム」といいます。"
     },
     {
-        "id": "jan_kumiwake_2_7",
+        "id": "jan_kumiwake_2_10",
         "test_name": "1月組分け",
         "q_num": "大問2 (10)",
         "img": "quiz_images/jan_kumiwake_p6.png",
@@ -750,7 +766,7 @@ const quizData = [
         "hint": "関東地方で最長ののは利根川で、流域面積は全国最大です。四国最長は「四万十川」のため、吉野川（四国三郎）の文は該当しません。"
     },
     {
-        "id": "jan_kumiwake_2_8",
+        "id": "jan_kumiwake_2_11",
         "test_name": "1月組分け",
         "q_num": "大問2 (11)",
         "img": "quiz_images/jan_kumiwake_p6.png",
@@ -766,7 +782,7 @@ const quizData = [
         "hint": "淡路島と徳島県を結ぶ大鳴門橋が架かっているのは、徳島県の「鳴門市（なるとし）」です。"
     },
     {
-        "id": "jan_kumiwake_2_9",
+        "id": "jan_kumiwake_2_12",
         "test_name": "1月組分け",
         "q_num": "大問2 (12)",
         "img": "quiz_images/jan_kumiwake_p6.png",
@@ -782,7 +798,7 @@ const quizData = [
         "hint": "堤防で仕切り、水をくみ出して陸地にするのは「埋め立て」ではなく「干拓（かんたく）」です。"
     },
     {
-        "id": "jan_kumiwake_2_10",
+        "id": "jan_kumiwake_2_13",
         "test_name": "1月組分け",
         "q_num": "大問2 (13)",
         "img": "quiz_images/jan_kumiwake_p6.png",
@@ -798,7 +814,7 @@ const quizData = [
         "hint": "北緯35度線は、島根県や京都府、愛知（知多半島）、静岡（伊豆半島）、千葉（房総半島）を通ります。石川県の「能登半島」はもっと北（北緯37度付近）にあります。"
     },
     {
-        "id": "jan_kumiwake_3_1",
+        "id": "jan_kumiwake_2_14",
         "test_name": "1月組分け",
         "q_num": "大問2 (14)",
         "img": "quiz_images/jan_kumiwake_p7.png",
@@ -814,148 +830,51 @@ const quizData = [
         "hint": "Iは正しい（壇ノ浦の戦い）。IIの条約内容は日露戦争後の「ポーツマス条約」（アメリカ）のものであり、日清戦争後の下関条約ではないため誤りです。"
     },
     {
-        "id": "jan_kumiwake_3_2",
+        "id": "jan_kumiwake_2_15",
         "test_name": "1月組分け",
-        "q_num": "大問3 (2)",
-        "img": "quiz_images/jan_kumiwake_p2.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "q_num": "大問2 (15)",
+        "img": "quiz_images/jan_kumiwake_p7.png",
+        "title": "地形図の読み取り",
+        "q": "地図IIIの中のある地域を示した地形図から読み取れることとしてもっともふさわしいものを選びなさい。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "この地形図上で2cmの長さの場合、実際の距離は1kmである。",
+            "弓投にある神社から、堀越にある小中学校をみることができる。",
+            "この地形図中には、山岳地帯でも育つ針葉樹のみがみられる。",
+            "須沢では、河津川から引いた水を利用して米づくりを行っている。"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 3,
+        "hint": "縮尺が1/25,000のため、地図上の4cmが実際の1kmになります。地形図の記号から、須沢地区には田が広がっており、近くの川から水を取っている様子がうかがえます。"
     },
     {
-        "id": "jan_kumiwake_3_3",
+        "id": "jan_kumiwake_2_16_1",
         "test_name": "1月組分け",
-        "q_num": "大問3 (3)",
-        "img": "quiz_images/jan_kumiwake_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "q_num": "大問2 (16 - 1)",
+        "img": "quiz_images/jan_kumiwake_p7.png",
+        "title": "府県庁所在地",
+        "q": "地図中に◎で示したア〜ウの都市のうち、府県庁所在地都市として【もっともふさわしくないもの】を1つ選びなさい。",
         "choices": [
             "ア",
             "イ",
-            "ウ",
-            "エ"
+            "ウ"
         ],
         "ans": 0,
-        "hint": "準備中です。"
+        "hint": "地図上の位置関係から、県庁所在地ではない都市を選択します。"
     },
     {
-        "id": "jan_kumiwake_3_4",
+        "id": "jan_kumiwake_2_16_2",
         "test_name": "1月組分け",
-        "q_num": "大問3 (4)",
-        "img": "quiz_images/jan_kumiwake_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+        "q_num": "大問2 (16 - 2)",
+        "img": "quiz_images/jan_kumiwake_p7.png",
+        "title": "府県に共通する内容",
+        "q": "地図中に示されている府県すべてに共通する内容としてもっともふさわしいものを選びなさい。",
         "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
+            "世界遺産がある",
+            "日本標準時子午線より西にある",
+            "政令指定都市がある",
+            "新幹線が通っている"
         ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_kumiwake_3_5",
-        "test_name": "1月組分け",
-        "q_num": "大問3 (5)",
-        "img": "quiz_images/jan_kumiwake_p3.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_kumiwake_3_6",
-        "test_name": "1月組分け",
-        "q_num": "大問3 (6)",
-        "img": "quiz_images/jan_kumiwake_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_kumiwake_3_7",
-        "test_name": "1月組分け",
-        "q_num": "大問3 (7)",
-        "img": "quiz_images/jan_kumiwake_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_kumiwake_3_8",
-        "test_name": "1月組分け",
-        "q_num": "大問3 (8)",
-        "img": "quiz_images/jan_kumiwake_p4.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_kumiwake_3_9",
-        "test_name": "1月組分け",
-        "q_num": "大問3 (9)",
-        "img": "quiz_images/jan_kumiwake_p5.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
-    },
-    {
-        "id": "jan_kumiwake_3_10",
-        "test_name": "1月組分け",
-        "q_num": "大問3 (10)",
-        "img": "quiz_images/jan_kumiwake_p5.png",
-        "title": "総合問題",
-        "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
-        "choices": [
-            "ア",
-            "イ",
-            "ウ",
-            "エ"
-        ],
-        "ans": 0,
-        "hint": "準備中です。"
+        "ans": 1,
+        "hint": "掲載されている府県（中国・四国・九州地方）はすべて兵庫県明石市を通る日本標準時子午線（東経135度）よりも西側に位置しています。"
     },
     {
         "id": "jan_review_1_1",
