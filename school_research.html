@@ -15,20 +15,32 @@
         }
 
         .table-container {
-            overflow-x: auto;
+            overflow: auto;
             -webkit-overflow-scrolling: touch;
+            max-height: calc(100vh - 180px);
+            /* 縦スクロールも可能にする */
         }
 
+        /* ヘッダー行を固定 */
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 比較項目（左端列）を固定 */
         th.sticky-col {
             position: sticky;
             left: 0;
-            z-index: 10;
-            background-color: #f1f5f9;
-            box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.1);
+            z-index: 30;
+            box-shadow: 2px 0 4px -2px rgba(0, 0, 0, 0.1);
         }
 
+        /* ヘッダーかつ左端のセルは一番手前 */
         thead th.sticky-col {
-            z-index: 20;
+            z-index: 40;
+            box-shadow: 2px 2px 4px -2px rgba(0, 0, 0, 0.1);
         }
 
         :root {
@@ -78,19 +90,24 @@
                 <thead class="bg-slate-100 border-b-2 border-slate-200">
                     <tr>
                         <th
-                            class="p-4 md:p-5 sticky-col border-r border-slate-200 font-bold text-gray-700 w-48 align-middle">
+                            class="p-4 md:p-5 sticky-col border-r border-slate-200 font-bold text-gray-700 w-48 align-middle bg-slate-100">
                             比較項目 \ 学校</th>
-                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                        <th
+                            class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg bg-slate-100">
                             🌸 吉祥女子</th>
-                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                        <th
+                            class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg bg-slate-100">
                             🦅 渋谷幕張 (渋幕)</th>
-                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                        <th
+                            class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg bg-slate-100">
                             🐉 渋谷渋谷 (渋渋)</th>
-                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                        <th
+                            class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg bg-slate-100">
                             🧭 都立小石川</th>
-                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                        <th
+                            class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg bg-slate-100">
                             🌐 三田国際</th>
-                        <th class="p-4 md:p-5 font-bold text-theme w-64 text-center text-lg">🌳 広尾学園</th>
+                        <th class="p-4 md:p-5 font-bold text-theme w-64 text-center text-lg bg-slate-100">🌳 広尾学園</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 text-sm md:text-base leading-relaxed">
