@@ -3,25 +3,29 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>勉強計画作成アシスタント - 中学受験ナビ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>カレンダー・勉強計画作成 - 中学受験ナビ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
         rel="stylesheet">
     <style>
         body {
             font-family: 'Zen Kaku Gothic New', sans-serif;
-            background-color: #fafafa;
+            background-color: #f1f5f9;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         .animate-fade-in {
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 0.5s ease-out;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(5px);
             }
 
             to {
@@ -31,25 +35,33 @@
         }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .message-bubble {
-            max-width: 85%;
-            padding: 12px 18px;
-            border-radius: 15px;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
+            max-width: 90%;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            font-size: 1.05rem;
             line-height: 1.6;
+        }
+
+        .hidden-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hidden-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         :root {
             --theme-color: #0369a1;
             /* Blue theme for planner */
-            --theme-light: rgba(3, 105, 161, 0.05);
+            --theme-light: #e0f2fe;
         }
 
         .bg-theme {
@@ -68,100 +80,303 @@
         .bg-theme-light {
             background-color: var(--theme-light);
         }
+
+        /* Checkbox styling specifically for iPad fat-fingering */
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            margin-right: 10px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
-<body class="text-gray-800 flex flex-col h-screen overflow-hidden">
+<body class="text-gray-800 flex flex-col">
 
     <!-- Header -->
-    <header class="bg-theme shadow-lg z-50 flex-none">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-wider flex items-center gap-3 text-white">
-                <a href="kichijo_guide.html" class="hover:opacity-80 transition">🎓 中学受験ナビ</a>
-                <span class="text-gray-300 text-sm">/</span>
-                <span>📝 勉強計画作成アシスタント</span>
+    <header class="bg-theme shadow-lg z-50 flex-none h-16 flex items-center">
+        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center w-full">
+            <h1 class="text-lg md:text-xl font-bold tracking-wider flex items-center gap-2 text-white">
+                <a href="kichijo_guide.html" class="hover:opacity-80 transition py-2">🎓 トップへ</a>
+                <span class="text-gray-300 text-sm">|</span>
+                <span>カレンダー＆計画作成</span>
             </h1>
             <div>
                 <button onclick="openPrintablePlan()"
-                    class="bg-white text-theme font-bold py-2 px-4 rounded-lg shadow-sm hover:opacity-90 transition text-sm flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="bg-white text-theme font-bold py-2 px-4 rounded-xl shadow-sm hover:bg-gray-50 transition text-sm flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
                         </path>
                     </svg>
-                    印刷ページを開く
+                    <span class="hidden md:inline">印刷(本日用)</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Chat Area -->
-    <main class="flex-1 container mx-auto px-4 py-6 max-w-4xl flex flex-col h-full hidden-scrollbar overflow-hidden">
+    <!-- Main App Area -->
+    <main
+        class="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row h-[calc(100vh-64px)] overflow-hidden gap-0 md:gap-4 p-0 md:p-4">
+
+        <!-- Left: Calendar Area -->
         <div
-            class="bg-theme-light p-4 rounded-xl mb-4 border border-blue-100 flex-none hidden md:block animate-fade-in">
-            <p class="text-sm text-gray-700 flex items-center">
-                <span class="text-xl mr-3">💡</span>
-                休日のスケジュールや、苦手科目の克服メニューを専属AIコーチと相談しながら作成しましょう。できあがったら右上の「印刷ページを開く」で綺麗なA4サイズで印刷できます。
-            </p>
+            class="w-full md:w-1/3 md:glass-panel md:rounded-3xl flex flex-col overflow-hidden bg-white md:bg-transparent border-r md:border-none border-gray-200">
+            <div class="p-4 bg-white border-b border-gray-100 flex-none flex justify-between items-center">
+                <button onclick="changeMonth(-1)"
+                    class="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition text-gray-600 font-bold">◀</button>
+                <h2 id="month-display" class="text-xl font-bold text-gray-800 tracking-wide">2023年10月</h2>
+                <button onclick="changeMonth(1)"
+                    class="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition text-gray-600 font-bold">▶</button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto hidden-scrollbar p-2 bg-slate-50 md:bg-transparent">
+                <div class="grid grid-cols-7 gap-1 mb-2">
+                    <div class="text-center text-xs font-bold text-red-400 py-2">日</div>
+                    <div class="text-center text-xs font-bold text-gray-500 py-2">月</div>
+                    <div class="text-center text-xs font-bold text-gray-500 py-2">火</div>
+                    <div class="text-center text-xs font-bold text-gray-500 py-2">水</div>
+                    <div class="text-center text-xs font-bold text-gray-500 py-2">木</div>
+                    <div class="text-center text-xs font-bold text-gray-500 py-2">金</div>
+                    <div class="text-center text-xs font-bold text-blue-400 py-2">土</div>
+                </div>
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1 md:gap-2">
+                    <!-- Calendar cells -->
+                </div>
+            </div>
+
+            <div class="p-4 bg-theme-light m-4 mt-0 rounded-2xl hidden md:block border border-blue-100">
+                <p class="text-sm text-theme font-bold flex items-center mb-1">
+                    <span class="text-lg mr-2">📌</span> 使い方
+                </p>
+                <p class="text-xs text-gray-700 leading-relaxed">
+                    見たい日付をタップして、右側のAIコーチと計画を作成しましょう。AIが作ったチェックリスト（タスク）を完了させると、カレンダーに予実差が自動反映されます。
+                </p>
+            </div>
         </div>
 
+        <!-- Right: Chat Area -->
         <div
-            class="flex-1 glass-panel rounded-2xl flex flex-col overflow-hidden border border-gray-200 shadow-sm relative">
-            <div id="plan-chat-messages" class="flex-1 overflow-y-auto p-6 bg-slate-50 space-y-4">
-                <!-- Messages will be injected here -->
+            class="w-full h-full md:w-2/3 glass-panel md:rounded-3xl flex flex-col overflow-hidden border-t md:border-none border-gray-200">
+
+            <div
+                class="bg-white p-4 lg:p-5 border-b border-gray-100 flex-none flex justify-between items-center shadow-sm z-10">
+                <h2 class="font-bold text-lg lg:text-xl flex items-center text-gray-800">
+                    <span id="chat-date-title"
+                        class="bg-blue-50 text-theme px-3 py-1 lg:px-4 lg:py-2 rounded-lg border border-blue-100"></span>
+                    <span class="ml-3">の計画</span>
+                </h2>
+                <button onclick="clearPlanChat()"
+                    class="text-gray-400 hover:text-red-500 transition p-2 bg-gray-50 rounded-lg text-sm font-bold border border-gray-200"
+                    title="この日のやり取りを消去">履歴クリア</button>
             </div>
-            <div class="p-4 bg-white border-t border-gray-100 flex-none">
-                <form id="plan-chat-form" class="flex gap-3">
+
+            <div id="plan-chat-messages" class="flex-1 overflow-y-auto p-4 lg:p-6 bg-[#f8fafc] space-y-4 shadow-inner">
+                <!-- Messages -->
+            </div>
+
+            <div
+                class="p-3 lg:p-5 bg-white border-t border-gray-200 flex-none drop-shadow-[0_-4px_6px_rgba(0,0,0,0.02)]">
+                <form id="plan-chat-form" class="flex gap-2 lg:gap-3">
                     <input type="text" id="plan-user-input"
-                        class="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-theme transition-shadow"
-                        placeholder="要望を入力（例：明日の算数の特訓メニューを作って）" autocomplete="off">
+                        class="flex-1 border-2 border-gray-200 rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-theme transition-colors shadow-sm bg-gray-50 focus:bg-white"
+                        placeholder="指示を入力（例：明日の計画立てて）" autocomplete="off">
                     <button type="submit"
-                        class="bg-theme text-white rounded-xl px-6 py-3 opacity-90 hover:opacity-100 transition shadow-sm font-bold flex items-center justify-center min-w-[100px]">送信</button>
-                    <button type="button" onclick="clearPlanChat()"
-                        class="bg-gray-100 text-gray-600 rounded-xl px-4 py-3 hover:bg-gray-200 transition text-sm font-bold"
-                        title="チャット履歴を消去">🗑️</button>
+                        class="bg-theme text-white rounded-2xl px-6 lg:px-8 py-4 opacity-90 hover:opacity-100 transition shadow-md font-bold text-base whitespace-nowrap">送信
+                        ↗</button>
                 </form>
             </div>
         </div>
     </main>
 
     <script>
-        // Planner Logic
-        let planHistory = JSON.parse(localStorage.getItem('planHistory')) || [];
+        // Data Structure
+        // plannerDailyData = { "2023-10-25": [ {isUser: true, text: "xxx"}, ... ] }
+        let plannerDailyData = JSON.parse(localStorage.getItem('plannerDailyData')) || {};
+
+        // Migrate old planHistory if exists and empty
+        const oldHistory = JSON.parse(localStorage.getItem('planHistory'));
+        const todayStr = getLocalDateString(new Date());
+        if (oldHistory && oldHistory.length > 0 && Object.keys(plannerDailyData).length === 0) {
+            plannerDailyData[todayStr] = oldHistory;
+            localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
+        }
+
+        // State
+        let selectedDate = new Date();
+        let displayMonthDate = new Date();
+
+        function getLocalDateString(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function getDisplayText(dateStr) {
+            const [y, m, d] = dateStr.split('-');
+            return `${parseInt(m)}月${parseInt(d)}日`;
+        }
+
+        // ------------------ Calendar Logic ------------------
+
+        function renderCalendar() {
+            const y = displayMonthDate.getFullYear();
+            const m = displayMonthDate.getMonth();
+            document.getElementById('month-display').innerText = `${y}年${m + 1}月`;
+
+            const firstDay = new Date(y, m, 1).getDay();
+            const daysInMonth = new Date(y, m + 1, 0).getDate();
+
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            const selectedStr = getLocalDateString(selectedDate);
+            const todayStr2 = getLocalDateString(new Date());
+
+            // Empty cells for alignment
+            for (let i = 0; i < firstDay; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'aspect-square flex items-center justify-center p-1';
+                grid.appendChild(cell);
+            }
+
+            // Days
+            for (let d = 1; d <= daysInMonth; d++) {
+                const iterDate = new Date(y, m, d);
+                const dateStr = getLocalDateString(iterDate);
+                const isSelected = dateStr === selectedStr;
+                const isToday = dateStr === todayStr2;
+
+                const progress = calculateProgress(dateStr);
+
+                const cell = document.createElement('button');
+                cell.onclick = () => selectDate(iterDate);
+
+                let baseClasses = 'aspect-square flex flex-col items-center justify-center p-1 rounded-xl transition-all relative border ';
+                if (isSelected) {
+                    baseClasses += 'bg-theme text-white shadow-md border-theme scale-105 z-10';
+                } else if (isToday) {
+                    baseClasses += 'bg-blue-50 text-blue-800 border-blue-200 font-bold';
+                } else {
+                    baseClasses += 'bg-white text-gray-700 hover:bg-gray-100 border-transparent hover:border-gray-200';
+                }
+
+                cell.className = baseClasses;
+
+                let html = `<span class="text-sm md:text-base ${isSelected ? 'font-bold' : ''}">${d}</span>`;
+
+                // Progress indicator
+                if (progress.total > 0) {
+                    const ratio = progress.checked / progress.total;
+                    let colorClass = 'bg-gray-300';
+                    if (ratio === 1) colorClass = 'bg-green-400';
+                    else if (ratio > 0) colorClass = 'bg-yellow-400';
+
+                    if (isSelected) colorClass = 'bg-white opacity-90'; // High contrast when selected
+
+                    html += `
+                        <div class="absolute bottom-1.5 md:bottom-2 w-full px-2 flex flex-col items-center gap-0.5">
+                            <div class="h-1 w-3/4 rounded-full bg-gray-200 bg-opacity-30 overflow-hidden relative">
+                                <div class="absolute top-0 left-0 h-full ${colorClass}" style="width: ${ratio * 100}%"></div>
+                            </div>
+                            <span class="text-[0.6rem] leading-none ${isSelected ? 'text-white' : 'text-gray-500'} font-medium transform scale-90">${progress.checked}/${progress.total}</span>
+                        </div>
+                    `;
+                }
+
+                cell.innerHTML = html;
+                grid.appendChild(cell);
+            }
+        }
+
+        function changeMonth(offset) {
+            displayMonthDate.setMonth(displayMonthDate.getMonth() + offset);
+            renderCalendar();
+        }
+
+        function selectDate(date) {
+            selectedDate = date;
+            if (displayMonthDate.getMonth() !== date.getMonth() || displayMonthDate.getFullYear() !== date.getFullYear()) {
+                displayMonthDate = new Date(date);
+            }
+            renderCalendar();
+            renderPlanChat();
+        }
+
+        function calculateProgress(dateStr) {
+            const history = plannerDailyData[dateStr] || [];
+            if (history.length === 0) return { total: 0, checked: 0 };
+
+            // Find the last AI message that contains checkboxes
+            for (let i = history.length - 1; i >= 0; i--) {
+                const msg = history[i];
+                if (!msg.isUser && msg.text.includes('- [')) {
+                    let total = 0;
+                    let checked = 0;
+                    const regex = /- \[( |x)\]/g;
+                    let match;
+                    while ((match = regex.exec(msg.text)) !== null) {
+                        total++;
+                        if (match[1] === 'x') checked++;
+                    }
+                    if (total > 0) {
+                        return { total, checked };
+                    }
+                }
+            }
+            return { total: 0, checked: 0 };
+        }
+
+        // ------------------ Chat Logic ------------------
 
         function renderPlanChat() {
-            const container = document.getElementById('plan-chat-messages');
-            container.innerHTML = `<div class="message-bubble bg-white shadow-sm text-gray-700 border border-gray-200">🤖 AIコーチ：こんにちは！今日はどんな勉強計画を作りますか？<br><br><span class="text-gray-500 text-xs text-sm">（例：「明日の午前中だけの算数特訓メニューを作って」「日曜日の1日のスケジュールを立てて」など）</span></div>`;
+            const dateStr = getLocalDateString(selectedDate);
+            document.getElementById('chat-date-title').innerText = getDisplayText(dateStr);
 
-            planHistory.forEach((msg, idx) => {
+            const container = document.getElementById('plan-chat-messages');
+            container.innerHTML = '';
+
+            const history = plannerDailyData[dateStr] || [];
+
+            if (history.length === 0) {
+                container.innerHTML = `<div class="message-bubble bg-white shadow-sm text-gray-700 border border-gray-200 mt-4 mx-auto w-full">🤖 <b>${getDisplayText(dateStr)}の計画を作成しましょう！</b><br><br>まだ計画がありません。下の入力欄から「算数の特訓プランを作って」「この日は1時間の復習だけにしたい」などと教えてください。</div>`;
+                return;
+            }
+
+            history.forEach((msg, idx) => {
                 const div = document.createElement('div');
                 div.className = `message-bubble ${msg.isUser ? 'bg-theme text-white ml-auto relative' : 'bg-white shadow-sm text-gray-800 border border-gray-200 relative'} animate-fade-in`;
 
                 let contentHTML = msg.text.replace(/\n/g, '<br>');
 
-                // Replace basic markdown lists with interactive checkboxes
                 let cbIndex = 0;
                 contentHTML = contentHTML.replace(/- \[( |x)\] (.*?)(<br>|$)/g, (match, check, task, lineBreak) => {
                     const isChecked = check === 'x' ? 'checked' : '';
-                    const id = `cb-${idx}-${cbIndex++}`;
-                    return `<label class="flex items-start gap-2 my-1 cursor-pointer select-none">
-                                <input type="checkbox" id="${id}" ${isChecked} onchange="toggleCheck(${idx}, ${cbIndex - 1}, this)" class="mt-1 w-4 h-4 text-theme rounded border-gray-300 focus:ring-theme">
-                                <span class="${isChecked ? 'text-gray-400 line-through' : ''}">${task}</span>
+                    const id = `cb-${dateStr}-${idx}-${cbIndex++}`;
+                    return `<label class="flex items-start md:items-center gap-3 my-2 md:my-1 cursor-pointer select-none bg-gray-50 md:bg-transparent p-2 md:p-0 rounded-lg md:rounded-none border md:border-transparent border-gray-100 active:bg-gray-100 transition-colors">
+                                <input type="checkbox" id="${id}" ${isChecked} onchange="toggleCheck('${dateStr}', ${idx}, ${cbIndex - 1}, this)" class="shrink-0 w-6 h-6 md:w-5 md:h-5 text-theme rounded border-gray-300 focus:ring-theme">
+                                <span class="text-base md:text-[1.05rem] pt-0.5 md:pt-0 ${isChecked ? 'text-gray-400 line-through' : ''}">${task}</span>
                             </label>${lineBreak}`;
                 });
 
-                contentHTML = contentHTML.replace(/^- /gm, '<span class="text-blue-500 mr-1">•</span>');
-
+                contentHTML = contentHTML.replace(/^- /gm, '<span class="text-blue-500 mr-2 font-bold">•</span>');
                 div.innerHTML = contentHTML;
 
-                // Add reflection button if it is an AI message containing a checkbox list
                 if (!msg.isUser && msg.text.includes('- [')) {
-                    div.innerHTML += `<div class="mt-4 pt-3 border-t border-gray-100 flex justify-end"><button onclick="sendReflection(${idx})" class="text-xs font-bold bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center shadow-sm">✅ 今日の振り返りをAIに送る</button></div>`;
+                    div.innerHTML += `<div class="mt-5 pt-4 border-t border-gray-100 flex justify-end">
+                        <button onclick="sendReflection('${dateStr}', ${idx})" class="text-sm font-bold bg-emerald-500 text-white px-5 py-3 rounded-xl hover:bg-emerald-600 transition flex items-center shadow-sm w-full md:w-auto justify-center">
+                            ✅ 振り返りをAIに送信する
+                        </button>
+                    </div>`;
                 }
 
                 container.appendChild(div);
             });
-            container.scrollTop = container.scrollHeight;
+
+            requestAnimationFrame(() => {
+                container.scrollTop = container.scrollHeight;
+            });
         }
 
         document.getElementById('plan-chat-form').addEventListener('submit', async (e) => {
@@ -170,31 +385,42 @@
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
+
+            // Unfocus input on mobile to hide keyboard
+            input.blur();
+
             submitMessage(text);
         });
 
         async function submitMessage(text) {
-            planHistory.push({ isUser: true, text: text });
-            localStorage.setItem('planHistory', JSON.stringify(planHistory));
+            const dateStr = getLocalDateString(selectedDate);
+            if (!plannerDailyData[dateStr]) plannerDailyData[dateStr] = [];
+
+            plannerDailyData[dateStr].push({ isUser: true, text: text });
+            localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
             renderPlanChat();
 
             const loadingId = 'plan-loading-' + Date.now();
             const loadingDiv = document.createElement('div');
             loadingDiv.id = loadingId;
-            loadingDiv.className = 'message-bubble bg-white shadow-sm text-gray-400 border border-gray-200 animate-fade-in flex items-center';
-            loadingDiv.innerHTML = '考え中... <span class="animate-pulse ml-2 text-xl">🤖</span>';
+            loadingDiv.className = 'message-bubble bg-white shadow-sm text-gray-500 border border-gray-200 animate-fade-in flex items-center font-bold';
+            loadingDiv.innerHTML = 'AIコーチが考えています... <span class="animate-pulse ml-2 text-2xl">🤖</span>';
             const container = document.getElementById('plan-chat-messages');
             container.appendChild(loadingDiv);
             container.scrollTop = container.scrollHeight;
 
             try {
+                // Determine context: we pass the daily context, and remind AI what date this is for.
+                const contextPrefix = `※現在ユーザーはカレンダー上の「${getDisplayText(dateStr)}」の計画について相談しています。\n`;
+                const recentHistory = plannerDailyData[dateStr].slice(-50).slice(0, -1);
+
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        question: text,
+                        question: contextPrefix + text,
                         isPlanner: true,
-                        history: planHistory.slice(-100).slice(0, -1)
+                        history: recentHistory
                     })
                 });
 
@@ -202,26 +428,27 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    planHistory.push({ isUser: false, text: data.reply });
-                    localStorage.setItem('planHistory', JSON.stringify(planHistory));
+                    plannerDailyData[dateStr].push({ isUser: false, text: data.reply });
+                    localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
                     renderPlanChat();
+                    renderCalendar(); // update progress if checkboxes added
                 } else {
-                    alert('エラーが発生しました。');
-                    planHistory.pop();
-                    localStorage.setItem('planHistory', JSON.stringify(planHistory));
+                    alert('エラーが発生しました。インターネット接続を確認してください。');
+                    plannerDailyData[dateStr].pop();
+                    localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
                     renderPlanChat();
                 }
             } catch (err) {
                 document.getElementById(loadingId)?.remove();
                 alert('通信エラーです。');
-                planHistory.pop();
-                localStorage.setItem('planHistory', JSON.stringify(planHistory));
+                plannerDailyData[dateStr].pop();
+                localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
                 renderPlanChat();
             }
         }
 
-        function toggleCheck(msgIdx, cbIdx, checkbox) {
-            let text = planHistory[msgIdx].text;
+        function toggleCheck(dateStr, msgIdx, cbIdx, checkbox) {
+            let text = plannerDailyData[dateStr][msgIdx].text;
             let count = 0;
             text = text.replace(/- \[( |x)\]/g, (match) => {
                 if (count === cbIdx) {
@@ -231,8 +458,8 @@
                 count++;
                 return match;
             });
-            planHistory[msgIdx].text = text;
-            localStorage.setItem('planHistory', JSON.stringify(planHistory));
+            plannerDailyData[dateStr][msgIdx].text = text;
+            localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
 
             const span = checkbox.nextElementSibling;
             if (checkbox.checked) {
@@ -240,10 +467,13 @@
             } else {
                 span.classList.remove('text-gray-400', 'line-through');
             }
+
+            // Re-render calendar to instantly update progress bars
+            renderCalendar();
         }
 
-        function sendReflection(msgIdx) {
-            const text = planHistory[msgIdx].text;
+        function sendReflection(dateStr, msgIdx) {
+            const text = plannerDailyData[dateStr][msgIdx].text;
             const completed = [];
             const incomplete = [];
 
@@ -258,35 +488,57 @@
             }
 
             if (completed.length === 0 && incomplete.length === 0) {
-                alert("チェックボックスを持つスケジュールが見つかりません。");
+                alert("チェックボックスが見つかりません。");
                 return;
             }
 
-            let reflectionText = "【一日の振り返り】\n";
+            let reflectionText = `【${getDisplayText(dateStr)}の振り返り】\n`;
             if (completed.length > 0) reflectionText += "✅ できたこと：\n" + completed.map(t => "・" + t).join("\n") + "\n";
             if (incomplete.length > 0) reflectionText += "⚠️ できなかったこと：\n" + incomplete.map(t => "・" + t).join("\n") + "\n";
-            reflectionText += "\nこの結果を踏まえて、今日の労いの言葉と、明日以降の学習に向けた具体的なアドバイスを提案してください。";
+            reflectionText += "\nこの結果を踏まえて、労いの言葉とこれから（あるいは翌日）の学習アドバイスを提案してください。";
 
             submitMessage(reflectionText);
         }
 
         function clearPlanChat() {
-            if (confirm("チャット履歴を消去して新しく始めますか？")) {
-                planHistory = [];
-                localStorage.setItem('planHistory', JSON.stringify(planHistory));
+            const dateStr = getLocalDateString(selectedDate);
+            if (confirm(`${getDisplayText(dateStr)}のチャットと計画をすべて消去しますか？\n（カレンダーからも消えます）`)) {
+                plannerDailyData[dateStr] = [];
+                localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
                 renderPlanChat();
+                renderCalendar();
             }
         }
 
         function openPrintablePlan() {
-            const aiMessages = planHistory.filter(m => !m.isUser);
-            const latestPlan = aiMessages.length > 0 ? aiMessages[aiMessages.length - 1].text : "まだ計画が作成されていません。チャットで作成を依頼してください。";
+            const dateStr = getLocalDateString(selectedDate);
+            const history = plannerDailyData[dateStr] || [];
+            const aiMessages = history.filter(m => !m.isUser);
+
+            let latestPlan = `${getDisplayText(dateStr)}の計画\n======================\n\n`;
+            if (aiMessages.length > 0) {
+                latestPlan += aiMessages[aiMessages.length - 1].text;
+            } else {
+                latestPlan += "まだ計画が作成されていません。";
+            }
+
             localStorage.setItem('printPlanContent', latestPlan);
             window.open('schedule_printable.html', '_blank');
         }
 
-        // Init plan chat
-        window.addEventListener('DOMContentLoaded', renderPlanChat);
+        // Init App
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCalendar();
+            renderPlanChat();
+
+            // Resize handler to fix mobile 100vh issues
+            const setVh = () => {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            };
+            window.addEventListener('resize', setVh);
+            setVh();
+        });
     </script>
 </body>
 
