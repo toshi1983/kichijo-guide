@@ -16,9 +16,31 @@
 
         .table-container {
             overflow: auto;
+            overflow-x: scroll;
             -webkit-overflow-scrolling: touch;
-            max-height: calc(100vh - 180px);
+            max-height: calc(100dvh - 180px);
             /* 縦スクロールも可能にする */
+        }
+
+        /* スクロールバーのデザイン（指やマウスで操作しやすく、常に表示） */
+        .table-container::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background-color: #94a3b8;
+            border-radius: 8px;
+            border: 2px solid #f1f5f9;
+        }
+
+        .table-container::-webkit-scrollbar-corner {
+            background: #f1f5f9;
         }
 
         /* ヘッダー行を固定 */
