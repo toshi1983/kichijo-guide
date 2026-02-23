@@ -256,6 +256,28 @@
             </div>
         </div>
 
+        <!-- 3.5. Placement Test Practice -->
+        <div class="glass-card rounded-3xl p-6 md:p-8 animate-fade-in border-t-4 border-t-orange-400"
+            style="animation-delay: 0.35s;">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-3xl">📝</span>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800">組分けテスト対策 - ミニクイズ</h3>
+                    <p class="text-xs text-gray-500">過去3回のテスト（12月マンスリー、1月組分け・復習）から、社会の弱点補強ドリルです。</p>
+                </div>
+                <div class="ml-auto flex gap-2 hidden md:flex">
+                    <button
+                        class="bg-orange-500 text-white px-4 py-1.5 rounded-full font-bold text-sm shadow cursor-default">社会</button>
+                    <button
+                        class="bg-gray-200 text-gray-400 px-4 py-1.5 rounded-full font-bold text-sm cursor-not-allowed">算・国・理(準備中)</button>
+                </div>
+            </div>
+
+            <div id="quiz-container" class="bg-gray-50 rounded-2xl p-4 md:p-6 border border-gray-200">
+                <!-- Quiz dynamically injected here -->
+            </div>
+        </div>
+
         <!-- 4. Result Q&A Bot -->
         <div class="glass-card rounded-3xl overflow-hidden flex flex-col h-[500px] animate-fade-in border-t-4 border-t-theme"
             style="animation-delay: 0.4s;">
@@ -524,6 +546,127 @@
         const botForm = document.getElementById('bot-form');
         const botInput = document.getElementById('bot-input');
         const botMessages = document.getElementById('bot-messages');
+
+        // Quiz Logic
+        const quizData = [
+            {
+                img: "quiz_images/dec_monthly_p2.png",
+                title: "江戸幕府の仕組みと法律",
+                q: "江戸幕府が定めた「武家諸法度（ぶけしょはっと）」について、正しいものを1つ選びなさい。",
+                choices: [
+                    "城を無断で修理・新築してはいけない",
+                    "大名同士が幕府の許可なく結婚してよい",
+                    "キリスト教の信仰を奨励する"
+                ],
+                ans: 0,
+                hint: "問(3)を参照。大名が力を持ち、幕府に反抗させないための厳しいルールとして定められました。"
+            },
+            {
+                img: "quiz_images/dec_monthly_p3.png",
+                title: "大名の配置",
+                q: "親藩・譜代・外様大名の配置の工夫について、もっともふさわしいものはどれですか。",
+                choices: [
+                    "江戸から遠い辺境の地を中心に親藩を集めた",
+                    "幕府を守るため、江戸周辺や交通の要所に親藩・譜代を配置した",
+                    "外様大名はすべて江戸市中に住まわせた"
+                ],
+                ans: 1,
+                hint: "問(1)を参照。昔からの家臣や身内（親藩・譜代）を重要な場所に置き、関ケ原の戦い以降に従った外様大名は遠くに配置しました。"
+            },
+            {
+                img: "quiz_images/jan_kumiwake_p3.png",
+                title: "検地と刀狩",
+                q: "豊臣秀吉が行った「太閤検地（たいこうけんち）」の主な目的はどれですか。",
+                choices: [
+                    "農民から武器を取り上げて一揆を防ぐため",
+                    "全国の土地の広さや収穫量を調べ、確実に年貢を取り立てるため",
+                    "外国との貿易を禁止するため"
+                ],
+                ans: 1,
+                hint: "グラフに関連する範囲。土地の面積やよしあしを「石高」として表し、農民の負担を明確にしました。（武器を取り上げるのは「刀狩」です）"
+            }
+        ];
+
+        let currentQuiz = 0;
+        let score = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            if (currentQuiz >= quizData.length) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="text-5xl mb-4">🏆</div>
+                        <h4 class="text-2xl font-bold text-orange-600 mb-2">全問完了！</h4>
+                        <p class="text-lg font-bold text-gray-700">正解数: ${score} / ${quizData.length}</p>
+                        <p class="text-sm text-gray-500 mt-2">過去のテストの問題傾向は掴めましたね！</p>
+                        <button onclick="currentQuiz=0; score=0; renderQuiz()" class="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition shadow-md">もう一度挑戦する</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = quizData[currentQuiz];
+            let html = `
+                <div class="flex justify-between items-center mb-4">
+                    <span class="bg-orange-200 text-orange-800 text-xs font-bold px-3 py-1 rounded-full">第 ${currentQuiz + 1} 問 / ${quizData.length}</span>
+                    <span class="text-sm font-bold text-gray-500 flex items-center gap-1">📍 ${q.title}</span>
+                </div>
+                
+                <div class="bg-white p-5 md:p-6 rounded-2xl border border-gray-200 mb-4 shadow-sm">
+                    <p class="font-bold text-gray-800 text-lg mb-6 border-b pb-4 leading-relaxed">${q.q}</p>
+                    <div class="flex justify-center mb-6 bg-gray-50 p-2 rounded-xl border border-gray-100 relative group overflow-hidden">
+                        <img src="${q.img}" class="max-w-full h-auto max-h-[300px] object-contain rounded-lg transition-transform duration-300 group-hover:scale-105" alt="テスト問題画像">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition pointer-events-none rounded-lg"></div>
+                        <span class="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">実際のテスト画像</span>
+                    </div>
+                    <div class="space-y-3" id="quiz-choices">
+                        ${q.choices.map((choice, i) => `
+                            <button onclick="checkAnswer(${i})" class="w-full text-left p-4 rounded-xl border-2 border-orange-100 hover:border-orange-400 hover:bg-orange-50 transition font-medium text-gray-700 relative overflow-hidden group">
+                                <span class="inline-block w-8 font-bold text-orange-500 transition-transform group-hover:scale-110">${i+1}.</span> ${choice}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+                <div id="quiz-feedback" class="hidden rounded-xl p-4 font-bold text-sm mb-4"></div>
+            `;
+            container.innerHTML = html;
+        }
+
+        function checkAnswer(selectedIdx) {
+            const q = quizData[currentQuiz];
+            const feedback = document.getElementById('quiz-feedback');
+            const choicesDiv = document.getElementById('quiz-choices');
+            
+            // disable buttons
+            const buttons = choicesDiv.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+            
+            if (selectedIdx === q.ans) {
+                score++;
+                feedback.innerHTML = `✅ 正解！<br><span class="font-normal text-gray-600 mt-2 inline-block pt-2 border-t border-green-200">${q.hint}</span>`;
+                feedback.className = "rounded-xl p-4 font-bold text-sm mb-4 bg-green-50 border border-green-200 text-green-800 animate-fade-in";
+                buttons[selectedIdx].classList.add("bg-green-100", "border-green-400", "text-green-900");
+                buttons[selectedIdx].classList.remove("hover:bg-orange-50", "hover:border-orange-400");
+            } else {
+                feedback.innerHTML = `❌ 残念...<br><span class="font-normal text-gray-600 mt-2 inline-block pt-2 border-t border-red-200"><strong class="text-red-600">正解は ${q.ans + 1}番 です。</strong><br>${q.hint}</span>`;
+                feedback.className = "rounded-xl p-4 font-bold text-sm mb-4 bg-red-50 border border-red-200 text-red-800 animate-fade-in";
+                buttons[selectedIdx].classList.add("bg-red-100", "border-red-400", "text-red-900", "opacity-70");
+                buttons[selectedIdx].classList.remove("hover:bg-orange-50", "hover:border-orange-400");
+                buttons[q.ans].classList.add("bg-green-100", "border-green-400", "text-green-900");
+            }
+
+            const nextBtn = document.createElement('button');
+            nextBtn.className = "w-full bg-orange-500 text-white font-bold py-3.5 rounded-xl mt-2 hover:bg-orange-600 shadow-md transition transform active:scale-[0.98]";
+            nextBtn.innerText = currentQuiz === quizData.length - 1 ? "結果を見る ➔" : "次の問題へ ➔";
+            nextBtn.onclick = () => {
+                currentQuiz++;
+                renderQuiz();
+            };
+            document.getElementById('quiz-container').appendChild(nextBtn);
+        }
+
+        // Initialize quiz
+        setTimeout(renderQuiz, 500);
 
         botForm.addEventListener('submit', async (e) => {
             e.preventDefault();
