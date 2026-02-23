@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>吉祥女子中学校 - 受験生のための徹底ガイド</title>
+    <title>中学受験ナビ - 志望校特化型 研究ガイド</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
@@ -15,11 +15,6 @@
             background-color: #fafafa;
         }
 
-        .hero-pattern {
-            background-color: #8B1E3F;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239c254d' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-
         .animate-fade-in {
             animation: fadeIn 0.8s ease-out;
         }
@@ -27,7 +22,7 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(10px);
             }
 
             to {
@@ -40,7 +35,7 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(139, 30, 63, 0.1);
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
         }
 
         .chat-container {
@@ -58,16 +53,27 @@
             line-height: 1.5;
         }
 
-        .bg-kichijo {
-            background-color: #8B1E3F;
+        /* Dynamic CSS Variables applied via JS */
+        :root {
+            --theme-color: #8B1E3F;
+            --theme-light: rgba(139, 30, 63, 0.1);
         }
 
-        .text-kichijo {
-            color: #8B1E3F;
+        .bg-theme {
+            background-color: var(--theme-color);
+            color: #fff;
         }
 
-        .border-kichijo {
-            border-color: #8B1E3F;
+        .text-theme {
+            color: var(--theme-color);
+        }
+
+        .border-theme {
+            border-color: var(--theme-color);
+        }
+
+        .bg-theme-light {
+            background-color: var(--theme-light);
         }
 
         .range-slider {
@@ -85,68 +91,62 @@
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: #8B1E3F;
+            background: var(--theme-color);
             cursor: pointer;
             border: 2px solid white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
-        .option-btn {
-            transition: all 0.2s;
-        }
-
-        .option-btn:hover:not(:disabled) {
-            background-color: #ffeef2;
-            border-color: #fca5a5;
-        }
     </style>
 </head>
 
-<body class="text-gray-800">
+<body class="text-gray-800 transition-colors duration-500">
 
     <!-- Header -->
-    <header class="bg-kichijo text-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold tracking-wider">吉祥女子中学校 研究ガイド</h1>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#about" class="hover:text-pink-200 transition">教育方針</a>
-                <a href="#exam" class="hover:text-pink-200 transition">過去問模試</a>
-                <a href="#analysis"
-                    class="hover:text-pink-200 transition font-bold border-b border-transparent hover:border-pink-200">成績診断</a>
-                <a href="#life" class="hover:text-pink-200 transition">学校生活</a>
-            </nav>
+    <header class="bg-theme shadow-lg sticky top-0 z-50 transition-colors duration-500">
+        <div class="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <h1 class="text-xl md:text-2xl font-bold tracking-wider flex items-center gap-3">
+                <span>🎓 中学受験ナビ</span>
+            </h1>
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <select id="school-select" onchange="changeSchool()"
+                    class="w-full md:w-64 bg-white text-gray-800 px-4 py-2 rounded-lg font-bold shadow-sm focus:outline-none focus:ring-2 focus:ring-white">
+                    <option value="kichijo">吉祥女子中学校</option>
+                    <option value="shibumaku">渋谷教育学園幕張中学校</option>
+                    <option value="shibushibu">渋谷教育学園渋谷中学校</option>
+                    <option value="koishikawa">都立小石川中等教育学校</option>
+                    <option value="mitakokusai">三田国際学園中学校</option>
+                    <option value="hiroo">広尾学園中学校</option>
+                </select>
+                <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                    <a href="#analysis" class="hover:opacity-80 transition font-bold">成績診断</a>
+                    <a href="#exam" class="hover:opacity-80 transition">過去問模試</a>
+                </nav>
+            </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero-pattern text-white py-12 md:py-20 relative overflow-hidden">
+    <section class="bg-theme-light py-10 md:py-16 relative overflow-hidden transition-colors duration-500">
         <div class="container mx-auto px-6 relative z-10 text-center animate-fade-in">
-            <h1 class="text-2xl md:text-4xl font-bold mb-4 leading-tight">社会に貢献する自立した女性へ</h1>
-            <p class="max-w-xl mx-auto text-sm md:text-base text-gray-100 mb-6">
-                目標を見定め、現在地を知る。<br>
-                AIがあなたの合格可能性を最大化します。
+            <h1 id="hero-title" class="text-2xl md:text-4xl font-bold mb-4 leading-tight text-theme">吉祥女子中学校 研究ガイド</h1>
+            <p id="hero-subtitle" class="max-w-xl mx-auto text-sm md:text-base text-gray-700 mb-6 font-medium">
+                目標を見定め、現在地を知る。<br>AIがあなたの合格可能性を最大化します。
             </p>
-            <div class="flex justify-center gap-4">
-                <a href="#analysis"
-                    class="glass-panel text-kichijo px-6 py-2 rounded-full font-bold hover:bg-white transition shadow-lg text-sm">
-                    ４科目の成績から診断する
-                </a>
-            </div>
         </div>
     </section>
 
     <!-- Content Grid -->
     <main class="container mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        <!-- Main Content Column -->
+        <!-- Main Content -->
         <div class="lg:col-span-2 space-y-12">
 
-            <!-- Analysis & Input Section -->
-            <section id="analysis" class="glass-panel p-8 rounded-2xl animate-fade-in border-l-4 border-kichijo">
+            <!-- Analysis Section -->
+            <section id="analysis" class="glass-panel p-8 rounded-2xl animate-fade-in border-l-4 border-theme">
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <div class="flex items-center">
-                            <span class="bg-kichijo text-white p-2 rounded-lg mr-4">
+                            <span class="bg-theme text-white p-2 rounded-lg mr-4 transition-colors">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
@@ -163,49 +163,49 @@
                 <div
                     class="bg-white border border-gray-200 rounded-xl p-5 mb-8 flex flex-col md:flex-row gap-6 shadow-sm">
                     <div class="md:w-1/3">
-                        <h3
-                            class="text-sm font-bold text-kichijo mb-2 border-b-2 border-pink-100 pb-1 flex items-center">
-                            <span>🎯</span> 吉祥女子の合格目安
+                        <h3 class="text-sm font-bold text-theme mb-2 border-b-2 pb-1 flex items-center">
+                            <span>🎯</span> <span id="target-school-name">吉祥女子</span>の目安
                         </h3>
                         <div class="mt-3 text-sm space-y-2">
                             <div class="flex justify-between font-bold text-gray-800">
-                                <span>SAPIX偏差値 (4科)</span>
-                                <span>約 54</span>
+                                <span>SAPIX偏差値</span>
+                                <span id="target-sapi">約 54</span>
                             </div>
                             <div class="flex justify-between text-gray-600">
                                 <span>合格最低点</span>
-                                <span>約 220点<span class="text-xs">/340点満点</span></span>
+                                <span id="target-score">約 220点<span class="text-xs">/340点</span></span>
                             </div>
                             <div class="flex justify-between text-gray-600">
                                 <span>得点率目安</span>
-                                <span>約 65%</span>
+                                <span id="target-rate">約 65%</span>
                             </div>
                         </div>
                     </div>
                     <div class="md:w-2/3 grid grid-cols-2 gap-4 text-xs">
                         <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
                             <div class="font-bold text-gray-700 flex justify-between mb-1">
-                                <span>国語 (100点)</span><span class="text-kichijo">目標 65点</span>
+                                <span>国語</span><span class="text-theme" id="target-ja-score">目標 65点</span>
                             </div>
-                            <p class="text-gray-500">1万字の長文読解。記述力の比重が高く、時間配分が鍵。</p>
+                            <p class="text-gray-500 line-clamp-2" id="target-ja-desc">1万字の長文読解。記述力の比重が高く、時間配分が鍵。</p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
                             <div class="font-bold text-gray-700 flex justify-between mb-1">
-                                <span>算数 (100点)</span><span class="text-kichijo">目標 65点</span>
+                                <span>算数</span><span class="text-theme" id="target-ma-score">目標 65点</span>
                             </div>
-                            <p class="text-gray-500">「速さ」と「立体図形」が最重要。基本の取りこぼしを防ぐ。</p>
+                            <p class="text-gray-500 line-clamp-2" id="target-ma-desc">「速さ」と「立体図形」が最重要。基本の取りこぼしを防ぐ。</p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
                             <div class="font-bold text-gray-700 flex justify-between mb-1">
-                                <span>理科 (70点)</span><span class="text-kichijo">目標 45点</span>
+                                <span>理科</span><span class="text-theme" id="target-sci-score">目標 45点</span>
                             </div>
-                            <p class="text-gray-500">力学・化学の計算問題が合否を分ける。基礎知識はパーフェクトに。</p>
+                            <p class="text-gray-500 line-clamp-2" id="target-sci-desc">力学・化学の計算問題が合否を分ける。基礎知識はパーフェクトに。
+                            </p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
                             <div class="font-bold text-gray-700 flex justify-between mb-1">
-                                <span>社会 (70点)</span><span class="text-kichijo">目標 45点</span>
+                                <span>社会</span><span class="text-theme" id="target-soc-score">目標 45点</span>
                             </div>
-                            <p class="text-gray-500">歴史重視。地理は統計や地形図の読み取りが頻出。</p>
+                            <p class="text-gray-500 line-clamp-2" id="target-soc-desc">歴史重視。地理は統計や地形図の読み取りが頻出。</p>
                         </div>
                     </div>
                 </div>
@@ -217,12 +217,12 @@
                     </button>
                 </div>
 
-                <!-- Input Panel (Hidden by default or toggled) -->
+                <!-- Input Panel -->
                 <div id="input-panel"
-                    class="hidden bg-pink-50 p-6 rounded-xl mb-8 border border-pink-100 animate-fade-in relative">
+                    class="hidden bg-theme-light p-6 rounded-xl mb-8 border border-gray-200 animate-fade-in relative transition-colors duration-500">
                     <div class="absolute top-4 right-4">
                         <label for="pdf-upload"
-                            class="cursor-pointer bg-white text-kichijo text-xs font-bold py-2 px-3 rounded border border-kichijo hover:bg-pink-50 transition flex items-center shadow-sm">
+                            class="cursor-pointer bg-white text-theme text-xs font-bold py-2 px-3 rounded border border-theme hover:bg-gray-50 transition flex items-center shadow-sm">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
@@ -233,7 +233,7 @@
                             onchange="handleFileUpload(this)">
                     </div>
 
-                    <h3 class="font-bold text-kichijo mb-1 text-sm">成績データ入力 (SAPIX偏差値ベース)</h3>
+                    <h3 class="font-bold text-theme mb-1 text-sm">成績データ入力 (SAPIX偏差値ベース)</h3>
                     <p id="file-status"
                         class="text-xs text-gray-500 mb-6 bg-white p-2 rounded border border-gray-200 flex items-center w-fit">
                         <span class="mr-2 text-green-500">✔</span>
@@ -241,164 +241,31 @@
                     </p>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-6">
-                        <!-- Japanese Inputs -->
+                        <!-- Japanese -->
                         <div class="space-y-3 bg-white p-4 rounded border border-gray-100 shadow-sm">
                             <p class="text-xs font-bold text-pink-700 border-b pb-1 mb-2">国語</p>
-                            <div class="flex items-center justify-between text-xs">
-                                <label class="w-20">物語文</label>
-                                <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="56"
-                                    oninput="updateScore('japanese', 0, this.value)">
-                                <span class="font-bold w-6 text-right" id="val-japanese-0">56</span>
-                            </div>
-                            <div class="flex items-center justify-between text-xs">
-                                <label class="w-20">論説文</label>
-                                <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="54"
-                                    oninput="updateScore('japanese', 1, this.value)">
-                                <span class="font-bold w-6 text-right" id="val-japanese-1">54</span>
-                            </div>
-                            <div class="flex items-center justify-between text-xs">
-                                <label class="w-20">記述力</label>
-                                <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="52"
-                                    oninput="updateScore('japanese', 2, this.value)">
-                                <span class="font-bold w-6 text-right" id="val-japanese-2">52</span>
-                            </div>
-                            <div class="flex items-center justify-between text-xs">
-                                <label class="w-20">漢字・語句</label>
-                                <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="58"
-                                    oninput="updateScore('japanese', 3, this.value)">
-                                <span class="font-bold w-6 text-right" id="val-japanese-3">58</span>
-                            </div>
+                            <div id="inputs-japanese"></div>
                         </div>
-
-                        <!-- Math Inputs -->
+                        <!-- Math -->
                         <div class="space-y-3 bg-white p-4 rounded border border-gray-100 shadow-sm">
                             <p class="text-xs font-bold text-blue-700 border-b pb-1 mb-2">算数</p>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <div class="flex items-center justify-between text-xs mb-3">
-                                        <label>平面図形</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="58"
-                                            oninput="updateScore('math', 0, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-math-0">58</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs mb-3">
-                                        <label>速さ</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="55"
-                                            oninput="updateScore('math', 2, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-math-2">55</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs">
-                                        <label>数の性質</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="56"
-                                            oninput="updateScore('math', 4, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-math-4">56</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex items-center justify-between text-xs mb-3">
-                                        <label>立体図形</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="52"
-                                            oninput="updateScore('math', 1, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-math-1">52</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs mb-3">
-                                        <label>割合と比</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="60"
-                                            oninput="updateScore('math', 3, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-math-3">60</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs">
-                                        <label>規則性</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="54"
-                                            oninput="updateScore('math', 5, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-math-5">54</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <div id="inputs-math"></div>
                         </div>
-
-                        <!-- Science Inputs -->
+                        <!-- Science -->
                         <div class="space-y-3 bg-white p-4 rounded border border-gray-100 shadow-sm">
                             <p class="text-xs font-bold text-green-700 border-b pb-1 mb-2">理科</p>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <div class="flex items-center justify-between text-xs mb-3">
-                                        <label>力学(計算)</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="53"
-                                            oninput="updateScore('science', 0, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-science-0">53</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs mb-3">
-                                        <label>電気</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="50"
-                                            oninput="updateScore('science', 2, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-science-2">50</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs">
-                                        <label>生物</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="52"
-                                            oninput="updateScore('science', 4, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-science-4">52</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex items-center justify-between text-xs mb-3">
-                                        <label>化学(計算)</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="58"
-                                            oninput="updateScore('science', 1, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-science-1">58</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs mb-3">
-                                        <label>天体</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="55"
-                                            oninput="updateScore('science', 3, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-science-3">55</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs">
-                                        <label>人体</label>
-                                        <input type="range" class="range-slider w-16 mx-1" min="30" max="75" value="50"
-                                            oninput="updateScore('science', 5, this.value)">
-                                        <span class="font-bold w-4 text-right" id="val-science-5">50</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <div id="inputs-science"></div>
                         </div>
-
-                        <!-- Social Inputs -->
+                        <!-- Social -->
                         <div class="space-y-3 bg-white p-4 rounded border border-gray-100 shadow-sm">
                             <p class="text-xs font-bold text-orange-600 border-b pb-1 mb-2">社会</p>
-                            <div class="flex items-center justify-between text-xs mb-3">
-                                <label class="w-20">歴史</label>
-                                <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="55"
-                                    oninput="updateScore('social', 0, this.value)">
-                                <span class="font-bold w-6 text-right" id="val-social-0">55</span>
-                            </div>
-                            <div class="flex items-center justify-between text-xs mb-3">
-                                <label class="w-20">地理</label>
-                                <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="53"
-                                    oninput="updateScore('social', 1, this.value)">
-                                <span class="font-bold w-6 text-right" id="val-social-1">53</span>
-                            </div>
-                            <div class="flex items-center justify-between text-xs mb-3">
-                                <label class="w-20">公民</label>
-                                <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="58"
-                                    oninput="updateScore('social', 2, this.value)">
-                                <span class="font-bold w-6 text-right" id="val-social-2">58</span>
-                            </div>
-                            <div class="flex items-center justify-between text-xs">
-                                <label class="w-20">統計・資料</label>
-                                <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="50"
-                                    oninput="updateScore('social', 3, this.value)">
-                                <span class="font-bold w-6 text-right" id="val-social-3">50</span>
-                            </div>
+                            <div id="inputs-social"></div>
                         </div>
-
                     </div>
                 </div>
 
                 <!-- 4 Charts Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Japanese Chart -->
                     <div class="glass-panel p-4 rounded-xl shadow-sm relative border-t-4 border-pink-400">
                         <h3 class="text-center font-bold text-gray-700 mb-2 text-sm bg-gray-50 rounded py-1">国語 比較</h3>
                         <div class="h-48 w-full"><canvas id="chartJapanese"></canvas></div>
@@ -406,7 +273,6 @@
                             class="mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg hidden text-center shadow-inner">
                         </div>
                     </div>
-                    <!-- Math Chart -->
                     <div class="glass-panel p-4 rounded-xl shadow-sm relative border-t-4 border-blue-400">
                         <h3 class="text-center font-bold text-gray-700 mb-2 text-sm bg-gray-50 rounded py-1">算数 比較</h3>
                         <div class="h-48 w-full"><canvas id="chartMath"></canvas></div>
@@ -414,7 +280,6 @@
                             class="mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg hidden text-center shadow-inner">
                         </div>
                     </div>
-                    <!-- Science Chart -->
                     <div class="glass-panel p-4 rounded-xl shadow-sm relative border-t-4 border-green-400">
                         <h3 class="text-center font-bold text-gray-700 mb-2 text-sm bg-gray-50 rounded py-1">理科 比較</h3>
                         <div class="h-48 w-full"><canvas id="chartScience"></canvas></div>
@@ -422,7 +287,6 @@
                             class="mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg hidden text-center shadow-inner">
                         </div>
                     </div>
-                    <!-- Social Chart -->
                     <div class="glass-panel p-4 rounded-xl shadow-sm relative border-t-4 border-orange-400">
                         <h3 class="text-center font-bold text-gray-700 mb-2 text-sm bg-gray-50 rounded py-1">社会 比較</h3>
                         <div class="h-48 w-full"><canvas id="chartSocial"></canvas></div>
@@ -436,161 +300,195 @@
                 <div class="mt-8 bg-gray-800 text-white p-6 rounded-xl shadow-lg relative overflow-hidden">
                     <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl">🤖</div>
                     <h3 class="font-bold text-lg mb-2">AI総合合格アドバイス</h3>
-                    <p id="total-feedback" class="text-sm leading-relaxed text-gray-300">
-                        判定を計算中です...
-                    </p>
+                    <p id="total-feedback" class="text-sm leading-relaxed text-gray-300">判定を計算中です...</p>
                 </div>
             </section>
 
             <!-- Mock Exam Section -->
-            <section id="exam" class="glass-panel p-8 rounded-2xl animate-fade-in">
+            <section id="exam"
+                class="glass-panel p-8 rounded-2xl animate-fade-in border-l-4 border-theme mt-12 transition-colors duration-500">
                 <div class="flex items-center justify-between mb-6">
                     <div class="flex items-center">
-                        <span class="bg-kichijo text-white p-2 rounded-lg mr-4">
+                        <span class="bg-theme text-white p-2 rounded-lg mr-4 transition-colors">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
                                 </path>
                             </svg>
                         </span>
-                        <h2 class="text-xl font-bold text-gray-800">過去問模試 (各5問)</h2>
+                        <h2 class="text-xl font-bold text-gray-800">過去問模試エッセンス</h2>
                     </div>
                 </div>
                 <!-- Subject Tabs -->
                 <div class="flex space-x-1 mb-6 border-b border-gray-200 overflow-x-auto">
                     <button onclick="switchSubject('japanese')" id="tab-japanese"
-                        class="px-4 py-2 text-sm font-bold text-kichijo border-b-2 border-kichijo focus:outline-none bg-pink-50 rounded-t-lg whitespace-nowrap">国語</button>
+                        class="px-4 py-2 text-sm font-bold text-theme border-b-2 border-theme focus:outline-none bg-theme-light rounded-t-lg whitespace-nowrap">国語</button>
                     <button onclick="switchSubject('math')" id="tab-math"
-                        class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-kichijo whitespace-nowrap">算数</button>
+                        class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-theme whitespace-nowrap transition-colors">算数</button>
                     <button onclick="switchSubject('science')" id="tab-science"
-                        class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-kichijo whitespace-nowrap">理科</button>
+                        class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-theme whitespace-nowrap transition-colors">理科</button>
                     <button onclick="switchSubject('social')" id="tab-social"
-                        class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-kichijo whitespace-nowrap">社会</button>
+                        class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-theme whitespace-nowrap transition-colors">社会</button>
                 </div>
                 <div id="quiz-container" class="space-y-6"></div>
             </section>
 
         </div>
 
-        <!-- Sidebar / Chatbot Column -->
+        <!-- Sidebar -->
         <div class="lg:col-span-1 space-y-6">
             <div id="chatbot" class="sticky top-24">
                 <div class="glass-panel rounded-2xl shadow-xl overflow-hidden border border-gray-200">
                     <div
-                        class="bg-gradient-to-r from-pink-800 to-pink-700 text-white p-4 flex justify-between items-center">
+                        class="bg-theme text-white p-4 flex justify-between items-center transition-colors duration-500">
                         <h3 class="font-bold flex items-center text-sm">
-                            <span class="mr-2">💬</span> 吉祥チャットボット
+                            <span class="mr-2">💬</span> 学校別 AIアシスタント
                         </h3>
                     </div>
                     <div id="chat-messages" class="chat-container bg-slate-50 p-4">
-                        <div class="message-bubble bg-white shadow-sm text-gray-600 border border-gray-200 text-xs">
-                            こんにちは！吉祥女子中学校について、何でも聞いてください。<br>
-                            「合格・実績」についても聞いてみてくださいね。
+                        <div class="message-bubble bg-white shadow-sm text-gray-600 border border-gray-200 text-xs"
+                            id="chat-welcome">
+                            こんにちは！志望校に関する出題傾向や学校の雰囲気など、気になることを聞いてください。
                         </div>
                     </div>
                     <div class="p-3 bg-white border-t border-gray-100">
                         <form id="chat-form" class="flex gap-2">
                             <input type="text" id="user-input"
-                                class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-kichijo text-xs"
+                                class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-theme text-xs"
                                 placeholder="質問を入力...">
                             <button type="submit"
-                                class="bg-pink-700 text-white rounded-lg px-3 py-2 hover:bg-pink-800 transition text-xs font-bold">
-                                送信
-                            </button>
+                                class="bg-theme text-white rounded-lg px-3 py-2 opacity-90 hover:opacity-100 transition text-xs font-bold">送信</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
     </main>
 
-    <footer class="bg-gray-800 text-gray-400 py-8 text-center text-xs mt-12 mb-0">
-        <p>© 2026 吉祥女子中学校 受験生応援ガイド (非公式)</p>
-    </footer>
-
     <script>
-        // --- 4 Subjects Score Comparison Logic ---
-        const targetData = {
-            japanese: [58, 55, 60, 52], // 物語, 論説, 記述, 漢字
-            math: [62, 62, 64, 58, 55, 55], // 平面, 立体, 速さ, 割合, 数, 規則
-            science: [60, 60, 52, 55, 50, 48], // 力学, 化学, 電気, 天体, 生物, 人体
-            social: [58, 56, 52, 58] // 歴史, 地理, 公民, 統計
-        };
-        
-        // Initial values based on hypothetical input
-        let currentData = {
-            japanese: [56, 54, 52, 58],
-            math: [58, 52, 55, 60, 56, 54],
-            science: [53, 58, 50, 55, 52, 50],
-            social: [55, 53, 58, 50]
-        };
-
-        let charts = {};
-
-        function createRadarChart(canvasId, labels, target, current, color, bgColor) {
-            return new Chart(document.getElementById(canvasId), {
-                type: 'radar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: '吉祥女子 目安',
-                            data: target,
-                            borderColor: '#8B1E3F',
-                            backgroundColor: 'rgba(139, 30, 63, 0.05)',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            pointRadius: 0
-                        },
-                        {
-                            label: '現在地',
-                            data: current,
-                            borderColor: color, 
-                            backgroundColor: bgColor,
-                            borderWidth: 2,
-                            pointBackgroundColor: color
-                        }
-                    ]
+        // Data for all schools
+        const schoolData = {
+            kichijo: {
+                name: "吉祥女子中学校", color: "#8B1E3F",
+                target: {
+                    sapi: "約 54", score: "約 220点/340点", rate: "約 65%",
+                    ja_score: "目標 65点", ja_desc: "1万字の長文読解。記述力の比重が高く、時間配分が鍵。",
+                    ma_score: "目標 65点", ma_desc: "「速さ」と「立体図形」が最重要。基本の取りこぼしを防ぐ。",
+                    sci_score: "目標 45点", sci_desc: "力学・化学の計算問題が合否を分ける。基礎知識は完璧に。",
+                    soc_score: "目標 45点", soc_desc: "歴史重視。地理は統計や地形図の読み取りが頻出。"
                 },
-                options: {
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(0,0,0,0.1)' },
-                            grid: { color: 'rgba(0,0,0,0.1)' },
-                            pointLabels: { font: { size: 9, family: "'Zen Kaku Gothic New', sans-serif" }, color: '#4b5563' },
-                            suggestedMin: 35,
-                            suggestedMax: 70,
-                            ticks: { display: true, stepSize: 10, backdropColor: 'transparent', font: {size: 8} }
-                        }
-                    },
-                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 8, font: {size: 9} } } },
-                    maintainAspectRatio: false
+                charts: {
+                    japanese: [58, 55, 60, 52], math: [62, 62, 64, 58, 55, 55],
+                    science: [60, 60, 52, 55, 50, 48], social: [58, 56, 52, 58]
+                },
+                quiz: {
+                    japanese: [{ q: "『彼女の（　　）な態度は信頼を得た』", options: ["頑固", "毅然", "横柄", "柔軟"], correct: 1, explanation: "凛とした態度を表す「毅然」が適切です。" }],
+                    math: [{ q: "分速60mと80mで反対方向へ。1.4km離れるのは？", options: ["8分", "10分", "12分", "14分"], correct: 1, explanation: "1400÷(60+80)=10分。" }],
+                    science: [{ q: "15%の食塩水200gの食塩量は？", options: ["15g", "20g", "30g", "35g"], correct: 2, explanation: "200×0.15=30g。" }],
+                    social: [{ q: "製造品出荷額1位の工業地帯は？", options: ["京浜", "阪神", "中京", "北関東"], correct: 2, explanation: "中京工業地帯です。" }]
                 }
-            });
-        }
-
-        function initCharts() {
-            charts.japanese = createRadarChart('chartJapanese', ['物語文', '論説文', '記述力', '漢字・語句'], targetData.japanese, currentData.japanese, '#ec4899', 'rgba(236, 72, 153, 0.2)');
-            charts.math = createRadarChart('chartMath', ['平面図形', '立体図形', '速さ', '割合と比', '数の性質', '規則性'], targetData.math, currentData.math, '#3b82f6', 'rgba(59, 130, 246, 0.2)');
-            charts.science = createRadarChart('chartScience', ['力学(計算)', '化学(実・計)', '電気', '天体', '生物', '人体'], targetData.science, currentData.science, '#10b981', 'rgba(16, 185, 129, 0.2)');
-            charts.social = createRadarChart('chartSocial', ['歴史', '地理', '公民', '統計・資料'], targetData.social, currentData.social, '#f97316', 'rgba(249, 115, 22, 0.2)');
-        }
-
-        function toggleEditMode() {
-            const panel = document.getElementById('input-panel');
-            panel.classList.toggle('hidden');
-            const btn = document.getElementById('edit-btn');
-            if(panel.classList.contains('hidden')) {
-                btn.textContent = '✏️ 成績を修正';
-                btn.classList.remove('bg-pink-100', 'text-pink-700');
-                btn.classList.add('bg-gray-100', 'text-gray-600');
-            } else {
-                btn.textContent = '▲ 修正完了（閉じる）';
-                btn.classList.remove('bg-gray-100', 'text-gray-600');
-                btn.classList.add('bg-pink-100', 'text-pink-700');
+            },
+            shibumaku: {
+                name: "渋谷教育学園幕張中学校", color: "#003366",
+                target: {
+                    sapi: "約 65", score: "約 200点/350点", rate: "約 57%",
+                    ja_score: "目標 50点", ja_desc: "哲学的な文章。深い思考力と長文記述が求められる。",
+                    ma_score: "目標 60点", ma_desc: "作図問題や難解な図形、数の性質。思考力の極致。",
+                    sci_score: "目標 45点", sci_desc: "初見の実験データの読み取りと考察記述が頻出。",
+                    soc_score: "目標 45点", soc_desc: "歴史・地理の枠を超えた総合的な時事・考察問題。"
+                },
+                charts: {
+                    japanese: [65, 66, 68, 60], math: [68, 65, 62, 60, 68, 65],
+                    science: [65, 62, 65, 60, 64, 63], social: [67, 65, 68, 64]
+                },
+                quiz: {
+                    japanese: [{ q: "渋幕で頻出の文章テーマは？", options: ["日常生活", "哲学・芸術・科学論", "冒険もの", "手紙文"], correct: 1, explanation: "大人でも難しい抽象度の高い評論文が好まれます。" }],
+                    math: [{ q: "渋幕頻出の形式は？", options: ["単純計算", "定規とコンパスを使った作図", "穴埋め", "マークシート"], correct: 1, explanation: "毎年、コンパスを使った本格的な作図が出題されます。" }],
+                    science: [{ q: "渋幕理科の特徴は？", options: ["知識一問一答", "初見の実験データ考察", "教科書の丸写し", "語呂合わせ"], correct: 1, explanation: "見たことのない実験結果から法則を見つけ出す問題が出ます。" }],
+                    social: [{ q: "「自調自考」の精神を問われるのは？", options: ["単純年号", "時事と歴史を絡めた字数制限のない記述", "県庁所在地", "世界遺産の名前"], correct: 1, explanation: "「なぜそうなるか」を自分の言葉で論理的に書く力が問われます。" }]
+                }
+            },
+            shibushibu: {
+                name: "渋谷教育学園渋谷中学校", color: "#4c1d95",
+                target: {
+                    sapi: "約 63", score: "約 190点/300点", rate: "約 63%",
+                    ja_score: "目標 60点", ja_desc: "大人向けの小説や論理的思考が必要な文章。",
+                    ma_score: "目標 65点", ma_desc: "割合、速さ、図形の移動。スピードと正確性が命。",
+                    sci_score: "目標 35点", sci_desc: "実験ベースの考察。長いリード文を読み解く。",
+                    soc_score: "目標 30点", soc_desc: "SDGsや世界情勢など、国際的・時事的な記述が多い。"
+                },
+                charts: {
+                    japanese: [65, 62, 66, 58], math: [64, 66, 68, 65, 60, 62],
+                    science: [60, 62, 64, 58, 65, 55], social: [60, 65, 66, 62]
+                },
+                quiz: {
+                    japanese: [{ q: "渋渋の国語で求められる力は？", options: ["漢字の丸暗記", "作者の心情を論理的にまとめる記述力", "速読力", "古典文法"], correct: 1, explanation: "自調自考に基づき、自らの言葉で記述する力が問われます。" }],
+                    math: [{ q: "よく出る「図形の移動」への対策は？", options: ["公式暗記", "グラフを書いて変化を追う", "適当に数字を当てはめる", "定規で測る"], correct: 1, explanation: "時間経過と面積の変化をグラフと対応させる力が必須です。" }],
+                    science: [{ q: "渋渋理科で重要な作業は？", options: ["リード文の精読と条件整理", "星座の名前暗記", "元素記号", "計算をしない"], correct: 0, explanation: "リード文にヒントがあるため、現象を正確に把握する読解力が必要です。" }],
+                    social: [{ q: "社会での頻出テーマは？", options: ["戦国武将", "国際社会・時事問題（SDGsなど）", "郷土の歴史", "気候区分"], correct: 1, explanation: "国際性を重んじる校風のため、世界と日本の関係を問う問題が多いです。" }]
+                }
+            },
+            koishikawa: {
+                name: "都立小石川中等教育学校", color: "#047857",
+                target: {
+                    sapi: "約 60", score: "約 450点/800点", rate: "約 56%",
+                    ja_score: "目標 60% (適性I)", ja_desc: "【適性検査I】長い文章を読み、自分の意見を論理的に書く。",
+                    ma_score: "目標 50% (適性II)", ma_desc: "【適性検査II】算数・社会の複合。資料を読み取り計算・考察。",
+                    sci_score: "目標 55% (適性III)", sci_desc: "【適性検査III】理科・算数。理系的思考と分析、記述力。",
+                    soc_score: "目標 --", soc_desc: "※適性検査は教科横断型のため、グラフは分析の便宜上のものです。"
+                },
+                charts: {
+                    japanese: [65, 60, 70, 50], math: [60, 60, 65, 68, 65, 65],
+                    science: [65, 68, 55, 60, 60, 60], social: [50, 68, 60, 70]
+                },
+                quiz: {
+                    japanese: [{ q: "適性検査Ⅰで求められる作文の字数は？", options: ["100字", "200字", "400字以上", "1000字"], correct: 2, explanation: "2つの文章を読み、共通点や違いを踏まえて400字〜で意見を書かせます。" }],
+                    math: [{ q: "適性検査Ⅱ・Ⅲの特徴は？", options: ["簡単な計算", "答えだけ書く", "途中式や考え方を全て記述する", "選択問題のみ"], correct: 2, explanation: "「どのように考えたか」のプロセスを記述させ、部分点を与えます。" }],
+                    science: [{ q: "小石川の教育理念は？", options: ["立身出世", "理数探究（小石川教養主義）", "スポーツ万能", "暗記中心"], correct: 1, explanation: "「理数教育」に強い伝統があり、科学的な探究活動を重視しています。" }],
+                    social: [{ q: "資料読み取りで注意することは？", options: ["勘で答える", "知っている知識を書く", "資料から読み取れる事実のみを根拠にする", "無視する"], correct: 2, explanation: "適性検査は「与えられた資料から何が言えるか」の論理性が最重要です。" }]
+                }
+            },
+            mitakokusai: {
+                name: "三田国際学園中学校", color: "#0369a1",
+                target: {
+                    sapi: "約 52", score: "非公表", rate: "約 60%",
+                    ja_score: "目標 60点", ja_desc: "標準的な読解。論理的構成を捉える練習を。",
+                    ma_score: "目標 60点", ma_desc: "基本〜標準の反復。特殊算や図形の基本を固める。",
+                    sci_score: "目標 65点", sci_desc: "【重要】MSTクラスなど理数重視。実験知識と計算。",
+                    soc_score: "目標 55点", soc_desc: "基本知識。時事問題も出やすいためニュースを見る。"
+                },
+                charts: {
+                    japanese: [55, 50, 52, 55], math: [58, 55, 52, 55, 50, 50],
+                    science: [50, 58, 55, 52, 58, 52], social: [50, 52, 55, 52]
+                },
+                quiz: {
+                    japanese: [{ q: "三田国際の特色あるクラスは？", options: ["体育コース", "インターナショナル(ISC)・メディカル(MST)など", "芸術コース", "古典コース"], correct: 1, explanation: "英語教育や理数・医療系に特化した先進的なクラス編成が特徴です。" }],
+                    math: [{ q: "算数の対策で重要なのは？", options: ["超難問", "スピードと正確な基礎力", "グラフ作成", "証明問題"], correct: 1, explanation: "基本から標準的な問題を手堅く取る正確性が求められます。" }],
+                    science: [{ q: "MST（メディカルサイエンステクノロジー）志望者のポイントは？", options: ["理科が免除される", "理数分野への高い関心と基礎力", "国語だけで受かる", "英語だけ"], correct: 1, explanation: "理系を目指すクラスのため、理科の考察問題に慣れておく必要があります。" }],
+                    social: [{ q: "三田国際の教育の柱は？", options: ["相互通行型授業（PBL）", "ひたすら暗記", "座学のみ", "軍隊式"], correct: 0, explanation: "探究型学習やディスカッションを通じたPBL(課題解決型学習)が中心です。" }]
+                }
+            },
+            hiroo: {
+                name: "広尾学園中学校", color: "#b91c1c",
+                target: {
+                    sapi: "約 58", score: "約 180点/300点", rate: "約 60%",
+                    ja_score: "目標 60点", ja_desc: "説明文・論説文の構造把握。医療系テーマも出やすい。",
+                    ma_score: "目標 60点", ma_desc: "難易度高め。規則性、場合の数、図形。思考力が必要。",
+                    sci_score: "目標 40点", sci_desc: "医進・サイエンスコースがあるため高度な科学的思考。",
+                    soc_score: "目標 35点", soc_desc: "グラフ・統計を用いたデータ分析や時事記述。"
+                },
+                charts: {
+                    japanese: [52, 62, 58, 55], math: [58, 60, 55, 62, 65, 65],
+                    science: [55, 65, 58, 55, 62, 60], social: [55, 62, 60, 65]
+                },
+                quiz: {
+                    japanese: [{ q: "広尾学園（医進・サイエンス）で出やすいテーマは？", options: ["恋愛小説", "医学・科学・生命倫理に関する論説文", "和歌", "童話"], correct: 1, explanation: "コースの特性上、生命や科学のあり方を問う文章が好まれます。" }],
+                    math: [{ q: "広尾学園の算数の特徴は？", options: ["小問がない", "作業量が多く、場合分けや規則性を見つける思考力重視", "計算のみ", "コンパス必須"], correct: 1, explanation: "手を動かして法則を見つけ出す、粘り強さが必要です。" }],
+                    science: [{ q: "医進・サイエンスコースの入試の特徴は？", options: ["理科の配点が高い・難易度が高い", "理科がない", "社会が2倍", "面接のみ"], correct: 0, explanation: "理科の難易度が非常に高く、研究者のような考察力が問われます。" }],
+                    social: [{ q: "社会で求められる力は？", options: ["年号暗記", "データ（統計・グラフ）の分析力と多角的な視点", "県庁所在地", "偉人の名前"], correct: 1, explanation: "複数の資料をつなぎ合わせて解答を導き出す力が必須です。" }]
+                }
             }
-        }
+        };
 
         const labelsMap = {
             japanese: ['物語文', '論説文', '記述力', '漢字・語句'],
@@ -599,172 +497,255 @@
             social: ['歴史', '地理', '公民', '統計・資料']
         };
 
-        function updateScore(subject, index, value) {
-            value = parseInt(value);
-            document.getElementById(`val-${subject}-${index}`).textContent = value;
-            
-            currentData[subject][index] = value;
-            charts[subject].data.datasets[1].data = currentData[subject];
-            charts[subject].update();
-            
-            analyzeGap(subject, targetData[subject], currentData[subject], labelsMap[subject]);
-            updateTotalFeedback();
+        let currentSchool = 'kichijo';
+        let currentData = JSON.parse(JSON.stringify(schoolData.kichijo.charts)); // default user data (mock)
+        let charts = {};
+
+        function createRadarChart(canvasId, labels, target, current, color, bgColor) {
+            return new Chart(document.getElementById(canvasId), {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: '学校目安', data: target, borderColor: color, backgroundColor: 'rgba(0,0,0,0.05)', borderWidth: 2, borderDash: [5, 5], pointRadius: 0 },
+                        { label: '現在地', data: current, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.2)', borderWidth: 2, pointBackgroundColor: '#3b82f6' }
+                    ]
+                },
+                options: {
+                    scales: { r: { suggestedMin: 35, suggestedMax: 70, ticks: { font: { size: 8 } } } },
+                    maintainAspectRatio: false
+                }
+            });
         }
 
-        function analyzeGap(subject, target, current, labels) {
+        function buildInputHTML() {
+            ['japanese', 'math', 'science', 'social'].forEach(subj => {
+                let html = '';
+                labelsMap[subj].forEach((label, i) => {
+                    html += `
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <label class="w-20">${label}</label>
+                        <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="${currentData[subj][i]}" oninput="updateScore('${subj}', ${i}, this.value)">
+                        <span class="font-bold w-6 text-right" id="val-${subj}-${i}">${currentData[subj][i]}</span>
+                    </div>`;
+                });
+                document.getElementById(`inputs-${subj}`).innerHTML = html;
+            });
+        }
+
+        function initApp() {
+            buildInputHTML();
+            changeSchool(true);
+        }
+
+        function changeSchool(isInit = false) {
+            let selectVal = document.getElementById('school-select').value;
+            currentSchool = selectVal;
+            const data = schoolData[currentSchool];
+
+            // Update Theme Variables
+            document.documentElement.style.setProperty('--theme-color', data.color);
+            // Hex to RGB for light bg
+            const hex = data.color.replace('#', '');
+            const r = parseInt(hex.substring(0, 2), 16), g = parseInt(hex.substring(2, 4), 16), b = parseInt(hex.substring(4, 6), 16);
+            document.documentElement.style.setProperty('--theme-light', `rgba(${r}, ${g}, ${b}, 0.05)`);
+
+            // Update Texts
+            document.getElementById('hero-title').innerText = `${data.name} 研究ガイド`;
+            document.getElementById('target-school-name').innerText = data.name;
+            document.getElementById('target-sapi').innerText = data.target.sapi;
+            document.getElementById('target-score').innerHTML = data.target.score;
+            document.getElementById('target-rate').innerText = data.target.rate;
+
+            document.getElementById('target-ja-score').innerText = data.target.ja_score;
+            document.getElementById('target-ja-desc').innerText = data.target.ja_desc;
+            document.getElementById('target-ma-score').innerText = data.target.ma_score;
+            document.getElementById('target-ma-desc').innerText = data.target.ma_desc;
+            document.getElementById('target-sci-score').innerText = data.target.sci_score;
+            document.getElementById('target-sci-desc').innerText = data.target.sci_desc;
+            document.getElementById('target-soc-score').innerText = data.target.soc_score;
+            document.getElementById('target-soc-desc').innerText = data.target.soc_desc;
+
+            document.getElementById('chat-welcome').innerText = `${data.name}の出題傾向や学校行事など、気になることを聞いてください。`;
+
+            // Reset user data to be slightly below the school's target for demo purposes
+            if (!isInit) {
+                ['japanese', 'math', 'science', 'social'].forEach(subj => {
+                    currentData[subj] = data.charts[subj].map(v => Math.max(40, v - Math.floor(Math.random() * 8)));
+                });
+                buildInputHTML();
+            }
+
+            // Update Charts
+            if (charts.japanese) {
+                ['japanese', 'math', 'science', 'social'].forEach(subj => {
+                    charts[subj].data.datasets[0].data = data.charts[subj];
+                    charts[subj].data.datasets[0].borderColor = data.color;
+                    charts[subj].data.datasets[1].data = currentData[subj];
+                    charts[subj].update();
+                });
+            } else {
+                ['japanese', 'math', 'science', 'social'].forEach(subj => {
+                    charts[subj] = createRadarChart(`chart${subj.charAt(0).toUpperCase() + subj.slice(1)}`, labelsMap[subj], data.charts[subj], currentData[subj], data.color);
+                });
+            }
+
+            // Trigger Analysis UI Update
+            ['japanese', 'math', 'science', 'social'].forEach(s => {
+                labelsMap[s].forEach((l, i) => updateScore(s, i, currentData[s][i], true));
+            });
+            updateTotalFeedback();
+
+            // Reset Quiz
+            switchSubject('japanese');
+        }
+
+        function toggleEditMode() {
+            const panel = document.getElementById('input-panel');
+            panel.classList.toggle('hidden');
+            const btn = document.getElementById('edit-btn');
+            if (panel.classList.contains('hidden')) {
+                btn.textContent = '✏️ 成績を修正';
+            } else {
+                btn.textContent = '▲ 修正完了';
+            }
+        }
+
+        function updateScore(subject, index, value, skipChartUpdate = false) {
+            value = parseInt(value);
+            const valEl = document.getElementById(`val-${subject}-${index}`);
+            if (valEl) valEl.textContent = value;
+
+            currentData[subject][index] = value;
+            if (!skipChartUpdate) {
+                charts[subject].data.datasets[1].data = currentData[subject];
+                charts[subject].update();
+                analyzeGap(subject);
+                updateTotalFeedback();
+            }
+        }
+
+        function analyzeGap(subject) {
+            const target = schoolData[currentSchool].charts[subject];
+            const current = currentData[subject];
+            const labels = labelsMap[subject];
+
             let maxGap = 0;
             let worstTopic = '';
-            for(let i=0; i<target.length; i++) {
+            for (let i = 0; i < target.length; i++) {
                 const gap = target[i] - current[i];
-                if (gap > 0 && gap > maxGap) {
-                    maxGap = gap;
-                    worstTopic = labels[i];
-                }
+                if (gap > 0 && gap > maxGap) { maxGap = gap; worstTopic = labels[i]; }
             }
-            const feedbackDiv = document.getElementById(`advice-${subject}`);
-            feedbackDiv.classList.remove('hidden');
+            const div = document.getElementById(`advice-${subject}`);
+            div.classList.remove('hidden');
 
             if (maxGap <= 0) {
-                feedbackDiv.className = "mt-4 p-2 bg-green-50 text-green-700 text-xs rounded-lg animate-fade-in text-center font-bold";
-                feedbackDiv.innerHTML = `🌟 目安ラインクリア！`;
+                div.className = "mt-4 p-2 bg-green-50 text-green-700 text-xs rounded-lg text-center font-bold";
+                div.innerHTML = `🌟 目安ラインクリア！`;
             } else {
-                feedbackDiv.className = "mt-4 p-2 bg-red-50 text-red-700 text-xs rounded-lg animate-fade-in text-center border border-red-100";
-                feedbackDiv.innerHTML = `⚠️ 優先強化: 「${worstTopic}」 <span class="text-red-500 font-bold ml-1">足りない偏差値: ${maxGap}</span>`;
+                div.className = "mt-4 p-2 bg-red-50 text-red-700 text-xs rounded-lg text-center border border-red-100";
+                div.innerHTML = `⚠️ 優先強化: 「${worstTopic}」 <span class="text-red-500 font-bold ml-1">乖離: ${maxGap}</span>`;
             }
         }
-        
+
         function updateTotalFeedback() {
-            // General calculation of total health
-            let totalDeficit = 0;
             let criticalTopics = [];
-            
             const subjects = ['japanese', 'math', 'science', 'social'];
-            const jpNames = {japanese: '国語', math: '算数', science: '理科', social: '社会'};
+            const jpNames = { japanese: '国語', math: '算数', science: '理科', social: '社会' };
+            const target = schoolData[currentSchool].charts;
 
             subjects.forEach(sub => {
-                for(let i=0; i<targetData[sub].length; i++) {
-                    const diff = targetData[sub][i] - currentData[sub][i];
-                    if(diff > 3) {
-                        criticalTopics.push(`【${jpNames[sub]}】${labelsMap[sub][i]}`);
-                        totalDeficit += diff;
-                    }
+                analyzeGap(sub); // ensure individual advices are updated
+                for (let i = 0; i < target[sub].length; i++) {
+                    const diff = target[sub][i] - currentData[sub][i];
+                    if (diff > 3) criticalTopics.push(`【${jpNames[sub]}】${labelsMap[sub][i]}`);
                 }
             });
 
             let msg = "";
-            if(criticalTopics.length === 0) {
+            if (criticalTopics.length === 0) {
                 msg = `<span class="text-green-400 font-bold text-lg border-b border-green-400 pb-1 block mb-3">★ 合格圏（A・B判定）が見えています！</span>
-                       素晴らしいバランスです。このままの調子で、吉祥女子の長文や記述問題に対する「実践力・時間配分」のトレーニングに移行してください。`;
+                       素晴らしいバランスです。このまま${schoolData[currentSchool].name}の過去問演習（実践力・時間配分）に移行してください。`;
             } else {
-                msg = `<span class="text-yellow-400 font-bold text-base border-b border-yellow-400 pb-1 block mb-3">▶ あと一歩！得点源を確実にしましょう</span>
-                       吉祥女子の合格ラインに到達するために、以下の分野を重点的に復習すると偏差値の伸びが期待できます。<br><br>
+                msg = `<span class="text-yellow-400 font-bold text-base border-b border-yellow-400 pb-1 block mb-3">▶ ${schoolData[currentSchool].name} 合格への課題</span>
+                       以下の分野を重点的に復習すると偏差値の向上が期待できます。<br><br>
                        <ul class="list-disc pl-5 space-y-1 mb-3 text-gray-200">
                            ${criticalTopics.slice(0, 4).map(t => `<li>${t}</li>`).join('')}
                            ${criticalTopics.length > 4 ? `<li>他 ${criticalTopics.length - 4} 項目</li>` : ''}
                        </ul>`;
-                       
-                // Math specific advice if missing
-                if(currentData.math[2] < 60) {
-                    msg += `<div class="bg-gray-700 p-3 rounded mt-2 text-xs border-l-2 border-blue-400">💡 <b>ワンポイント：</b> 算数の「速さ（ダイヤグラム）」は毎年出題され差がつく得意・不得意の分かれ目です。過去問の類似問題を反復してください。</div>`;
-                }
             }
             document.getElementById('total-feedback').innerHTML = msg;
         }
 
-        // Mock PDF Upload Handler (Demo)
         function handleFileUpload(input) {
             if (input.files && input.files[0]) {
-                const file = input.files[0];
-                alert(`「${file.name}」を読み込んでいます...\n(デモ機能: ランダムな値を生成します)`);
+                alert(`「${input.files[0].name}」を読み込みます...\n(デモ: ${schoolData[currentSchool].name}の基準に合わせて数値を自動生成します)`);
                 setTimeout(() => {
-                    document.getElementById('file-status').innerHTML = `<span class="mr-2 text-green-500">✔</span><span>解析完了: <strong>${file.name}</strong></span>`;
                     const subjs = ['japanese', 'math', 'science', 'social'];
                     subjs.forEach(sub => {
-                        currentData[sub] = currentData[sub].map(() => Math.floor(Math.random() * 15) + 48);
+                        const baseData = schoolData[currentSchool].charts[sub];
+                        currentData[sub] = baseData.map(v => v - Math.floor(Math.random() * 8));
                         currentData[sub].forEach((v, i) => {
-                             const slider = document.querySelector(`input[oninput="updateScore('${sub}', ${i}, this.value)"]`);
-                             if(slider) { slider.value = v; updateScore(sub, i, v); }
+                            const slider = document.querySelector(`input[oninput="updateScore('${sub}', ${i}, this.value)"]`);
+                            if (slider) { slider.value = v; updateScore(sub, i, v, true); }
                         });
                     });
-                    alert('全4科目の解析が完了しました。グラフが更新されました。');
-                }, 1000);
+                    ['japanese', 'math', 'science', 'social'].forEach(s => charts[s].update());
+                    updateTotalFeedback();
+                    alert('解析完了。グラフをグラフを更新しました。');
+                }, 800);
             }
         }
 
-        // Chatbot & Mock Exam Logic (Skipped for brevity, unchanged)
-        const knowledgeBase = [
-            { keywords: ['塾', '予備校'], answer: '中学の間は多くの生徒が塾に通っていませんが、高校2年秋頃から通い始める生徒が増えます。' },
-            { keywords: ['スマホ', '携帯'], answer: '持ち込み可ですが、中学生はロッカー管理がルールです。' },
-            { keywords: ['理系', '進路'], answer: '約60%が理系を選択しており、医学部への進学実績も豊富です。' },
-            { keywords: ['食堂'], answer: 'カフェテリアがあります。お弁当派も多いですよ。' },
-            { keywords: ['合格'], answer: '東大・京大・医学部など、難関大への合格実績が多数あります。' }
-        ];
-
-        const chatForm = document.getElementById('chat-form');
-        const userInput = document.getElementById('user-input');
-        const chatMessages = document.getElementById('chat-messages');
+        // Chatbot logic
+        document.getElementById('chat-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            appendMessage(text, true);
+            setTimeout(() => appendMessage(`AIアシスタント: 「${schoolData[currentSchool].name}」の${text}についてですね。過去問や学校発表データを確認すると、非常に特色のある出題傾向が見られます。※デモ回答`, false), 600);
+        });
 
         function appendMessage(text, isUser) {
             const div = document.createElement('div');
-            div.className = `message-bubble ${isUser ? 'bg-pink-700 text-white ml-auto' : 'bg-white shadow-sm text-gray-600 border border-gray-200'} animate-fade-in`;
+            div.className = `message-bubble ${isUser ? 'bg-theme text-white ml-auto' : 'bg-white shadow-sm text-gray-600 border border-gray-200'} animate-fade-in`;
             div.innerHTML = text;
-            chatMessages.appendChild(div);
+            document.getElementById('chat-messages').appendChild(div);
         }
 
-        function findAnswer(question) {
-            const q = question.toLowerCase();
-            for (const item of knowledgeBase) {
-                if (item.keywords.some(k => q.includes(k))) return item.answer;
-            }
-            return 'ごめんなさい、詳細は学校説明会などで確認してね！';
-        }
-
-        chatForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const text = userInput.value.trim();
-            if(!text) return;
-            userInput.value = '';
-            appendMessage(text, true);
-            setTimeout(() => appendMessage(findAnswer(text), false), 600);
-        });
-
-        const examData = { 
-            japanese: [{q:"『彼女の（　　）な態度は信頼を得た』", options:["頑固","毅然","横柄","柔軟"], correct:1, explanation:"「毅然」が適切です。"}],
-            math: [{q:"分速60mと80mで反対方向へ。1.4km離れるのは？", options:["8分","10分","12分","14分"], correct:1, explanation:"1400÷(60+80)=10分。"}],
-            science: [{q:"15%の食塩水200gの食塩量は？", options:["15g","20g","30g","35g"], correct:2, explanation:"200×0.15=30g。"}],
-            social: [{q:"製造品出荷額1位の工業地帯は？", options:["京浜","阪神","中京","北関東"], correct:2, explanation:"中京工業地帯です。"}]
-        };
-        
+        // Quiz Logic
         let currentSubject = 'japanese';
         function switchSubject(subject) {
             currentSubject = subject;
             const t = { japanese: 'tab-japanese', math: 'tab-math', science: 'tab-science', social: 'tab-social' };
-            for(const key in t) {
+            for (const key in t) {
                 const el = document.getElementById(t[key]);
-                el.className = key === subject ? "px-4 py-2 text-sm font-bold text-kichijo border-b-2 border-kichijo focus:outline-none bg-pink-50 rounded-t-lg whitespace-nowrap" : "px-4 py-2 text-sm font-medium text-gray-500 hover:text-kichijo whitespace-nowrap";
+                if (key === subject) {
+                    el.className = "px-4 py-2 text-sm font-bold text-theme border-b-2 border-theme bg-theme-light rounded-t-lg transition-colors";
+                } else {
+                    el.className = "px-4 py-2 text-sm font-medium text-gray-500 hover:text-theme transition-colors";
+                }
             }
             renderQuiz();
         }
 
         function renderQuiz() {
             const container = document.getElementById('quiz-container');
-            const questions = examData[currentSubject];
-            if(!questions) return;
+            const questions = schoolData[currentSchool].quiz[currentSubject];
+            if (!questions || questions.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-sm">現在この学校・科目の問題エッセンスを準備中です。</p>';
+                return;
+            }
             let html = '';
             questions.forEach((q, index) => {
-                html += `<div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100"><p class="font-bold text-sm mb-3">Q${index+1}. ${q.q}</p><div class="space-y-2">${q.options.map((opt,i)=>`<button onclick="alert('${i===q.correct?'正解！':'不正解...'} ${q.explanation}')" class="w-full text-left px-4 py-2 border rounded text-sm hover:bg-gray-50">${opt}</button>`).join('')}</div></div>`;
+                html += `<div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100"><p class="font-bold text-sm mb-3">Q${index + 1}. ${q.q}</p><div class="space-y-2">${q.options.map((opt, i) => `<button onclick="alert('${i === q.correct ? '正解！' : '不正解...'} ${q.explanation}')" class="w-full text-left px-4 py-2 border rounded text-sm hover:bg-gray-50 transition">${opt}</button>`).join('')}</div></div>`;
             });
             container.innerHTML = html;
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            initCharts();
-            renderQuiz();
-            // trigger analysis
-            ['japanese', 'math', 'science', 'social'].forEach(s => {
-                labelsMap[s].forEach((l, i) => updateScore(s, i, currentData[s][i]));
-            });
-        });
+        window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 
