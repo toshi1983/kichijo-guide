@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ドリル成績一覧 - 中学受験ナビ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="js/quiz_data.js"></script>
+    <style>
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        :root {
+            --theme-color: #0369a1;
+            --theme-light: #e0f2fe;
+        }
+
+        .bg-theme {
+            background-color: var(--theme-color);
+            color: #fff;
+        }
+
+        .text-theme {
+            color: var(--theme-color);
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 pb-16">
+
+    <!-- Header -->
+    <header class="bg-theme shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold tracking-wider flex items-center gap-2 text-white">
+                <a href="sapix_analysis.html" class="hover:opacity-80 transition py-2 flex items-center gap-1">
+                    <span>◀</span> 分析へ戻る
+                </a>
+                <span class="text-gray-300 text-sm hidden md:inline">|</span>
+                <span class="hidden md:inline">📝 ドリル成績一覧</span>
+            </h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-6 py-8 space-y-8 max-w-4xl">
+
+        <!-- Dashboard Header -->
+        <div class="text-center mb-10 animate-fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 tracking-tight">ドリル成績一覧</h2>
+            <p class="text-gray-500 mt-3 md:text-lg">このデバイスでの回答状況を一覧で確認できます。</p>
+        </div>
+
+        <!-- Summary Status -->
+        <div class="glass-card rounded-3xl p-6 md:p-8 animate-fade-in" style="animation-delay: 0.1s;">
+            <div class="grid grid-cols-3 gap-4 text-center mb-6">
+                <div class="bg-green-50 rounded-2xl p-4 border border-green-100">
+                    <div class="text-sm font-bold text-green-700 mb-1">⭕️ 正解</div>
+                    <div class="text-3xl font-bold text-green-600" id="count-correct">0</div>
+                </div>
+                <div class="bg-red-50 rounded-2xl p-4 border border-red-100">
+                    <div class="text-sm font-bold text-red-700 mb-1">❌ 不正解</div>
+                    <div class="text-3xl font-bold text-red-600" id="count-incorrect">0</div>
+                </div>
+                <div class="bg-gray-100 rounded-2xl p-4 border border-gray-200">
+                    <div class="text-sm font-bold text-gray-600 mb-1">➖ 未回答</div>
+                    <div class="text-3xl font-bold text-gray-500" id="count-unanswered">0</div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2"><span>📚</span> 問題リスト</h3>
+                <button onclick="clearHistory()"
+                    class="text-sm text-gray-500 hover:text-red-500 underline transition">すべてリセット</button>
+            </div>
+
+            <div class="space-y-4" id="quiz-list">
+                <!-- Javascript will render rows here -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Image Modal -->
+    <div id="image-modal"
+        class="fixed inset-0 z-[100] hidden bg-black bg-opacity-80 flex items-center justify-center p-4"
+        onclick="closeImageModal()">
+        <div class="relative max-w-5xl w-full h-full flex items-center justify-center">
+            <button onclick="closeImageModal()"
+                class="absolute top-4 right-4 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl hover:bg-gray-700 transition z-10 shadow-lg">&times;</button>
+            <img id="modal-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                onclick="event.stopPropagation()">
+        </div>
+    </div>
+
+    <script>
+        function getStatus(id) {
+            return localStorage.getItem('quiz_result_' + id) || 'unanswered';
+        }
+
+        function renderList() {
+            let correct = 0;
+            let incorrect = 0;
+            let unanswered = 0;
+
+            const listContainer = document.getElementById('quiz-list');
+            listContainer.innerHTML = '';
+
+            quizData.forEach((q, index) => {
+                const status = getStatus(q.id);
+                let statusBadge = '';
+                let bgClass = '';
+                let borderClass = '';
+
+                if (status === 'correct') {
+                    correct++;
+                    statusBadge = '<span class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full text-sm">⭕️ 正解</span>';
+                    borderClass = 'border-l-4 border-l-green-500 border-gray-200';
+                    bgClass = 'bg-white';
+                } else if (status === 'incorrect') {
+                    incorrect++;
+                    statusBadge = '<span class="bg-red-100 text-red-700 font-bold px-3 py-1 rounded-full text-sm">❌ 不正解</span>';
+                    borderClass = 'border-l-4 border-l-red-500 border-gray-200';
+                    bgClass = 'bg-white';
+                } else {
+                    unanswered++;
+                    statusBadge = '<span class="bg-gray-200 text-gray-600 font-bold px-3 py-1 rounded-full text-sm">➖ 未回答</span>';
+                    borderClass = 'border-l-4 border-l-gray-300 border-gray-200';
+                    bgClass = 'bg-gray-50';
+                }
+
+                // Render Item
+                const html = `
+                    <div class="${bgClass} ${borderClass} rounded-r-xl border-y border-r p-4 transition hover:shadow-md flex flex-col md:flex-row md:items-center gap-4">
+                        <div class="flex-none w-[120px] h-[80px] bg-white border border-gray-200 rounded-lg overflow-hidden cursor-pointer relative group flex items-center justify-center" onclick="openImageModal('${q.img}')">
+                             <img src="${q.img}" class="max-w-full max-h-full object-contain" alt="thumbnail">
+                             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition flex items-center justify-center pointer-events-none">
+                                <span class="text-white opacity-0 group-hover:opacity-100 text-xs">🔍</span>
+                             </div>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-gray-400 font-bold text-sm">Q${index + 1}</span>
+                                ${statusBadge}
+                            </div>
+                            <h4 class="font-bold text-gray-800 leading-tight mb-1">${q.title}</h4>
+                            <p class="text-xs text-gray-500 line-clamp-2">${q.q}</p>
+                        </div>
+                        
+                        <div class="flex-none self-start md:self-center mt-2 md:mt-0">
+                            <a href="sapix_analysis.html?q=${index}" class="text-sm font-bold text-orange-600 bg-orange-50 hover:bg-orange-100 border border-orange-200 px-4 py-2 rounded-xl transition inline-block">問題へ ➔</a>
+                        </div>
+                    </div>
+                `;
+                listContainer.innerHTML += html;
+            });
+
+            // Update Counts
+            document.getElementById('count-correct').innerText = correct;
+            document.getElementById('count-incorrect').innerText = incorrect;
+            document.getElementById('count-unanswered').innerText = unanswered;
+        }
+
+        function clearHistory() {
+            if (confirm("このデバイスの回答履歴をすべてリセットしますか？")) {
+                quizData.forEach(q => {
+                    localStorage.removeItem('quiz_result_' + q.id);
+                });
+                renderList();
+            }
+        }
+
+        // Modal Logic
+        function openImageModal(src) {
+            document.getElementById('modal-img').src = src;
+            document.getElementById('image-modal').classList.remove('hidden');
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+            document.getElementById('modal-img').src = '';
+        }
+
+        // Initialize
+        renderList();
+    </script>
+</body>
+
+</html>
