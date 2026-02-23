@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>休日の集中時間割 ＆ 目標シート</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         /* A4印刷用の設定 */
         @page {
@@ -21,129 +22,63 @@
         }
 
         .container {
-            max-w-id: 100%;
+            max-width: 100%;
+            padding: 20px;
         }
 
-        .header {
-            text-align: center;
+        .markdown-body h1,
+        .markdown-body h2,
+        .markdown-body h3 {
+            color: #8B1E3F;
             border-bottom: 2px solid #8B1E3F;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            padding-bottom: 5px;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .header h1 {
-            color: #8B1E3F;
-            font-size: 24px;
-            margin: 0 0 10px 0;
-        }
-
-        .goal-box {
-            border: 2px dashed #8B1E3F;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            background-color: #fffafb;
-        }
-
-        .goal-box h2 {
-            margin: 0 0 10px 0;
-            font-size: 18px;
-            color: #8B1E3F;
-        }
-
-        .goal-box p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-
-        .goal-table {
+        .markdown-body table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin: 1.5rem 0;
             font-size: 14px;
         }
 
-        .goal-table th,
-        .goal-table td {
+        .markdown-body th,
+        .markdown-body td {
             border: 1px solid #ccc;
-            padding: 8px;
-            text-align: center;
-        }
-
-        .goal-table th {
-            background-color: #fce4ec;
-            color: #8B1E3F;
-        }
-
-        .schedule {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 15px;
-        }
-
-        .schedule th,
-        .schedule td {
-            border: 1px solid #ddd;
-            padding: 12px;
+            padding: 10px;
             text-align: left;
         }
 
-        .schedule th {
-            background-color: #f7f7f7;
+        .markdown-body th {
+            background-color: #fce4ec;
+            color: #8B1E3F;
             text-align: center;
-            width: 120px;
         }
 
-        .time-col {
-            font-weight: bold;
-            color: #555;
-            text-align: center !important;
-            width: 130px;
+        .markdown-body td {
+            vertical-align: top;
         }
 
-        .action-col {
-            width: auto;
-        }
-
-        /* チェックボックスの四角 */
-        .checkbox-container {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #8B1E3F;
-            border-radius: 4px;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-
-        .break-time {
-            background-color: #f0fdf4;
-            color: #166534;
-            text-align: center !important;
-            font-weight: bold;
-        }
-
-        .rules {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #f8fafc;
-            border-left: 4px solid #3b82f6;
-            border-radius: 4px;
-        }
-
-        .rules h3 {
-            margin: 0 0 10px 0;
-            font-size: 16px;
-            color: #1e40af;
-        }
-
-        .rules ul {
-            margin: 0;
+        .markdown-body ul,
+        .markdown-body ol {
             padding-left: 20px;
-            font-size: 14px;
+            margin-bottom: 1.5rem;
         }
 
-        /* 印刷時のみ適用されるスタイル（ボタンなどを消す） */
+        .markdown-body li {
+            margin-bottom: 5px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 1rem;
+        }
+
+        .markdown-body strong {
+            color: #8B1E3F;
+        }
+
+        /* 印刷時のみ適用されるスタイル */
         @media print {
             .no-print {
                 display: none;
@@ -152,132 +87,74 @@
 
         .print-btn {
             display: block;
-            width: 200px;
+            width: 250px;
             margin: 20px auto;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             background-color: #8B1E3F;
             color: white;
             text-decoration: none;
-            border-radius: 20px;
+            border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
             border: none;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.2s;
+        }
+
+        .print-btn:hover {
+            opacity: 0.9;
+        }
+
+        .watermark {
+            text-align: right;
+            font-size: 10px;
+            color: #999;
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
         }
     </style>
 </head>
 
 <body>
-    <button onclick="window.print()" class="print-btn no-print">🖨️ このページを印刷する</button>
+    <button onclick="window.print()" class="print-btn no-print">🖨️ この計画表をA4で印刷する</button>
 
-    <div class="container">
-        <div class="header">
-            <h1>新6年生 休日集中時間割 ＆ 3/8組分け目標</h1>
-            <p>日付： 2026年 2月 23日 （月・祝）</p>
+    <div class="container" id="printable-content">
+        <div class="markdown-body" id="rendered-content">
+            <!-- 読み込み中、またはエラーメッセージが出ます -->
+            <p style="text-align: center; color: #666; margin-top: 50px;">計画データを読み込んでいます...</p>
         </div>
-
-        <div class="goal-box">
-            <h2>🎯 3/8 組分けテスト目標： 偏差値 60（合計約 360点 / 500点）</h2>
-            <table class="goal-table">
-                <tr>
-                    <th>算数 (150点)</th>
-                    <th>国語 (150点)</th>
-                    <th>理科 (100点)</th>
-                    <th>社会 (100点)</th>
-                </tr>
-                <tr>
-                    <td><strong>目標：110点</strong><br>大問1〜3のミス0</td>
-                    <td><strong>目標：110点</strong><br>漢字完璧・記述空欄なし</td>
-                    <td><strong>目標：70点</strong><br>得意分野を先に、計算後回し</td>
-                    <td><strong>目標：70点</strong><br>漢字ミス0、歴史の流れ</td>
-                </tr>
-            </table>
-        </div>
-
-        <table class="schedule">
-            <tr>
-                <th>時間</th>
-                <th>完了</th>
-                <th>やること（勉強内容）</th>
-            </tr>
-            <tr>
-                <td class="time-col">11:30 〜 12:30<br>(60分)</td>
-                <td style="text-align:center;">
-                    <div class="checkbox-container"></div>
-                </td>
-                <td class="action-col"><strong>【算数】</strong> 過去のテスト（大問1〜3）解き直し</td>
-            </tr>
-            <tr>
-                <td class="time-col break-time">12:30 〜 13:30</td>
-                <td colspan="2" class="action-col break-time">🍱 お昼ごはん ＆ 自由時間（しっかり休む！）</td>
-            </tr>
-            <tr>
-                <td class="time-col">13:30 〜 14:15<br>(45分)</td>
-                <td style="text-align:center;">
-                    <div class="checkbox-container"></div>
-                </td>
-                <td class="action-col"><strong>【国語】</strong> 漢字・言葉の復習 または 長文音読</td>
-            </tr>
-            <tr>
-                <td class="time-col break-time">14:15 〜 14:30</td>
-                <td colspan="2" class="action-col break-time">🥤 休憩（目を閉じる・お茶を飲む）</td>
-            </tr>
-            <tr>
-                <td class="time-col">14:30 〜 15:15<br>(45分)</td>
-                <td style="text-align:center;">
-                    <div class="checkbox-container"></div>
-                </td>
-                <td class="action-col"><strong>【社会】</strong> 歴史ノートまとめ または 白地図・地名チェック</td>
-            </tr>
-            <tr>
-                <td class="time-col break-time">15:15 〜 16:00</td>
-                <td colspan="2" class="action-col break-time">🍩 大休憩（おやつ・体を動かす・リフレッシュ！）</td>
-            </tr>
-            <tr>
-                <td class="time-col">16:00 〜 16:45<br>(45分)</td>
-                <td style="text-align:center;">
-                    <div class="checkbox-container"></div>
-                </td>
-                <td class="action-col"><strong>【理科】</strong> 計算プリント（てこ・浮力） または 暗記まとめ</td>
-            </tr>
-            <tr>
-                <td class="time-col break-time">16:45 〜 17:00</td>
-                <td colspan="2" class="action-col break-time">🥤 休憩</td>
-            </tr>
-            <tr>
-                <td class="time-col">17:00 〜 17:45<br>(45分)</td>
-                <td style="text-align:center;">
-                    <div class="checkbox-container"></div>
-                </td>
-                <td class="action-col"><strong>【まとめ】</strong> 今日のやり残し・間違えた問題の再チェック</td>
-            </tr>
-            <tr>
-                <td class="time-col break-time">17:45 〜 19:30</td>
-                <td colspan="2" class="action-col break-time">🛁 お風呂・夜ごはん・自由時間</td>
-            </tr>
-            <tr>
-                <td class="time-col">19:30 〜 20:30<br>(60分)</td>
-                <td style="text-align:center;">
-                    <div class="checkbox-container"></div>
-                </td>
-                <td class="action-col"><strong>【寝る前暗記】</strong> 理・社・国 の暗記チェック（新しい考え事はしない）</td>
-            </tr>
-            <tr>
-                <td colspan="3" style="text-align: right; font-weight: bold; background-color: #fffafb;">
-                    🏆 今日の勉強時間： 合計 5 時間！ お疲れ様でした！
-                </td>
-            </tr>
-        </table>
-
-        <div class="rules">
-            <h3>💡 勉強の「3つの約束」</h3>
-            <ul>
-                <li><strong>タイマーを使う：</strong> 時間を区切って「絶対集中」する！</li>
-                <li><strong>粘るけど、止まらない：</strong> 答えは見ずに5分粘る。でも10分は悩まないで印をつける！</li>
-                <li><strong>休む時は「全力」で休む：</strong> 休憩中に「勉強しなきゃ」と考えない。完全にリラックスする！</li>
-            </ul>
+        <div class="watermark">
+            Generated by 中学受験ナビ - AI勉強計画アシスタント
         </div>
     </div>
+
+    <script>
+        // ページロード時に、親画面（またはローカルストレージ）から最新の計画データを取得してMarkdownをHTMLに変換
+        window.onload = function () {
+            const content = localStorage.getItem('printPlanContent');
+            const targetDiv = document.getElementById('rendered-content');
+
+            if (content && content.trim() !== '') {
+                // Table extension for marked to make it look nicer if needed
+                targetDiv.innerHTML = marked.parse(content);
+
+                // 特定のテキスト（チェックボックス関連）を見やすく変換する簡単なハック
+                let html = targetDiv.innerHTML;
+                html = html.replace(/\[ \]/g, '<span style="display:inline-block; width:16px; height:16px; border:1.5px solid #8B1E3F; border-radius:3px; vertical-align:middle; margin-right:5px;"></span>');
+                html = html.replace(/☑️/g, '<span style="color:#8B1E3F; font-weight:bold; font-size:18px; vertical-align:middle;">☑️</span>');
+                targetDiv.innerHTML = html;
+            } else {
+                targetDiv.innerHTML = `
+                <div style="text-align:center; padding: 40px;">
+                    <h2 style="color:#e11d48; border:none;">⚠️ 計画データが見つかりません</h2>
+                    <p>元の「中学受験ナビ」ページに戻り、勉強計画作成アシスタントのチャットでAIにスケジュールを作成してもらってから、再度このボタンを押してください。</p>
+                </div>`;
+            }
+        };
+    </script>
 </body>
 
 </html>
