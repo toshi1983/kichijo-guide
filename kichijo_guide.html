@@ -117,10 +117,7 @@
                     <option value="mitakokusai">三田国際学園中学校</option>
                     <option value="hiroo">広尾学園中学校</option>
                 </select>
-                <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                    <a href="#analysis" class="hover:opacity-80 transition font-bold">成績診断</a>
-                    <a href="#exam" class="hover:opacity-80 transition">過去問模試</a>
-                </nav>
+
             </div>
         </div>
     </header>
@@ -698,21 +695,57 @@
         }
 
         // Chatbot logic
-        document.getElementById('chat-form').addEventListener('submit', (e) => {
+        document.getElementById('chat-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('user-input');
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
             appendMessage(text, true);
-            setTimeout(() => appendMessage(`AIアシスタント: 「${schoolData[currentSchool].name}」の${text}についてですね。過去問や学校発表データを確認すると、非常に特色のある出題傾向が見られます。※デモ回答`, false), 600);
+
+            // Add loading indicator
+            const loadingId = 'loading-' + Date.now();
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = loadingId;
+            loadingDiv.className = 'message-bubble bg-white shadow-sm text-gray-400 border border-gray-200 animate-fade-in text-xs flex items-center';
+            loadingDiv.innerHTML = '考え中... <span class="animate-pulse ml-2 text-base">🤖</span>';
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: text, school: schoolData[currentSchool].name })
+                });
+
+                const el = document.getElementById(loadingId);
+                if (el) el.remove();
+
+                if (response.ok) {
+                    const data = await response.json();
+                    appendMessage(data.reply, false);
+                } else {
+                    appendMessage('<span class="text-red-500 font-bold">エラー:</span> サーバーの応答がありません。Vercelの環境変数でGEMINI_API_KEYが設定されているか確認してください。', false);
+                }
+            } catch (error) {
+                const el = document.getElementById(loadingId);
+                if (el) el.remove();
+
+                // Fallback for local testing without serverless function running
+                appendMessage('<span class="text-red-500 font-bold">エラー:</span> AIと通信できませんでした。<br>※ファイルを直接開いている場合、AIチャットは動作しません。<br><code>npx vercel dev</code> コマンドで起動してアクセスしてください。', false);
+            }
         });
 
         function appendMessage(text, isUser) {
             const div = document.createElement('div');
-            div.className = `message-bubble ${isUser ? 'bg-theme text-white ml-auto' : 'bg-white shadow-sm text-gray-600 border border-gray-200'} animate-fade-in`;
-            div.innerHTML = text;
-            document.getElementById('chat-messages').appendChild(div);
+            div.className = `message-bubble ${isUser ? 'bg-theme text-white ml-auto' : 'bg-white shadow-sm text-gray-600 border border-gray-200'} animate-fade-in text-xs`;
+            div.innerHTML = text.replace(/\\n/g, '<br>'); // 改行対応
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.appendChild(div);
+            // Auto scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         // Quiz Logic
