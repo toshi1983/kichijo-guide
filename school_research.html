@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学校研究 - 中学受験ナビ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        th.sticky-col {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            background-color: #f1f5f9;
+            box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        thead th.sticky-col {
+            z-index: 20;
+        }
+
+        :root {
+            --theme-color: #0369a1;
+            --theme-light: #e0f2fe;
+        }
+
+        .bg-theme {
+            background-color: var(--theme-color);
+            color: #fff;
+        }
+
+        .text-theme {
+            color: var(--theme-color);
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 pb-16">
+
+    <!-- Header -->
+    <header class="bg-theme shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold tracking-wider flex items-center gap-2 text-white">
+                <a href="kichijo_guide.html" class="hover:opacity-80 transition py-2 flex items-center gap-1">
+                    <span>◀</span> トップへ戻る
+                </a>
+                <span class="text-gray-300 text-sm hidden md:inline">|</span>
+                <span class="hidden md:inline">🏫 志望校比較・学校研究</span>
+            </h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-2 md:px-6 py-6 md:py-10">
+        <div class="mb-6 px-2">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 flex items-center gap-3">
+                🏫 学校別リサーチ一覧
+            </h2>
+            <p class="text-gray-600 mt-2 text-sm md:text-base">
+                自宅（文京区小石川）からの通学時間や、各校の特徴、部活動、進学実績などを横並びで比較できます。表は横にスクロール可能です。
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden table-container relative">
+            <table class="w-full text-left min-w-[1200px] border-collapse relative">
+                <thead class="bg-slate-100 border-b-2 border-slate-200">
+                    <tr>
+                        <th
+                            class="p-4 md:p-5 sticky-col border-r border-slate-200 font-bold text-gray-700 w-48 align-middle">
+                            比較項目 \ 学校</th>
+                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                            🌸 吉祥女子</th>
+                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                            🦅 渋谷幕張 (渋幕)</th>
+                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                            🐉 渋谷渋谷 (渋渋)</th>
+                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                            🧭 都立小石川</th>
+                        <th class="p-4 md:p-5 font-bold text-theme border-r border-slate-200 w-64 text-center text-lg">
+                            🌐 三田国際</th>
+                        <th class="p-4 md:p-5 font-bold text-theme w-64 text-center text-lg">🌳 広尾学園</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 text-sm md:text-base leading-relaxed">
+
+                    <!-- 所在地と通学時間 -->
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <th class="p-4 sticky-col border-r border-slate-100 text-gray-700 bg-white">
+                            📍 所在地<br>
+                            <span class="text-xs text-gray-500 font-normal">自宅(小石川5丁目)からの時間</span>
+                        </th>
+                        <td class="p-4 border-r border-slate-100">
+                            【武蔵野市吉祥寺東町】<br>
+                            <span class="font-bold text-blue-600 text-lg">約50分</span><br>
+                            <span class="text-xs text-gray-500">西荻窪駅 徒歩8分<br>(丸ノ内線・中央線)</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            【千葉市美浜区若葉】<br>
+                            <span class="font-bold text-orange-500 text-lg">約65分</span><br>
+                            <span class="text-xs text-gray-500">海浜幕張/幕張駅 徒歩<br>(有楽町線/丸ノ内・京葉等)</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            【渋谷区渋谷】<br>
+                            <span class="font-bold text-blue-600 text-lg">約40分</span><br>
+                            <span class="text-xs text-gray-500">渋谷駅 徒歩7分<br>(丸ノ内線・銀座線等)</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100 bg-red-50/30">
+                            【文京区本駒込】<br>
+                            <span class="font-bold text-red-600 text-xl">約20分</span><br>
+                            <span class="text-xs text-gray-500">千石駅 徒歩3分<br>※自転車・バス・徒歩圏内</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            【世田谷区用賀】<br>
+                            <span class="font-bold text-blue-600 text-lg">約55分</span><br>
+                            <span class="text-xs text-gray-500">用賀駅 徒歩5分<br>(丸ノ内線・半蔵門線経由)</span>
+                        </td>
+                        <td class="p-4">
+                            【港区南麻布】<br>
+                            <span class="font-bold text-blue-600 text-lg">約40分</span><br>
+                            <span class="text-xs text-gray-500">広尾駅 徒歩1分<br>(丸ノ内線・日比谷線等)</span>
+                        </td>
+                    </tr>
+
+                    <!-- 生徒数・1クラス人数 -->
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <th class="p-4 sticky-col border-r border-slate-100 text-gray-700 bg-white">
+                            👥 生徒規模<br>
+                            <span class="text-xs text-gray-500 font-normal">1学年・1クラス人数</span>
+                        </th>
+                        <td class="p-4 border-r border-slate-100">
+                            1学年：<b>約260名</b><br>
+                            1クラス：約40名 (女子校)
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            1学年：<b>約300名</b>(中学)<br>
+                            1クラス：約40名 (共学)
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            1学年：<b>約200名</b><br>
+                            1クラス：約35名 (共学)
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            1学年：<b>約160名</b><br>
+                            1クラス：約40名 (共学)
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            1学年：<b>約240名</b><br>
+                            1クラス：約30〜40名 (共学)
+                        </td>
+                        <td class="p-4">
+                            1学年：<b>約240〜300名</b><br>
+                            1クラス：約35〜40名 (共学)
+                        </td>
+                    </tr>
+
+                    <!-- 料理部の有無、活動状況 -->
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <th class="p-4 sticky-col border-r border-slate-100 text-gray-700 bg-white">
+                            🍳 料理部<br>
+                            <span class="text-xs text-gray-500 font-normal">有無・活動状況</span>
+                        </th>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>料理部あり</b><br>
+                            <span class="text-xs text-gray-600">週1〜2回活動。文化祭でのクッキーや製菓販売が定番で大盛況。家庭科系の設備も充実。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>家庭科部あり</b><br>
+                            <span class="text-xs text-gray-600">週1〜2日程度。料理や手芸など個人の研究活動が中心。自調自考のペースで活動。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>クッキング部あり</b><br>
+                            <span class="text-xs text-gray-600">週1〜2回。文化祭等での模擬店・試食提供が非常に人気。和気あいあいとした雰囲気。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>料理同好会あり</b><br>
+                            <span class="text-xs text-gray-600">比較的自由なペースで活動。男子生徒の参加も。調理実習などを楽しく行う。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>クッキング部あり</b><br>
+                            <span class="text-xs text-gray-600">週1〜2日程度。各国の料理に挑戦したり文化祭での発表に向けた活動を行う。</span>
+                        </td>
+                        <td class="p-4">
+                            <b>料理部あり</b><br>
+                            <span class="text-xs text-gray-600">校内のキッチンルーム設備が新しく綺麗。週に数回、テーマを持ってお菓子や料理作りを楽しむ。</span>
+                        </td>
+                    </tr>
+
+                    <!-- 吹奏楽部の有無、活動状況 -->
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <th class="p-4 sticky-col border-r border-slate-100 text-gray-700 bg-white">
+                            🎺 吹奏楽部<br>
+                            <span class="text-xs text-gray-500 font-normal">有無・活動状況</span>
+                        </th>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>吹奏楽部あり</b><br>
+                            <span class="text-xs text-gray-600">週4〜5日。かなりの大所帯で活動盛ん。コンクールのほか、定期演奏会等の発表機会も充実。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>吹奏楽部あり</b><br>
+                            <span class="text-xs text-gray-600">活動盛ん。学内のイベントでの演奏に加えて、東関東大会レベルにも出場経験がある実力派。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>吹奏楽部あり</b><br>
+                            <span class="text-xs text-gray-600">飛龍祭（文化祭）や体育祭など学内行事を中心に活発に活動。部員間の中高の仲が良い。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>吹奏楽部あり</b><br>
+                            <span class="text-xs text-gray-600">都大会等に出場する実績も。練習は計画的かつ熱心で、行事祭でのステージは盛り上がる。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>吹奏楽部あり</b><br>
+                            <span class="text-xs text-gray-600">近年強化中の部活。学校行事での演奏や定期的な学内コンサートなどを通じて活発に活動中。</span>
+                        </td>
+                        <td class="p-4">
+                            <b>吹奏楽部あり (強豪)</b><br>
+                            <span class="text-xs text-gray-600">都大会突破・全国大会常連レベルで非常に本格的。練習環境やプロによる指導など体制が手厚い。</span>
+                        </td>
+                    </tr>
+
+                    <!-- 文化祭での盛り上がり度合い -->
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <th class="p-4 sticky-col border-r border-slate-100 text-gray-700 bg-white">
+                            🎊 文化祭<br>
+                            <span class="text-xs text-gray-500 font-normal">盛り上がり度合い</span>
+                        </th>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>吉祥祭 (大盛況)</b><br>
+                            <span
+                                class="text-xs text-gray-600">生徒の自主・企画力が光る。装飾のクオリティが高く、演劇や演奏、展示など外部来場者も非常に多い一大イベント。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>槐祭 (非常に高い)</b><br>
+                            <span
+                                class="text-xs text-gray-600">「自調自考」を体現するような生徒主導のハイレベルな出し物や学術的なポスターセッションが多く、熱気がすごい。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>飛龍祭 (スタイリッシュ)</b><br>
+                            <span class="text-xs text-gray-600">渋谷という立地を活かした洗練された雰囲気。英語劇や企画など国際色の強さやエネルギッシュさが特徴。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>行事祭・創作展 (超熱心)</b><br>
+                            <span
+                                class="text-xs text-gray-600">「小石川教養主義」の集大成として非常に準備に時間をかける伝統行事。劇などのクオリティが高く熱量が随一。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>学園祭 (先進的)</b><br>
+                            <span class="text-xs text-gray-600">Mita International
+                                Festival。英語でのプレゼンやサイエンス研究の発表など、先進的な教育内容を反映したお祭り。</span>
+                        </td>
+                        <td class="p-4">
+                            <b>けやき祭 (企業ブース風)</b><br>
+                            <span
+                                class="text-xs text-gray-600">「サイエンス」や「ICT」をフル活用。各クラスの展示がプロ顔負けのプレゼン力で、企業展示会のような盛り上がり。</span>
+                        </td>
+                    </tr>
+
+                    <!-- 東大、早稲田、慶應大学の合格実績 -->
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <th class="p-4 sticky-col border-r border-slate-100 text-gray-700 bg-white">
+                            🎓 合格実績<br>
+                            <span class="text-xs text-gray-500 font-normal">東大・早慶 主な実績<br>(規模感・毎年の目安)</span>
+                        </th>
+                        <td class="p-4 border-r border-slate-100">
+                            東大：<b>例年数名〜10名弱</b><br>
+                            早慶：<b>のべ150名以上</b><br>
+                            <span class="text-xs text-gray-600">MARCH～早慶に非常に厚い上位層。理系や医療系への進出も活発。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            東大：<b>例年70名超</b><br>
+                            早慶：<b>のべ300名以上</b><br>
+                            <span class="text-xs text-gray-600">全国トップクラス。東大合格者数ランキング常連で最難関志向が強い。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            東大：<b>例年30〜40名</b><br>
+                            早慶：<b>のべ200名以上</b><br>
+                            <span class="text-xs text-gray-600">共学校としてトップクラスの進学実績を誇り急成長を遂げた実績。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            東大：<b>例年15〜20名</b><br>
+                            早慶：<b>のべ100名以上</b><br>
+                            <span class="text-xs text-gray-600">都立中高一貫の筆頭。難関国公立大学への強さが特徴。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            東大：<b>数名</b><br>
+                            早慶：<b>数十名(増加中)</b><br>
+                            <span class="text-xs text-gray-600">新興校ながら年々実績を伸ばし、国公立・早慶上理への合格が急増。</span>
+                        </td>
+                        <td class="p-4">
+                            東大：<b>数名〜10名前後</b><br>
+                            早慶：<b>のべ200名規模</b><br>
+                            <span class="text-xs text-gray-600">医学部（医進コース）への強さと早慶上理への厚い合格者層を持つ。</span>
+                        </td>
+                    </tr>
+
+                    <!-- 海外大学への進学実績 -->
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <th class="p-4 sticky-col border-r border-slate-100 text-gray-700 bg-white">
+                            ✈️ 海外大進学<br>
+                            <span class="text-xs text-gray-500 font-normal">海外大学への実績</span>
+                        </th>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>少数 (数名)</b><br>
+                            <span class="text-xs text-gray-600">基本は国内最難関志向だが、本人の希望で海外大へ直接進学する生徒も毎年数名いる。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>非常に多い (約20名)</b><br>
+                            <span class="text-xs text-gray-600">海外名門大（アイビーリーグ等）への進学は日本トップ級。学校のサポートも手厚い。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>多い (10〜20名規模)</b><br>
+                            <span class="text-xs text-gray-600">帰国生が多く、海外のトップ大学進学のための専門カウンセリング制度が確立している。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>少数</b><br>
+                            <span class="text-xs text-gray-600">海外研修等の交流は非常に盛んだが、進学先としては国内国公立大の志向が圧倒的。</span>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <b>多い (増加中)</b><br>
+                            <span class="text-xs text-gray-600">インターナショナルクラス等の存在により、海外大や海外協定校への進学ルートが豊富。</span>
+                        </td>
+                        <td class="p-4">
+                            <b>多い (十数名以上)</b><br>
+                            <span class="text-xs text-gray-600">インターナショナルコースを中心に、海外トップ大の合格パスが完全に整っている。</span>
+                        </td>
+                    </tr>
+
+                    <!-- 他の学校と異なるアピールポイント -->
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <th class="p-4 sticky-col border-r border-slate-100 text-gray-700 bg-white">
+                            🌟 アピールポイント<br>
+                            <span class="text-xs text-gray-500 font-normal">独自の際立った特徴</span>
+                        </th>
+                        <td class="p-4 border-r border-slate-100">
+                            <ul class="list-disc pl-4 text-xs space-y-1">
+                                <li><b>多様性の尊重</b>: 芸術(美大・音大)や理系への進路も手厚くサポート。</li>
+                                <li><b>女子校のきめ細やかさ</b>と、明るく自由闊達な雰囲気が共存。</li>
+                                <li>敷地内の設備(カフェテリア等)やデザインが洗練されている。</li>
+                            </ul>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <ul class="list-disc pl-4 text-xs space-y-1">
+                                <li><b>自調自考</b>: 圧倒的な自由と自己責任による高い自立性。</li>
+                                <li>千葉という広大なキャンパスによる充実したスポーツ・学習施設。</li>
+                                <li>帰国生も多く、グローバル教育では国内一線を画す。</li>
+                            </ul>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <ul class="list-disc pl-4 text-xs space-y-1">
+                                <li>渋谷という<b>都会型立地</b>で、洗練されたアクティブな学び。</li>
+                                <li>共学トップ校としての人気と、帰国生との融合による強力な国際感覚。</li>
+                                <li>全校生徒が主体的に行事を作るエネルギー。</li>
+                            </ul>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <ul class="list-disc pl-4 text-xs space-y-1">
+                                <li><b>小石川教養主義</b>: 先取り教育ではなく、徹底的な探究・理数教育(SSH)。</li>
+                                <li><b>通学の圧倒的近さ(小石川在住の場合)</b>による時間の有効活用。</li>
+                                <li>都立のため学費がかからない上で最高峰の教育環境。</li>
+                            </ul>
+                        </td>
+                        <td class="p-4 border-r border-slate-100">
+                            <ul class="list-disc pl-4 text-xs space-y-1">
+                                <li><b>相互通行型授業(PBL)</b>を取り入れた新時代の探究型教育。</li>
+                                <li>サイエンスとテクノロジー、生きた英語教育の最前線環境。</li>
+                                <li>明るく先進的で、生徒の自己肯定感を高める指導。</li>
+                            </ul>
+                        </td>
+                        <td class="p-4 text-sm md:text-base">
+                            <ul class="list-disc pl-4 text-xs space-y-1">
+                                <li><b>「本科」「医進・サイエンス」「インターナショナル」</b>という特化したコース制。</li>
+                                <li>日本随一の<b>ICT活用環境</b>と、Apple Distinguished Schoolとしての先端性。</li>
+                                <li>MacBookを全員が駆使し、プロ並みのプレゼンや研究論文を行う。</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+
+</html>
