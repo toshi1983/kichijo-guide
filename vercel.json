@@ -1,6 +1,9 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/", "destination": "/kichijo_guide.html" }
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
   ]
 }
