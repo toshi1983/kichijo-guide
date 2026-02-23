@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中学受験ナビ - ホーム</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        :root {
+            --theme-color: #0c4a6e;
+        }
+
+        .bg-theme {
+            background-color: var(--theme-color);
+            color: #fff;
+        }
+
+        .text-theme {
+            color: var(--theme-color);
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card Hover Effects */
+        .app-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .app-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 pb-16 min-h-screen bg-slate-50 relative overflow-x-hidden">
+
+    <!-- Decorative background elements -->
+    <div class="absolute top-0 left-0 w-full h-[400px] bg-gradient-to-b from-sky-100 to-transparent -z-10"></div>
+    <div class="absolute top-[-100px] right-[-100px] w-96 h-96 bg-blue-200 rounded-full blur-3xl opacity-50 -z-10">
+    </div>
+    <div class="absolute top-[200px] left-[-100px] w-72 h-72 bg-emerald-200 rounded-full blur-3xl opacity-50 -z-10">
+    </div>
+
+
+    <!-- Header -->
+    <header class="bg-theme shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-center items-center">
+            <h1 class="text-xl md:text-2xl font-bold tracking-wider flex items-center gap-3 text-white">
+                <span>🎓 中学受験ナビ Portal</span>
+            </h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-6 py-12 max-w-5xl">
+
+        <!-- Welcome Section -->
+        <div class="text-center mb-16 animate-fade-in">
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-800 tracking-tight mb-4">受験サポートダッシュボード</h2>
+            <p class="text-gray-600 md:text-lg max-w-2xl mx-auto leading-relaxed">
+                保護者と受験生のための総合AI支援ポータルです。<br>志望校の比較から、日々の成績分析、そして学習計画の作成まで、すべての機能をここからアクセスできます。
+            </p>
+        </div>
+
+        <!-- App Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in" style="animation-delay: 0.2s;">
+
+            <!-- App 1: 学校総合ガイド -->
+            <a href="kichijo_guide.html" class="app-card glass-card rounded-3xl p-8 block border-t-4 border-t-pink-500">
+                <div
+                    class="w-16 h-16 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+                    🏫
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">志望校総合ガイド</h3>
+                <p class="text-gray-600 mb-4 leading-relaxed h-[70px]">
+                    各学校の配点や入試傾向、アクセス情報などの詳細データを確認し、その学校に特化したAIアドバイザーに直接質問できるメインダッシュボードです。</p>
+                <div class="flex flex-wrap gap-2 text-xs font-bold mt-auto">
+                    <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full">学校情報</span>
+                    <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full">AI相談</span>
+                </div>
+            </a>
+
+            <!-- App 2: 学校研究・比較表 -->
+            <a href="school_research.html"
+                class="app-card glass-card rounded-3xl p-8 block border-t-4 border-t-emerald-500">
+                <div
+                    class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+                    🔍
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">学校研究・比較表</h3>
+                <p class="text-gray-600 mb-4 leading-relaxed h-[70px]">
+                    複数の志望校を横並びで比較します。通学時間、部活動、進学実績から過去問の入手先まで、受験校選びに必要なデータを一覧表で確認できます。</p>
+                <div class="flex flex-wrap gap-2 text-xs font-bold mt-auto">
+                    <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full">横断比較</span>
+                    <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full">スクロール表</span>
+                </div>
+            </a>
+
+            <!-- App 3: SAPIX成績分析 -->
+            <a href="sapix_analysis.html"
+                class="app-card glass-card rounded-3xl p-8 block border-t-4 border-t-blue-500">
+                <div
+                    class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+                    📊
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">SAPIX成績分析</h3>
+                <p class="text-gray-600 mb-4 leading-relaxed h-[70px]">
+                    成績表をAIが自動分析し、科目ごとの得意・苦手単元を特定。目標偏差値に向けた「必要な点数」と「科目別の具体戦略」をシミュレーションします。</p>
+                <div class="flex flex-wrap gap-2 text-xs font-bold mt-auto">
+                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full">成績グラフ</span>
+                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full">目標設定</span>
+                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full">AIアドバイス</span>
+                </div>
+            </a>
+
+            <!-- App 4: 勉強計画作成 -->
+            <a href="planner.html" class="app-card glass-card rounded-3xl p-8 block border-t-4 border-t-violet-500">
+                <div
+                    class="w-16 h-16 bg-violet-50 text-violet-600 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+                    📝
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">勉強計画作成カレンダー</h3>
+                <p class="text-gray-600 mb-4 leading-relaxed h-[70px]">
+                    日々の学習スケジュールを管理。AIコーチと対話しながら一日のタスクを作成し、達成度をチェックリストで管理・印刷することができます。</p>
+                <div class="flex flex-wrap gap-2 text-xs font-bold mt-auto">
+                    <span class="bg-violet-100 text-violet-700 px-3 py-1 rounded-full">日別スケジュール</span>
+                    <span class="bg-violet-100 text-violet-700 px-3 py-1 rounded-full">印刷対応</span>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+
+</html>
