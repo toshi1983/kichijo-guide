@@ -15,8 +15,8 @@
         }
 
         .table-container {
-            overflow: auto;
-            overflow-x: scroll;
+            overflow: auto !important;
+            overflow-x: scroll !important;
             -webkit-overflow-scrolling: touch;
             max-height: calc(100dvh - 180px);
             /* 縦スクロールも可能にする */
@@ -107,7 +107,7 @@
             </p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden table-container relative">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 table-container relative">
             <table class="w-full text-left min-w-[1200px] border-collapse relative">
                 <thead class="bg-slate-100 border-b-2 border-slate-200">
                     <tr>
