@@ -133,17 +133,32 @@
             const container = document.getElementById('plan-chat-messages');
             container.innerHTML = `<div class="message-bubble bg-white shadow-sm text-gray-700 border border-gray-200">🤖 AIコーチ：こんにちは！今日はどんな勉強計画を作りますか？<br><br><span class="text-gray-500 text-xs text-sm">（例：「明日の午前中だけの算数特訓メニューを作って」「日曜日の1日のスケジュールを立てて」など）</span></div>`;
 
-            planHistory.forEach(msg => {
+            planHistory.forEach((msg, idx) => {
                 const div = document.createElement('div');
                 div.className = `message-bubble ${msg.isUser ? 'bg-theme text-white ml-auto relative' : 'bg-white shadow-sm text-gray-800 border border-gray-200 relative'} animate-fade-in`;
 
-                // For AI messages, use marked if available or basic replace
                 let contentHTML = msg.text.replace(/\\n/g, '<br>');
-                // Replace basic markdown lists visually if possible
-                contentHTML = contentHTML.replace(/- \\[ \\] /g, '<span class="inline-block w-4 h-4 border border-gray-400 rounded-sm mr-2 align-middle"></span>');
-                contentHTML = contentHTML.replace(/- /g, '<span class="text-blue-500 mr-1">•</span>');
+
+                // Replace basic markdown lists with interactive checkboxes
+                let cbIndex = 0;
+                contentHTML = contentHTML.replace(/- \\[( |x)\\] (.*?)(<br>|$)/g, (match, check, task, lineBreak) => {
+                    const isChecked = check === 'x' ? 'checked' : '';
+                    const id = `cb-${idx}-${cbIndex++}`;
+                    return `<label class="flex items-start gap-2 my-1 cursor-pointer select-none">
+                                <input type="checkbox" id="${id}" ${isChecked} onchange="toggleCheck(${idx}, ${cbIndex - 1}, this)" class="mt-1 w-4 h-4 text-theme rounded border-gray-300 focus:ring-theme">
+                                <span class="${isChecked ? 'text-gray-400 line-through' : ''}">${task}</span>
+                            </label>${lineBreak}`;
+                });
+
+                contentHTML = contentHTML.replace(/^- /gm, '<span class="text-blue-500 mr-1">•</span>');
 
                 div.innerHTML = contentHTML;
+
+                // Add reflection button if it is an AI message containing a checkbox list
+                if (!msg.isUser && msg.text.includes('- [')) {
+                    div.innerHTML += `<div class="mt-4 pt-3 border-t border-gray-100 flex justify-end"><button onclick="sendReflection(${idx})" class="text-xs font-bold bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center shadow-sm">✅ 今日の振り返りをAIに送る</button></div>`;
+                }
+
                 container.appendChild(div);
             });
             container.scrollTop = container.scrollHeight;
@@ -155,7 +170,10 @@
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
+            submitMessage(text);
+        });
 
+        async function submitMessage(text) {
             planHistory.push({ isUser: true, text: text });
             localStorage.setItem('planHistory', JSON.stringify(planHistory));
             renderPlanChat();
@@ -200,7 +218,57 @@
                 localStorage.setItem('planHistory', JSON.stringify(planHistory));
                 renderPlanChat();
             }
-        });
+        }
+
+        function toggleCheck(msgIdx, cbIdx, checkbox) {
+            let text = planHistory[msgIdx].text;
+            let count = 0;
+            text = text.replace(/- \\[( |x)\\]/g, (match) => {
+                if (count === cbIdx) {
+                    count++;
+                    return checkbox.checked ? '- [x]' : '- [ ]';
+                }
+                count++;
+                return match;
+            });
+            planHistory[msgIdx].text = text;
+            localStorage.setItem('planHistory', JSON.stringify(planHistory));
+
+            const span = checkbox.nextElementSibling;
+            if (checkbox.checked) {
+                span.classList.add('text-gray-400', 'line-through');
+            } else {
+                span.classList.remove('text-gray-400', 'line-through');
+            }
+        }
+
+        function sendReflection(msgIdx) {
+            const text = planHistory[msgIdx].text;
+            const completed = [];
+            const incomplete = [];
+
+            const regex = /- \\[( |x)\\] (.*?)(?:\\n|$)/g;
+            let match;
+            while ((match = regex.exec(text)) !== null) {
+                if (match[1] === 'x') {
+                    completed.push(match[2].trim());
+                } else {
+                    incomplete.push(match[2].trim());
+                }
+            }
+
+            if (completed.length === 0 && incomplete.length === 0) {
+                alert("チェックボックスを持つスケジュールが見つかりません。");
+                return;
+            }
+
+            let reflectionText = "【一日の振り返り】\\n";
+            if (completed.length > 0) reflectionText += "✅ できたこと：\\n" + completed.map(t => "・" + t).join("\\n") + "\\n";
+            if (incomplete.length > 0) reflectionText += "⚠️ できなかったこと：\\n" + incomplete.map(t => "・" + t).join("\\n") + "\\n";
+            reflectionText += "\\nこの結果を踏まえて、今日の労いの言葉と、明日以降の学習に向けた具体的なアドバイスを提案してください。";
+
+            submitMessage(reflectionText);
+        }
 
         function clearPlanChat() {
             if (confirm("チャット履歴を消去して新しく始めますか？")) {
