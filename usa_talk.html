@@ -232,8 +232,7 @@
                     class="flex-1 bg-gray-50 border-2 border-gray-200 rounded-2xl px-4 py-2.5 focus-within:border-pink-300 transition">
                     <textarea id="user-input"
                         class="w-full bg-transparent text-sm resize-none focus:outline-none max-h-32 leading-relaxed"
-                        placeholder="質問を入れてね（例：この算数の問題がわからない）" rows="1" onkeydown="handleKey(event)"
-                        oninput="autoResize(this)"></textarea>
+                        placeholder="質問を入れてね（例：この算数の問題がわからない）" rows="1" oninput="autoResize(this)"></textarea>
                 </div>
 
                 <!-- Send Button -->
@@ -283,18 +282,25 @@
         let conversationHistory = [];
         let selectedImageBase64 = null;
         let selectedMimeType = null;
+        let isComposing = false; // IME composition flag
+
+        // IME composition tracking
+        const inputEl = document.getElementById('user-input');
+        inputEl.addEventListener('compositionstart', () => { isComposing = true; });
+        inputEl.addEventListener('compositionend', () => { isComposing = false; });
+        inputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
 
         function autoResize(el) {
             el.style.height = 'auto';
             el.style.height = Math.min(el.scrollHeight, 128) + 'px';
         }
 
-        function handleKey(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        }
+
 
         function showImageMenu() {
             document.getElementById('image-menu').classList.remove('hidden');
