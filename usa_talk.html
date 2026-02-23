@@ -180,8 +180,9 @@
             </a>
             <div class="flex items-center gap-3 flex-1">
                 <div
-                    class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-2xl shadow-md select-none">
-                    🐰</div>
+                    class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md select-none overflow-hidden">
+                    <img src="usa_transparent.png" alt="うさぴょん" class="w-full h-full object-contain p-0.5">
+                </div>
                 <div>
                     <h1 class="text-white font-bold text-lg leading-tight">うさトーク</h1>
                     <p class="text-pink-100 text-xs">勉強おたすけBot「うさぴょん」</p>
@@ -199,9 +200,11 @@
         <div class="messages-area" id="messages">
             <!-- Initial greeting -->
             <div class="flex gap-3 mb-4 fade-in">
-                <div class="text-3xl mt-1 select-none">🐰</div>
+                <div class="w-9 h-9 mt-1 select-none flex-none">
+                    <img src="usa_transparent.png" alt="うさぴょん" class="w-full h-full object-contain">
+                </div>
                 <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
-                    やあ！ぼくうさぴょんだぴょん🐰✨<br>
+                    やあ！ぼくうさぴょんだぴょん🌸✨<br>
                     算数・国語・理科・社会、なんでも聞いてね！<br>
                     <br>
                     テキストで質問するか、<strong>問題の写真を撮って送ってくれる</strong>だけでも解説するよ📝
@@ -430,7 +433,9 @@
                 .replace(/\n/g, '<br>');
 
             div.innerHTML = `
-                <div class="text-3xl mt-1 select-none">🐰</div>
+                <div class="w-9 h-9 mt-1 select-none flex-none">
+                    <img src="usa_transparent.png" alt="うさぴょん" class="w-full h-full object-contain">
+                </div>
                 <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed markdown-reply">${html}</div>
             `;
             messages.appendChild(div);
@@ -443,7 +448,9 @@
             div.id = id;
             div.className = 'flex gap-3 mb-4';
             div.innerHTML = `
-                <div class="text-3xl mt-1 select-none">🐰</div>
+                <div class="w-9 h-9 mt-1 select-none flex-none">
+                    <img src="usa_transparent.png" alt="うさぴょん" class="w-full h-full object-contain">
+                </div>
                 <div class="bubble-bot p-4 flex items-center gap-2">
                     <div class="typing-dot"></div>
                     <div class="typing-dot"></div>
@@ -458,9 +465,11 @@
             if (!confirm('会話をリセットしますか？')) return;
             document.getElementById('messages').innerHTML = `
                 <div class="flex gap-3 mb-4 fade-in">
-                    <div class="text-3xl mt-1 select-none">🐰</div>
+                    <div class="w-9 h-9 mt-1 select-none flex-none">
+                        <img src="usa_transparent.png" alt="うさぴょん" class="w-full h-full object-contain">
+                    </div>
                     <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
-                        やあ！ぼくうさぴょんだぴょん🐰✨<br>
+                        やあ！ぼくうさぴょんだぴょん🌸✨<br>
                         算数・国語・理科・社会、なんでも聞いてね！<br><br>
                         テキストで質問するか、<strong>問題の写真を撮って送ってくれる</strong>だけでも解説するよ📝
                     </div>
