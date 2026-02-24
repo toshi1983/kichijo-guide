@@ -346,7 +346,7 @@ jan_rev_data = [
 
 # Create remaining dummies for dec if not explicitly added
 dec_ids = [q["id"] for q in dec_data]
-dec_counts = {1: 11, 2: 12}
+dec_counts = {1: 12, 2: 12}
 for dai in range(1, 3):
     max_sho = dec_counts[dai]
     for sho in range(1, max_sho + 1):
@@ -356,6 +356,121 @@ for dai in range(1, 3):
             dec_data.append({
                 "id": key, "test_name": "12月度マンスリー", "q_num": f"大問{dai} ({sho})",
                 "img": f"quiz_images/dec_monthly_p{p}.png", "title": "総合問題",
+                "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
+                "choices": ["ア", "イ", "ウ", "エ"], "ans": 0, "hint": "準備中です。"
+            })
+
+#################################
+# 12月度マンスリー理科
+#################################
+dec_sci_data = [
+    {
+        "id": "dec_monthly_sci_1_1", "test_name": "12月度マンスリー理科", "q_num": "大問1 (1)", "img": "quiz_images/dec_monthly_sci_p2.png",
+        "title": "根を食用とする植物", "q": "主に根を食用とする植物としてふさわしいものを選びなさい。",
+        "choices": [
+            "ジャガイモ",
+            "サトイモ",
+            "サツマイモ",
+            "コンニャク"
+        ], "ans": 2, "hint": "ジャガイモやサトイモは地下の茎（地下茎）が大きくなったものですが、サツマイモは根が大きくなったものです。"
+    },
+    {
+        "id": "dec_monthly_sci_1_2", "test_name": "12月度マンスリー理科", "q_num": "大問1 (2)", "img": "quiz_images/dec_monthly_sci_p2.png",
+        "title": "冬鳥の渡り", "q": "ハクチョウやマガモなどの冬鳥は、何のために、秋ごろにどの方角へ渡りを行いますか。",
+        "choices": [
+            "繁殖のために北の方へ",
+            "繁殖のために南の方へ",
+            "越冬のために北の方へ",
+            "越冬のために南の方へ"
+        ], "ans": 3, "hint": "冬鳥は、シベリアなど北方の寒さが厳しい地域から、暖かくてえさが豊富な南の方へ、越冬（冬を越す）ために渡ってきます。"
+    },
+    {
+        "id": "dec_monthly_sci_1_3", "test_name": "12月度マンスリー理科", "q_num": "大問1 (3)", "img": "quiz_images/dec_monthly_sci_p2.png",
+        "title": "種子のつくり", "q": "カキやツユクサと同じように種子に「胚乳」をもつ植物のグループを選びなさい。",
+        "choices": [
+            "サクラ・マツ・カエデ",
+            "アサガオ・ヘチマ・オシロイバナ",
+            "アブラナ・ダイコン・カブ",
+            "トウモロコシ・ムギ・ススキ"
+        ], "ans": 3, "hint": "イネ科の植物（トウモロコシ、ムギ、ススキ）などは胚乳に養分をたくわえる有胚乳種子です。"
+    },
+    {
+        "id": "dec_monthly_sci_1_6", "test_name": "12月度マンスリー理科", "q_num": "大問1 (6)", "img": "quiz_images/dec_monthly_sci_p2.png",
+        "title": "顕微鏡の使い方", "q": "顕微鏡の使い方としてふさわしいものを選びなさい。",
+        "choices": [
+            "ほこりが入らないように対物レンズを付けてから接眼レンズを付ける。",
+            "直射日光のあたる明るい水平な台に置く。",
+            "接眼レンズをのぞきながら反射鏡を動かして視野を明るくする。",
+            "横からのぞいてプレパラートを対物レンズから遠ざけながら調節ねじを回す。"
+        ], "ans": 2, "hint": "明るさを調整するときは、接眼レンズをのぞきながら反射鏡を動かします。レンズやプレパラートの扱いにおいて、他の選択肢はすべて誤った手順です。"
+    },
+    {
+        "id": "dec_monthly_sci_2_1", "test_name": "12月度マンスリー理科", "q_num": "大問2 (1)", "img": "quiz_images/dec_monthly_sci_p3.png",
+        "title": "気象衛星ひまわり", "q": "気象衛星「ひまわり」が公転している場所と周期の組み合わせとして正しいものを選びなさい。",
+        "choices": [
+            "日本上空 - 地球の自転周期とほぼ同じ",
+            "日本上空 - 地球の自転周期の約半分",
+            "赤道上空 - 地球の自転周期とほぼ同じ",
+            "赤道上空 - 地球の自転周期の約2倍"
+        ], "ans": 2, "hint": "ひまわりは「静止気象衛星」と呼ばれ、赤道上空の約3万6000kmにあり、地球の自転と同じ周期で公転するため、地上から見ると止まって見えます。"
+    },
+    {
+        "id": "dec_monthly_sci_2_2", "test_name": "12月度マンスリー理科", "q_num": "大問2 (2)", "img": "quiz_images/dec_monthly_sci_p3.png",
+        "title": "夏の季節風", "q": "夏の時期に吹く季節風の特徴として正しいものを選びなさい。",
+        "choices": [
+            "南東からあたたかく湿った空気がやってくる。",
+            "南東からあたたかく乾いた空気がやってくる。",
+            "北西から冷たく湿った空気がやってくる。",
+            "北西から冷たく乾いた空気がやってくる。"
+        ], "ans": 0, "hint": "夏の季節風は、太平洋側の小笠原気団から吹き出す「南東」からの風で、海を通るため暖かく湿っています。"
+    },
+    {
+        "id": "dec_monthly_sci_2_4", "test_name": "12月度マンスリー理科", "q_num": "大問2 (4)", "img": "quiz_images/dec_monthly_sci_p3.png",
+        "title": "台風の特徴", "q": "台風についての説明として正しいものを選びなさい。",
+        "choices": [
+            "進行方向に対して左側は風が強く、危険半円と呼ばれる。",
+            "台風の影響で地盤が液体のような状態になる液状化現象がみられる。",
+            "台風が近づくと津波が発生することがある。",
+            "中心付近の最大風速が約17m/秒以上である。"
+        ], "ans": 3, "hint": "熱帯低気圧のうち、中心付近の最大風速がおよそ17m/s以上になったものを台風と呼びます。強い風が吹くのは進行方向の右側（危険半円）です。"
+    },
+    {
+        "id": "dec_monthly_sci_4_1", "test_name": "12月度マンスリー理科", "q_num": "大問4 (1)", "img": "quiz_images/dec_monthly_sci_p5.png",
+        "title": "滑車の種類", "q": "図1のように、手を上に引き上げるとおもりも上がり、引っ張る力は重さと同じになる滑車の使い方を何といいますか。",
+        "choices": [
+            "定滑車",
+            "動滑車",
+            "定滑車でも動滑車でもない"
+        ], "ans": 1, "hint": "引く力は半分のようにも思えますが、上に引っ張り上げている図は動滑車の特徴的な使い方の一つです。滑車ごとおもりが持ち上がっているため「動滑車」です。"
+    },
+    {
+        "id": "dec_monthly_sci_5_1", "test_name": "12月度マンスリー理科", "q_num": "大問5 (1)", "img": "quiz_images/dec_monthly_sci_p6.png",
+        "title": "てこのつりあい", "q": "支点からの距離を使ったてこのつりあいのルールはどれですか。",
+        "choices": [
+            "おもりの重さ × 支点からの距離 が左右で同じになる",
+            "おもりの重さ ＋ 支点からの距離 が左右で同じになる",
+            "左のおもりの重さと右のおもりの重さが常に同じになる"
+        ], "ans": 0, "hint": "てこが水平につりあうとき、「左のうでを傾けるはたらき＝右のうでを傾けるはたらき」となります。はたらきは「重さ×支点からの距離」で計算できます。"
+    }
+]
+
+dec_sci_ids = [q["id"] for q in dec_sci_data]
+dec_sci_counts = {1: 6, 2: 5, 3: 2, 4: 3, 5: 5}
+for dai, max_sho in dec_sci_counts.items():
+    for sho in range(1, max_sho + 1):
+        key = f"dec_monthly_sci_{dai}_{sho}"
+        if key not in dec_sci_ids:
+            p = 2
+            if dai == 1: p = 2
+            elif dai == 2: p = 3
+            elif dai == 3: p = 4
+            elif dai == 4: p = 5
+            elif dai == 5 and sho <= 3: p = 6
+            elif dai == 5 and sho > 3: p = 7
+            
+            dec_sci_data.append({
+                "id": key, "test_name": "12月度マンスリー理科", "q_num": f"大問{dai} ({sho})",
+                "img": f"quiz_images/dec_monthly_sci_p{p}.png", "title": "総合問題",
                 "q": "実際のテスト問題画像を確認して、正しいものを選びなさい。",
                 "choices": ["ア", "イ", "ウ", "エ"], "ans": 0, "hint": "準備中です。"
             })
@@ -385,12 +500,13 @@ with open("js/quiz_data.js", "r") as f:
 jan_kum_data = [q for q in existing_quiz if q["test_name"] == "1月組分け"]
 
 quiz.extend(dec_data)
+quiz.extend(dec_sci_data)
 quiz.extend(jan_kum_data)
 quiz.extend(jan_rev_data)
 
 # Sort quizData by test and q_num for consistency
 def sort_key(q):
-    test_prio = {"12月度マンスリー": 1, "1月組分け": 2, "1月復習": 3}
+    test_prio = {"12月度マンスリー": 1, "12月度マンスリー理科": 2, "1月組分け": 3, "1月組分け理科": 4, "1月復習": 5, "1月復習理科": 6}
     t_v = test_prio.get(q["test_name"], 9)
     # Extract numbers from q_num like "大問1 (2)"
     try:
