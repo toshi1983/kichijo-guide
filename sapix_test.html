@@ -165,21 +165,25 @@
     <!-- Test Selector -->
     <div class="bg-indigo-50 border-b border-indigo-100 shadow-sm z-40 sticky">
         <div
-            class="container mx-auto px-4 py-2 max-w-3xl flex flex-col sm:flex-row gap-2 sm:gap-4 items-center justify-between">
-            <div class="flex gap-2 w-full sm:w-auto flex-1">
+            class="container mx-auto px-4 py-3 max-w-3xl flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-between">
+            <div class="flex flex-wrap gap-2 w-full sm:w-auto flex-1 items-center">
                 <select id="test-period"
-                    class="bg-white border text-sm text-gray-700 border-indigo-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500 w-full sm:w-auto shadow-inner">
+                    class="bg-white border text-sm text-gray-700 border-indigo-200 rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-500 shadow-inner flex-1 sm:flex-none">
                     <option value="" disabled selected>テスト時期を選ぶ...</option>
                     <option value="2026_03_kumiwake">2026年3月 組分けテスト</option>
                 </select>
                 <select id="subject"
-                    class="bg-white border text-sm text-gray-700 border-indigo-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500 w-full sm:w-auto shadow-inner">
+                    class="bg-white border text-sm text-gray-700 border-indigo-200 rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-500 shadow-inner flex-1 sm:flex-none">
                     <option value="" disabled selected>科目を選ぶ...</option>
                     <option value="国語">国語</option>
                     <option value="算数">算数</option>
                     <option value="理科">理科</option>
                     <option value="社会">社会</option>
                 </select>
+                <button onclick="applyTestChange()"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg shadow transition whitespace-nowrap">
+                    切り替え
+                </button>
             </div>
         </div>
     </div>
@@ -227,6 +231,8 @@
     <script>
         let conversationHistory = [];
         let isComposing = false;
+        let currentTestPeriod = '';
+        let currentSubject = '';
 
         const inputEl = document.getElementById('user-input');
         inputEl.addEventListener('compositionstart', () => { isComposing = true; });
@@ -243,16 +249,54 @@
             el.style.height = Math.min(el.scrollHeight, 128) + 'px';
         }
 
+        function applyTestChange() {
+            const period = document.getElementById('test-period').value;
+            const subj = document.getElementById('subject').value;
+
+            if (!period || !subj) {
+                alert('テスト時期と科目の両方を選択してください。');
+                return;
+            }
+
+            if (period === currentTestPeriod && subj === currentSubject) {
+                return; // 変更なし
+            }
+
+            if (conversationHistory.length > 0) {
+                if (!confirm('科目・テストを切り替えると、これまでの会話履歴がクリアされます。よろしいですか？')) {
+                    // 選択状態を戻す
+                    document.getElementById('test-period').value = currentTestPeriod || '';
+                    document.getElementById('subject').value = currentSubject || '';
+                    return;
+                }
+            }
+
+            currentTestPeriod = period;
+            currentSubject = subj;
+
+            // チャットをクリアして切り替えメッセージを表示
+            document.getElementById('messages').innerHTML = `
+                <div class="flex gap-3 mb-4 fade-in">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-100 rounded-3xl flex items-center justify-center shadow-inner flex-none text-4xl select-none">
+                        👨‍🏫
+                    </div>
+                    <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
+                        <strong>${subj}</strong> に切り替えました！<br>
+                        ${subj}のテスト解説モードに入りました。わからない問題を質問してください📝
+                    </div>
+                </div>
+            `;
+            conversationHistory = [];
+        }
+
         async function sendMessage() {
             const input = document.getElementById('user-input');
             const text = input.value.trim();
-            const testPeriod = document.getElementById('test-period').value;
-            const subject = document.getElementById('subject').value;
 
             if (!text) return;
 
-            if (!testPeriod || !subject) {
-                alert("テスト時期と科目を選んでください。");
+            if (!currentTestPeriod || !currentSubject) {
+                alert("まずは上部でテスト時期と科目を選んで「切り替え」ボタンを押してください。");
                 return;
             }
 
@@ -274,8 +318,8 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         question: questionText,
-                        testPeriod: testPeriod,
-                        subject: subject,
+                        testPeriod: currentTestPeriod,
+                        subject: currentSubject,
                         history: conversationHistory
                     })
                 });
@@ -371,6 +415,10 @@
                 </div>
             `;
             conversationHistory = [];
+            currentTestPeriod = '';
+            currentSubject = '';
+            document.getElementById('test-period').value = '';
+            document.getElementById('subject').value = '';
             document.getElementById('user-input').value = '';
             autoResize(document.getElementById('user-input'));
         }
