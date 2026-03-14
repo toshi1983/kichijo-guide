@@ -28,11 +28,16 @@ export default async function handler(req, res) {
 
     let parts = [];
 
-    const systemInstruction = `あなたはサピックス（SAPIX）のカリスマ塾講師です。以下のSAPIXのテスト（問題文と解答解説）を参照し、生徒の質問に答えてください。
-・やさしく、わかりやすく、そして論理的に解説してください。
-・答え合わせだけでなく、「なぜそうなるのか」「どう考えれば解けるのか」というアプローチや考え方に重点を置いてください。
-・小学生（新6年生）が理解できる言葉遣いを心がけてください。
-・回答はプレーンなテキストで、改行を活用して読みやすくしてください。
+    const systemInstruction = `あなたはサピックス（SAPIX）のカリスマ塾講師です。
+生徒（新6年生）は現在「吉祥女子中学校」を第一志望として目指しており、今回のテスト結果に少し落ち込んでいます。
+あなたの使命は、以下のSAPIXのテスト資料に基づき、論理的かつ情熱的にアドバイスを送ることです。
+
+【重要方針】
+・結果は重く受け止めつつも、決して突き放さず、やる気が出るようなポジティブな声かけをしてください。
+・「吉祥女子合格」という目標に向けて、今の立ち位置を客観的に伝え、あと何が足りないのか、具体的な勉強法を提示してください。
+・「厳しいことを言うようだけど、ここを乗り越えれば合格が見えてくるよ」という、愛のある厳しさを心がけてください。
+・やさしく、わかりやすく、論理的な解説とアドバイスを行ってください。
+・回答はプレーンなテキスト（またはMarkdown）で、改行を活用して読みやすくしてください。
 `;
 
     // これまでの会話履歴
@@ -40,10 +45,34 @@ export default async function handler(req, res) {
         ? `\n--- これまでの会話 ---\n${history.map(h => `${h.role === 'user' ? 'ユーザー' : '講師'}: ${h.text}`).join('\n')}\n--------------------\n`
         : '';
 
-    if (subject === '4教科') {
+    if (subject === '成績分析') {
         let promptText = "";
         if (question === "__GET_ADVICE__") {
-            promptText = `${systemInstruction}\n指示: 添付の「今回のテスト問題（4教科分）と解答」を徹底的に読み込んでください。そして、このテストを受けた小学生（新6年生）が、今後4教科全体の成績を上げるためにどのような戦略で勉強・対策すればよいか、全体的な傾向や各教科の復習のポイント、バランスの良い学習方法などを踏まえ、大変わかりやすくてやる気の出るアドバイスを作成して教えてください。箇条書きなども使って読みやすくしてください。`;
+            promptText = `${systemInstruction}\n指示: 添付の「個人成績票」を徹底的に分析してください。
+今回の偏差値や各科目の得点、正答率の傾向を見て、吉祥女子合格に向けて「今の弱点」と「今後1ヶ月で取り組むべき最優先事項」を4教科それぞれ具体的にアドバイスしてください。
+子供がまた明日から頑張ろうと思えるような、力強い激励の言葉も最後にかけてください。`;
+        } else {
+            promptText = `${systemInstruction}${historyText}\n個人成績票に基づく質問: ${question}`;
+        }
+        parts.push({ text: promptText });
+
+        const scorePdfPath = path.join(testDir, '個人成績票.pdf');
+        if (fs.existsSync(scorePdfPath)) {
+            try {
+                const data = fs.readFileSync(scorePdfPath);
+                parts.push({
+                    inline_data: { mime_type: 'application/pdf', data: data.toString('base64') }
+                });
+            } catch (e) {
+                console.error(`Error reading ${scorePdfPath}:`, e);
+            }
+        }
+    } else if (subject === '4教科') {
+        let promptText = "";
+        if (question === "__GET_ADVICE__") {
+            promptText = `${systemInstruction}\n指示: 添付の「今回のテスト問題（4教科分）と解答」を徹底的に読み込んでください。
+吉祥女子を目指すにあたって、今回の4教科全体の傾向はどう対策すべきか。
+復習のポイント、バランスの良い学習方法などを踏まえ、大変わかりやすくてやる気の出るアドバイスを作成してください。最後に子供にエールを送ってください。`;
         } else {
             promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${question}\n※添付のPDF（問題と解答）を参考にして具体的に解説してください。`;
         }
@@ -62,8 +91,6 @@ export default async function handler(req, res) {
                 } catch (e) {
                     console.error(`Error reading ${subPdfPath}:`, e);
                 }
-            } else {
-                console.warn(`File not found: ${subPdfPath}`);
             }
         }
 
@@ -82,7 +109,8 @@ export default async function handler(req, res) {
     } else {
         let promptText = "";
         if (question === "__GET_ADVICE__") {
-            promptText = `${systemInstruction}\n指示: 添付の「今回のテスト問題と解答」を徹底的に読み込んでください。そして、このテストを受けた小学生（新6年生）が、今後この科目の成績を上げるためにどう勉強・対策すればよいか、全体的な傾向や復習のポイント、テスト中の時間配分・考え方のコツなどを踏まえ、大変わかりやすくてやる気の出るアドバイスを作成して教えてください。箇条書きなども使って読みやすくしてください。`;
+            promptText = `${systemInstruction}\n指示: 添付の「今回のテスト問題と解答」を徹底的に読み込んでください。
+この科目が吉祥女子合格の武器になるように、今後どう勉強・対策すればよいか（復習のポイント、解き方のコツなど）を踏まえ、やる気の出るアドバイスを作成してください。`;
         } else {
             promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${question}\n※添付のPDF（問題と解答）を参考にして具体的に解説してください。`;
         }
@@ -102,8 +130,6 @@ export default async function handler(req, res) {
             } catch (e) {
                 console.error(`Error reading ${subjectPdfPath}:`, e);
             }
-        } else {
-            console.warn(`File not found: ${subjectPdfPath}`);
         }
 
         if (fs.existsSync(answerPdfPath)) {
@@ -115,8 +141,6 @@ export default async function handler(req, res) {
             } catch (e) {
                 console.error(`Error reading ${answerPdfPath}:`, e);
             }
-        } else {
-            console.warn(`File not found: ${answerPdfPath}`);
         }
     }
 

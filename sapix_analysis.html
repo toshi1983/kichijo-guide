@@ -329,17 +329,14 @@
 
     <script>
         // Data derived from realistic SAPIX test trends extracted previously
-        const labels = ['4月', '6月', '7月復', '夏期', '8月SO', '10月', '11月SO', '12月', '1月組分け', '1月復習'];
+        const labels = ['4月', '6月', '7月復', '夏期', '8月SO', '10月', '11月SO', '12月', '1月組分け', '1月復習', '3月組分け'];
 
-        // Mocked trends loosely based on actual text: 
-        // 12月 (Math:49.5, Jap:47.1, Sci:43.6, Soc:40.6, Total:45.2)
-        // 1月組 (Math:41.7, Jap:52.0, Sci:49.8, Soc:41.3, Total:44.9)
-        // 1月復 (Jap:61.5, Math:51.2, Total:50.2)
-        const mathData = [45, 46, 45, 47, 46, 39, 42, 49.5, 41.7, 51.2];
-        const japData = [48, 45, 46, 50, 47, 42, 46, 47.1, 52.0, 61.5];
-        const sciData = [42, 44, 45, 46, 40, 40, 44, 43.6, 49.8, 52.0];
-        const socData = [39, 36, 40, 38, 35, 36, 35, 40.6, 41.3, 44.0];
-        const totData = [44, 43, 45, 46, 43, 40, 42, 45.2, 44.9, 50.2];
+        // Mocked trends: anded 3月組分け placeholders based on user description (slightly dropped)
+        const mathData = [45, 46, 45, 47, 46, 39, 42, 49.5, 41.7, 51.2, 43.0];
+        const japData = [48, 45, 46, 50, 47, 42, 46, 47.1, 52.0, 61.5, 55.0];
+        const sciData = [42, 44, 45, 46, 40, 40, 44, 43.6, 49.8, 52.0, 47.0];
+        const socData = [39, 36, 40, 38, 35, 36, 35, 40.6, 41.3, 44.0, 40.0];
+        const totData = [44, 43, 45, 46, 43, 40, 42, 45.2, 44.9, 50.2, 46.2];
 
         // 1. Line Chart
         const ctxTrend = document.getElementById('trendChart').getContext('2d');
@@ -741,12 +738,14 @@
                 // Pre-prompt injecting the test context
                 const testContext = `※前提知識：生徒（紬さん）の直近の成績は、国語(約53)が得意で、算数(約47)は波があり速さが苦手。理科(約48)は光が苦手で植物は得意、社会(約42)は歴史が得意だが年表や地理が苦手です。この情報に基づいてユーザーの質問に答えてください。`;
 
-                const response = await fetch('/api/chat', {
+                const response = await fetch('/api/sapix_chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        school: "一般", // Dummy
-                        question: testContext + "\n\n質問：" + text,
+                        testPeriod: "2026_03_kumiwake",
+                        subject: "成績分析",
+                        question: text,
+                        history: []
                     })
                 });
 
