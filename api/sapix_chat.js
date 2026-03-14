@@ -26,13 +26,6 @@ export default async function handler(req, res) {
 
     const testDir = path.join(process.cwd(), 'テスト結果', folderName);
 
-    // 科目に基づくファイル名（全角スペースを含む）
-    const subjectFileName = `三月度組分けテスト　${subject}.pdf`;
-    const answerFileName = `三月度組分けテスト　解答.pdf`;
-
-    const subjectPdfPath = path.join(testDir, subjectFileName);
-    const answerPdfPath = path.join(testDir, answerFileName);
-
     let parts = [];
 
     const systemInstruction = `あなたはサピックス（SAPIX）のカリスマ塾講師です。以下のSAPIXのテスト（問題文と解答解説）を参照し、生徒の質問に答えてください。
@@ -47,46 +40,84 @@ export default async function handler(req, res) {
         ? `\n--- これまでの会話 ---\n${history.map(h => `${h.role === 'user' ? 'ユーザー' : '講師'}: ${h.text}`).join('\n')}\n--------------------\n`
         : '';
 
-    let promptText = "";
-    if (question === "__GET_ADVICE__") {
-        promptText = `${systemInstruction}\n指示: 添付の「今回のテスト問題と解答」を徹底的に読み込んでください。そして、このテストを受けた小学生（新6年生）が、今後この科目の成績を上げるためにどう勉強・対策すればよいか、全体的な傾向や復習のポイント、テスト中の時間配分・考え方のコツなどを踏まえ、大変わかりやすくてやる気の出るアドバイスを作成して教えてください。箇条書きなども使って読みやすくしてください。`;
-    } else {
-        promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${question}\n※添付のPDF（問題と解答）を参考にして具体的に解説してください。`;
-    }
-    
-    parts.push({ text: promptText });
+    if (subject === '4教科') {
+        let promptText = "";
+        if (question === "__GET_ADVICE__") {
+            promptText = `${systemInstruction}\n指示: 添付の「今回のテスト問題（4教科分）と解答」を徹底的に読み込んでください。そして、このテストを受けた小学生（新6年生）が、今後4教科全体の成績を上げるためにどのような戦略で勉強・対策すればよいか、全体的な傾向や各教科の復習のポイント、バランスの良い学習方法などを踏まえ、大変わかりやすくてやる気の出るアドバイスを作成して教えてください。箇条書きなども使って読みやすくしてください。`;
+        } else {
+            promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${question}\n※添付のPDF（問題と解答）を参考にして具体的に解説してください。`;
+        }
+        parts.push({ text: promptText });
 
-    // PDFの読み込みとB64エンコード
-    if (fs.existsSync(subjectPdfPath)) {
-        try {
-            const data = fs.readFileSync(subjectPdfPath);
-            parts.push({
-                inline_data: {
-                    mime_type: 'application/pdf',
-                    data: data.toString('base64')
+        const subjects4 = ['国語', '算数', '理科', '社会'];
+        for (const sub of subjects4) {
+            const subName = `三月度組分けテスト　${sub}.pdf`;
+            const subPdfPath = path.join(testDir, subName);
+            if (fs.existsSync(subPdfPath)) {
+                try {
+                    const data = fs.readFileSync(subPdfPath);
+                    parts.push({
+                        inline_data: { mime_type: 'application/pdf', data: data.toString('base64') }
+                    });
+                } catch (e) {
+                    console.error(`Error reading ${subPdfPath}:`, e);
                 }
-            });
-        } catch (e) {
-            console.error(`Error reading ${subjectPdfPath}:`, e);
+            } else {
+                console.warn(`File not found: ${subPdfPath}`);
+            }
+        }
+
+        const answerFileName = `三月度組分けテスト　解答.pdf`;
+        const answerPdfPath = path.join(testDir, answerFileName);
+        if (fs.existsSync(answerPdfPath)) {
+            try {
+                const data = fs.readFileSync(answerPdfPath);
+                parts.push({
+                    inline_data: { mime_type: 'application/pdf', data: data.toString('base64') }
+                });
+            } catch (e) {
+                console.error(`Error reading ${answerPdfPath}:`, e);
+            }
         }
     } else {
-        console.warn(`File not found: ${subjectPdfPath}`);
-    }
-
-    if (fs.existsSync(answerPdfPath)) {
-        try {
-            const data = fs.readFileSync(answerPdfPath);
-            parts.push({
-                inline_data: {
-                    mime_type: 'application/pdf',
-                    data: data.toString('base64')
-                }
-            });
-        } catch (e) {
-            console.error(`Error reading ${answerPdfPath}:`, e);
+        let promptText = "";
+        if (question === "__GET_ADVICE__") {
+            promptText = `${systemInstruction}\n指示: 添付の「今回のテスト問題と解答」を徹底的に読み込んでください。そして、このテストを受けた小学生（新6年生）が、今後この科目の成績を上げるためにどう勉強・対策すればよいか、全体的な傾向や復習のポイント、テスト中の時間配分・考え方のコツなどを踏まえ、大変わかりやすくてやる気の出るアドバイスを作成して教えてください。箇条書きなども使って読みやすくしてください。`;
+        } else {
+            promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${question}\n※添付のPDF（問題と解答）を参考にして具体的に解説してください。`;
         }
-    } else {
-        console.warn(`File not found: ${answerPdfPath}`);
+        parts.push({ text: promptText });
+
+        const subjectFileName = `三月度組分けテスト　${subject}.pdf`;
+        const answerFileName = `三月度組分けテスト　解答.pdf`;
+        const subjectPdfPath = path.join(testDir, subjectFileName);
+        const answerPdfPath = path.join(testDir, answerFileName);
+
+        if (fs.existsSync(subjectPdfPath)) {
+            try {
+                const data = fs.readFileSync(subjectPdfPath);
+                parts.push({
+                    inline_data: { mime_type: 'application/pdf', data: data.toString('base64') }
+                });
+            } catch (e) {
+                console.error(`Error reading ${subjectPdfPath}:`, e);
+            }
+        } else {
+            console.warn(`File not found: ${subjectPdfPath}`);
+        }
+
+        if (fs.existsSync(answerPdfPath)) {
+            try {
+                const data = fs.readFileSync(answerPdfPath);
+                parts.push({
+                    inline_data: { mime_type: 'application/pdf', data: data.toString('base64') }
+                });
+            } catch (e) {
+                console.error(`Error reading ${answerPdfPath}:`, e);
+            }
+        } else {
+            console.warn(`File not found: ${answerPdfPath}`);
+        }
     }
 
     try {
