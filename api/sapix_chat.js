@@ -47,7 +47,13 @@ export default async function handler(req, res) {
         ? `\n--- これまでの会話 ---\n${history.map(h => `${h.role === 'user' ? 'ユーザー' : '講師'}: ${h.text}`).join('\n')}\n--------------------\n`
         : '';
 
-    const promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${question}\n※添付のPDF（問題と解答）を参考にして解説を作成してください。`;
+    let promptText = "";
+    if (question === "__GET_ADVICE__") {
+        promptText = `${systemInstruction}\n指示: 添付の「今回のテスト問題と解答」を徹底的に読み込んでください。そして、このテストを受けた小学生（新6年生）が、今後この科目の成績を上げるためにどう勉強・対策すればよいか、全体的な傾向や復習のポイント、テスト中の時間配分・考え方のコツなどを踏まえ、大変わかりやすくてやる気の出るアドバイスを作成して教えてください。箇条書きなども使って読みやすくしてください。`;
+    } else {
+        promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${question}\n※添付のPDF（問題と解答）を参考にして具体的に解説してください。`;
+    }
+    
     parts.push({ text: promptText });
 
     // PDFの読み込みとB64エンコード

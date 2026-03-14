@@ -274,7 +274,7 @@
             currentTestPeriod = period;
             currentSubject = subj;
 
-            // チャットをクリアして切り替えメッセージを表示
+            // チャットをクリアして切り替えメッセージとローディングUIを表示
             document.getElementById('messages').innerHTML = `
                 <div class="flex gap-3 mb-4 fade-in">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-100 rounded-3xl flex items-center justify-center shadow-inner flex-none text-4xl select-none">
@@ -282,11 +282,54 @@
                     </div>
                     <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
                         <strong>${subj}</strong> に切り替えました！<br>
-                        ${subj}のテスト解説モードに入りました。わからない問題を質問してください📝
+                        テストファイルを徹底的に読み込んで、成績を上げるためのアドバイスを作成しています… 少し待ってね📝
                     </div>
                 </div>
             `;
             conversationHistory = [];
+            
+            // Generate the initial advice by querying the backend hiddenly
+            fetchAdvice(currentTestPeriod, currentSubject);
+        }
+
+        async function fetchAdvice(testPeriod, subject) {
+            const typingId = 'typing-' + Date.now();
+            appendTyping(typingId);
+            
+            // disable the send button in the meantime
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/sapix_chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: "__GET_ADVICE__",
+                        testPeriod: testPeriod,
+                        subject: subject,
+                        history: []
+                    })
+                });
+
+                document.getElementById(typingId)?.remove();
+
+                let data = null;
+                try { data = await response.json(); } catch (e) { }
+
+                if (response.ok && data?.reply) {
+                    appendBotMessage(data.reply);
+                    conversationHistory.push({ role: 'bot', text: data.reply });
+                } else {
+                    const errMsg = data?.reply || data?.error || `HTTPエラー ${response.status}`;
+                    appendBotMessage(`👨‍🏫 うーむ、エラーが起きてしまったようです。\n\n詳細: ${errMsg}`);
+                }
+            } catch (err) {
+                document.getElementById(typingId)?.remove();
+                appendBotMessage(`👨‍🏫 通信エラーのようです😥\n\nインターネット接続を確認してください。\n詳細: ${err.message}`);
+            } finally {
+                sendBtn.disabled = false;
+            }
         }
 
         async function sendMessage() {
