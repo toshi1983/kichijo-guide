@@ -733,6 +733,8 @@
         }
 
         // Chat rendering and logic
+        const MAX_GUIDE_HISTORY_TO_SEND = 8;
+
         function renderChat() {
             const container = document.getElementById('chat-messages');
             container.innerHTML = '';
@@ -784,8 +786,8 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
             try {
-                // Determine context history to send (last 100 interactions to save tokens)
-                const historyToSend = chatHistories[currentSchool].slice(-100).slice(0, -1);
+                // Keep request context compact to avoid hitting model limits.
+                const historyToSend = chatHistories[currentSchool].slice(-(MAX_GUIDE_HISTORY_TO_SEND + 1), -1);
 
                 const response = await fetch('/api/chat', {
                     method: 'POST',

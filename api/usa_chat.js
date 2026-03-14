@@ -5,18 +5,29 @@ export default async function handler(req, res) {
 
     const { question, imageBase64, mimeType, history = [] } = req.body;
     const apiKey = process.env.GEMINI_API_KEY;
+    const sanitizeText = (value, maxLength = 500) => String(value || '').replace(/\s+/g, ' ').trim().slice(0, maxLength);
+    const sanitizedQuestion = String(question || '').trim().slice(0, 1200);
+    const sanitizedHistory = Array.isArray(history)
+        ? history
+            .slice(-6)
+            .map((item) => ({
+                role: item?.role === 'user' ? 'user' : 'bot',
+                text: sanitizeText(item?.text)
+            }))
+            .filter((item) => item.text)
+        : [];
 
     if (!apiKey) {
         return res.status(500).json({ reply: 'エラー: GEMINI_API_KEY が設定されていません。' });
     }
 
-    if (!question && !imageBase64) {
+    if (!sanitizedQuestion && !imageBase64) {
         return res.status(400).json({ reply: '質問または画像が必要です。' });
     }
 
     // Build conversation history text
-    const historyText = history.length > 0
-        ? `\n--- これまでの会話 ---\n${history.map(h => `${h.role === 'user' ? 'ユーザー' : 'うさぴょん'}: ${h.text}`).join('\n')}\n--------------------\n`
+    const historyText = sanitizedHistory.length > 0
+        ? `\n--- これまでの会話 ---\n${sanitizedHistory.map(h => `${h.role === 'user' ? 'ユーザー' : 'うさぴょん'}: ${h.text}`).join('\n')}\n--------------------\n`
         : '';
 
     const systemInstruction = `あなたは「うさぴょん」という名前の、中学受験専門の家庭教師AIです。
@@ -39,7 +50,7 @@ export default async function handler(req, res) {
         // Text-only or multimodal
         if (imageBase64) {
             // Multimodal: text + image
-            const promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${question || '画像の問題を解いて説明してください'}`;
+            const promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${sanitizedQuestion || '画像の問題を解いて説明してください'}\n必要な範囲で簡潔に答えてください。`;
             parts.push({ text: promptText });
             parts.push({
                 inline_data: {
@@ -49,7 +60,7 @@ export default async function handler(req, res) {
             });
         } else {
             // Text only
-            const promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${question}`;
+            const promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${sanitizedQuestion}\n必要な範囲で簡潔に答えてください。`;
             parts.push({ text: promptText });
         }
 
@@ -59,7 +70,7 @@ export default async function handler(req, res) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 contents: [{ parts }],
-                generationConfig: { temperature: 0.7 }
+                generationConfig: { temperature: 0.7, maxOutputTokens: 900 }
             })
         });
 

@@ -6,21 +6,33 @@ export default async function handler(req, res) {
   const { question, school, history = [], isPlanner = false } = req.body;
   const apiKey = process.env.GEMINI_API_KEY;
 
+  const sanitizeText = (value, maxLength = 700) => String(value || '').replace(/\s+/g, ' ').trim().slice(0, maxLength);
+  const sanitizedQuestion = String(question || '').trim().slice(0, 1800);
+  const sanitizedHistory = Array.isArray(history)
+    ? history
+      .slice(-8)
+      .map((item) => ({
+        isUser: Boolean(item?.isUser),
+        text: sanitizeText(item?.text)
+      }))
+      .filter((item) => item.text)
+    : [];
+
   if (!apiKey) {
     return res.status(500).json({ reply: "エラー: Vercel環境変数にGEMINI_API_KEYが設定されていません。" });
   }
 
-  if (!isPlanner && (!question || !school)) {
+  if (!isPlanner && (!sanitizedQuestion || !school)) {
     return res.status(400).json({ reply: "質問と学校名が必要です。" });
   }
 
-  if (isPlanner && !question) {
+  if (isPlanner && !sanitizedQuestion) {
     return res.status(400).json({ reply: "質問が必要です。" });
   }
 
   // Build conversational history text if it exists
-  const historyText = history.length > 0
-    ? `\n--- これまでの会話履歴 ---\n${history.map(h => `${h.isUser ? '質問者' : 'AI'}: ${h.text}`).join('\n')}\n--------------------\n`
+  const historyText = sanitizedHistory.length > 0
+    ? `\n--- これまでの会話履歴 ---\n${sanitizedHistory.map(h => `${h.isUser ? '質問者' : 'AI'}: ${h.text}`).join('\n')}\n--------------------\n`
     : '';
 
   let prompt = "";
@@ -34,7 +46,7 @@ export default async function handler(req, res) {
 ※回答は文字の装飾(太字のためのアスタリスクなど)を極力使わずプレーンなテキストにし、適度に改行を入れてください。
 ※スケジュールを表やリストで提示する場合は、Markdown形式（箇条書きには「- 」、タスクのチェックボックスには「- [ ] 」など）を使ってきれいに整理してください。特に、達成度がわかるようにチェックボックス([ ])を使うと効果的です。
 ${historyText}
-ユーザーからの要望: ${question}`;
+ユーザーからの要望: ${sanitizedQuestion}`;
   } else {
     prompt = `あなたは中学受験のプロフェッショナルAIアドバイザーです。
 質問者が志望している学校は「${school}」です。
@@ -44,8 +56,9 @@ ${historyText}
 あなたは中学受験や学習に関する専用のAIアシスタントです。もし中学受験、学校選び、学習内容、勉強方法とは全く関係のない話題（例：プログラミング、料理のレシピ、ニュース、一般的な雑談など）を質問された場合は、絶対にその質問には答えず、「申し訳ありません、私は中学受験サポート専用のアシスタントですので、志望校や学習についてのご相談にのみお答えしております。」と丁寧にお断りしてください。
 
 ※回答は文字の装飾(太字のためのアスタリスクなど)を極力使わずプレーンなテキストにし、適度に改行を入れてください。
+※長くなりすぎず、要点を絞って答えてください。
 ${historyText}
-質問: ${question}`;
+質問: ${sanitizedQuestion}`;
   }
 
   try {
@@ -57,6 +70,7 @@ ${historyText}
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
           temperature: 0.7,
+          maxOutputTokens: 700,
         }
       })
     });

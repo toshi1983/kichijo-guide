@@ -381,6 +381,8 @@
             });
         }
 
+        const MAX_PLANNER_HISTORY_TO_SEND = 8;
+
         document.getElementById('plan-chat-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('plan-user-input');
@@ -414,7 +416,7 @@
             try {
                 // Determine context: we pass the daily context, and remind AI what date this is for.
                 const contextPrefix = `※現在ユーザーはカレンダー上の「${getDisplayText(dateStr)}」の計画について相談しています。\n`;
-                const recentHistory = plannerDailyData[dateStr].slice(-50).slice(0, -1);
+                const recentHistory = plannerDailyData[dateStr].slice(-(MAX_PLANNER_HISTORY_TO_SEND + 1), -1);
 
                 const response = await fetch('/api/chat', {
                     method: 'POST',

@@ -186,6 +186,11 @@
                     class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg shadow transition whitespace-nowrap">
                     切り替え
                 </button>
+                <button onclick="requestInitialAdvice()" id="generate-advice-btn"
+                    class="bg-white border border-indigo-300 text-indigo-700 text-sm font-bold px-4 py-2 rounded-lg shadow-sm transition whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
+                    初回アドバイス
+                </button>
             </div>
         </div>
     </div>
@@ -201,9 +206,9 @@
                 </div>
                 <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
                     こんにちは！わたしはSAPIXテスト解説を担当するAI講師です。<br>
-                    まずは上のメニューから<strong>『テストの時期』</strong>と<strong>『科目』</strong>を選んでくださいね。<br>
+                    まずは上のメニューから<strong>『テストの時期』</strong>と<strong>『科目』</strong>を選んで、<strong>「切り替え」</strong>を押してくださいね。<br>
                     <br>
-                    「大問3の(2)がわからない」「あの問題の解き方のコツを教えて」など、なんでも聞いてください！📝
+                    初回の全体アドバイスがほしいときは<strong>「初回アドバイス」</strong>、細かい問題はそのまま質問してください。図が必要ならうさトークへの画像送信が確実です。📝
                 </div>
             </div>
         </div>
@@ -231,6 +236,7 @@
     </div>
 
     <script>
+        const MAX_SAPIX_HISTORY_TO_SEND = 6;
         let conversationHistory = [];
         let isComposing = false;
         let currentTestPeriod = '';
@@ -276,21 +282,28 @@
             currentTestPeriod = period;
             currentSubject = subj;
 
-            // チャットをクリアして切り替えメッセージとローディングUIを表示
+            // Reset chat and wait for an explicit action before consuming AI quota.
             document.getElementById('messages').innerHTML = `
                 <div class="flex gap-3 mb-4 fade-in">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-100 rounded-3xl flex items-center justify-center shadow-inner flex-none text-4xl select-none">
                         👨‍🏫
                     </div>
                     <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
-                        <strong>${subj}</strong> に切り替えました！<br>
-                        テストファイルを徹底的に読み込んで、成績を上げるためのアドバイスを作成しています… 少し待ってね📝
+                        <strong>${subj}</strong> に切り替えました。<br>
+                        必要なら上の<strong>「初回アドバイス」</strong>を押してください。すぐに質問しても大丈夫です。<br><br>
+                        細かい図や問題文そのものが必要なときは、<a href="usa_talk.html" class="text-indigo-700 underline font-bold">うさトークで画像を送る</a>のが最短です。📝
                     </div>
                 </div>
             `;
             conversationHistory = [];
-            
-            // Generate the initial advice by querying the backend hiddenly
+            document.getElementById('generate-advice-btn').disabled = false;
+        }
+
+        function requestInitialAdvice() {
+            if (!currentTestPeriod || !currentSubject) {
+                alert('先にテスト時期と科目を選んで切り替えてください。');
+                return;
+            }
             fetchAdvice(currentTestPeriod, currentSubject);
         }
 
@@ -365,7 +378,7 @@
                         question: questionText,
                         testPeriod: currentTestPeriod,
                         subject: currentSubject,
-                        history: conversationHistory
+                        history: conversationHistory.slice(-MAX_SAPIX_HISTORY_TO_SEND)
                     })
                 });
 
@@ -378,7 +391,9 @@
                     appendBotMessage(data.reply);
                     conversationHistory.push({ role: 'user', text: questionText });
                     conversationHistory.push({ role: 'bot', text: data.reply });
-                    if (conversationHistory.length > 20) conversationHistory = conversationHistory.slice(-20);
+                    if (conversationHistory.length > MAX_SAPIX_HISTORY_TO_SEND * 2) {
+                        conversationHistory = conversationHistory.slice(-(MAX_SAPIX_HISTORY_TO_SEND * 2));
+                    }
                 } else {
                     const errMsg = data?.reply || data?.error || `HTTPエラー ${response.status}`;
                     appendBotMessage(`👨‍🏫 うーむ、エラーが起きてしまったようです。\n\n詳細: ${errMsg}`);
@@ -454,14 +469,15 @@
                     </div>
                     <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
                         こんにちは！わたしはSAPIXテスト解説を担当するAI講師です。<br>
-                        まずは上のメニューから<strong>『テストの時期』</strong>と<strong>『科目』</strong>を選んでくださいね。<br><br>
-                        「大問3の(2)がわからない」「あの問題の解き方のコツを教えて」など、なんでも聞いてください！📝
+                        まずは上のメニューから<strong>『テストの時期』</strong>と<strong>『科目』</strong>を選んで、<strong>「切り替え」</strong>を押してくださいね。<br><br>
+                        初回の全体アドバイスがほしいときは<strong>「初回アドバイス」</strong>、細かい問題はそのまま質問してください。図が必要ならうさトークへの画像送信が確実です。📝
                     </div>
                 </div>
             `;
             conversationHistory = [];
             currentTestPeriod = '';
             currentSubject = '';
+            document.getElementById('generate-advice-btn').disabled = true;
             document.getElementById('test-period').value = '';
             document.getElementById('subject').value = '';
             document.getElementById('user-input').value = '';

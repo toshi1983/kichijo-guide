@@ -282,6 +282,7 @@
         onchange="handleImageSelect(event)">
 
     <script>
+        const MAX_USA_HISTORY_TO_SEND = 6;
         let conversationHistory = [];
         let selectedImageBase64 = null;
         let selectedMimeType = null;
@@ -320,21 +321,66 @@
             document.getElementById('file-camera').click();
         }
 
-        function handleImageSelect(e) {
+        async function handleImageSelect(e) {
             const file = e.target.files[0];
             if (!file) return;
-            selectedMimeType = file.type || 'image/jpeg';
-
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                const result = ev.target.result; // data:...;base64,...
-                selectedImageBase64 = result.split(',')[1];
-                document.getElementById('preview-img').src = result;
-                document.getElementById('preview-name').textContent = file.name;
+            try {
+                const compressed = await compressImageFile(file);
+                selectedMimeType = compressed.mimeType;
+                selectedImageBase64 = compressed.base64;
+                document.getElementById('preview-img').src = compressed.dataUrl;
+                document.getElementById('preview-name').textContent = `${file.name}（自動圧縮済み）`;
                 document.getElementById('preview-strip').classList.remove('hidden');
+            } catch (error) {
+                alert('画像の準備に失敗しました。別の画像でお試しください。');
+                console.error('image compression error', error);
+            } finally {
+                e.target.value = '';
+            }
+        }
+
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(reader.error || new Error('Failed to read file.'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function loadImage(dataUrl) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+                img.src = dataUrl;
+            });
+        }
+
+        async function compressImageFile(file) {
+            const dataUrl = await readFileAsDataURL(file);
+            const img = await loadImage(dataUrl);
+            const maxSide = 1600;
+            const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+            const width = Math.max(1, Math.round(img.width * scale));
+            const height = Math.max(1, Math.round(img.height * scale));
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const mimeType = 'image/jpeg';
+            const quality = 0.72;
+            const compressedDataUrl = canvas.toDataURL(mimeType, quality);
+            return {
+                dataUrl: compressedDataUrl,
+                base64: compressedDataUrl.split(',')[1],
+                mimeType
             };
-            reader.readAsDataURL(file);
-            e.target.value = ''; // reset
         }
 
         function clearImage() {
@@ -369,6 +415,7 @@
             appendTyping(typingId);
 
             try {
+                const historyToSend = conversationHistory.slice(-MAX_USA_HISTORY_TO_SEND);
                 const response = await fetch('/api/usa_chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -376,7 +423,7 @@
                         question,
                         imageBase64: imgB64 || null,
                         mimeType: mime || null,
-                        history: conversationHistory
+                        history: historyToSend
                     })
                 });
 
@@ -389,10 +436,12 @@
                     appendBotMessage(data.reply);
                     conversationHistory.push({ role: 'user', text: question || '(画像)' });
                     conversationHistory.push({ role: 'bot', text: data.reply });
-                    if (conversationHistory.length > 20) conversationHistory = conversationHistory.slice(-20);
+                    if (conversationHistory.length > MAX_USA_HISTORY_TO_SEND * 2) {
+                        conversationHistory = conversationHistory.slice(-(MAX_USA_HISTORY_TO_SEND * 2));
+                    }
                 } else {
                     const errMsg = data?.reply || data?.error || `HTTPエラー ${response.status}`;
-                    appendBotMessage(`🐰 ごめんね、エラーが起きちゃった�\n\n詳細: ${errMsg}`);
+                    appendBotMessage(`🐰 ごめんね、エラーが起きちゃったよ。\n\n詳細: ${errMsg}`);
                 }
             } catch (err) {
                 document.getElementById(typingId)?.remove();
