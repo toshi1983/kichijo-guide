@@ -110,8 +110,8 @@
                 <div class="radar-container h-[300px]">
                     <canvas id="radarChart"></canvas>
                 </div>
-                <div class="mt-4 text-center text-sm text-gray-500 bg-gray-50 p-3 rounded-xl">
-                    国語が頭一つ抜けて得意（偏差値50台連発）。算数と社会は波があり、対策次第で一番伸びしろがあります。
+                <div class="mt-4 text-center text-sm text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    国語は安定していますが、今回の3月組分けでは全体的に厳しめの結果となりました。しかし、ここが「吉祥女子合格」へのリスタート地点。弱点を一つずつ潰していきましょう。
                 </div>
             </div>
 
@@ -128,10 +128,10 @@
                         <p class="text-sm">
                             <span
                                 class="inline-block bg-green-100 text-green-700 px-2 py-0.5 rounded mr-1 text-xs">得意</span>
-                            小問集合, 平面図形<br>
+                            計算問題, 平面図形<br>
                             <span
                                 class="inline-block bg-red-100 text-red-700 px-2 py-0.5 rounded mr-1 mt-1 text-xs">苦手</span>
-                            速さ (1月組分け:0点), 割合(食塩水)
+                            速さ, 割合, 大問の後半
                         </p>
                     </div>
                     <!-- 国語 -->
@@ -331,12 +331,12 @@
         // Data derived from realistic SAPIX test trends extracted previously
         const labels = ['4月', '6月', '7月復', '夏期', '8月SO', '10月', '11月SO', '12月', '1月組分け', '1月復習', '3月組分け'];
 
-        // Mocked trends: anded 3月組分け placeholders based on user description (slightly dropped)
-        const mathData = [45, 46, 45, 47, 46, 39, 42, 49.5, 41.7, 51.2, 43.0];
-        const japData = [48, 45, 46, 50, 47, 42, 46, 47.1, 52.0, 61.5, 55.0];
-        const sciData = [42, 44, 45, 46, 40, 40, 44, 43.6, 49.8, 52.0, 47.0];
-        const socData = [39, 36, 40, 38, 35, 36, 35, 40.6, 41.3, 44.0, 40.0];
-        const totData = [44, 43, 45, 46, 43, 40, 42, 45.2, 44.9, 50.2, 46.2];
+        // Mocked trends: Updated with actual 3月組分け data from PDF
+        const mathData = [45, 46, 45, 47, 46, 39, 42, 49.5, 41.7, 51.2, 38.3];
+        const japData = [48, 45, 46, 50, 47, 42, 46, 47.1, 52.0, 61.5, 47.0];
+        const sciData = [42, 44, 45, 46, 40, 40, 44, 43.6, 49.8, 52.0, 34.0];
+        const socData = [39, 36, 40, 38, 35, 36, 35, 40.6, 41.3, 44.0, 42.9];
+        const totData = [44, 43, 45, 46, 43, 40, 42, 45.2, 44.9, 50.2, 38.9];
 
         // 1. Line Chart
         const ctxTrend = document.getElementById('trendChart').getContext('2d');
