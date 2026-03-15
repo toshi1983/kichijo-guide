@@ -7,8 +7,19 @@
     }
   ],
   "functions": {
-    "api/*.js": {
-      "includeFiles": "テスト結果/**/個人成績票.pdf"
+    "api/test_results.js": {
+      "includeFiles": [
+        "テスト結果/**/個人成績票.pdf",
+        "temp_pdf_extract_2/node_modules/pdf-parse/dist/pdf-parse/cjs/pdf.worker.mjs",
+        "temp_pdf_extract_2/node_modules/@napi-rs/canvas/geometry.js"
+      ]
+    },
+    "api/sapix_chat.js": {
+      "includeFiles": [
+        "テスト結果/**/個人成績票.pdf",
+        "temp_pdf_extract_2/node_modules/pdf-parse/dist/pdf-parse/cjs/pdf.worker.mjs",
+        "temp_pdf_extract_2/node_modules/@napi-rs/canvas/geometry.js"
+      ]
     }
   }
 }
