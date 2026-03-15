@@ -1,6 +1,3 @@
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
 const staticTestContexts = require('../data/sapix_test_context.js');
 const { buildTestResultsManifest } = require('../data/test_results_service.js');
 
@@ -20,7 +17,7 @@ function getQuotaFallbackMessage(subjectConfig) {
     return `${baseAdvice}\n\n図や問題文そのものを見ながら確認したい場合は、うさトークで画像を送る方法が確実です。`;
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }

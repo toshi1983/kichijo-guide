@@ -1,13 +1,10 @@
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
 const { buildTestResultsManifest } = require('../data/test_results_service.js');
 
 let cachedManifest = null;
 let cachedAt = 0;
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     if (req.method !== 'GET') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
