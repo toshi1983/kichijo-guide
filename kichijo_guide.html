@@ -526,7 +526,14 @@
         };
 
         let currentSchool = 'kichijo';
-        let currentData = JSON.parse(JSON.stringify(schoolData.kichijo.charts)); // default user data (mock)
+        let currentData = JSON.parse(JSON.stringify(schoolData.kichijo.charts));
+        let latestGuideProfile = null;
+        let currentProfileMeta = {
+            source: 'demo',
+            overallDeviation: null,
+            testName: '',
+            manualOverride: false
+        };
         let charts = {};
 
         // Load chat history from localStorage or initialize empty defaults
@@ -534,6 +541,153 @@
 
         function saveChatHistories() {
             localStorage.setItem('chatHistories', JSON.stringify(chatHistories));
+        }
+
+        function clampValue(value, min = 30, max = 75) {
+            return Math.max(min, Math.min(max, Number(value)));
+        }
+
+        function averageValues(values = []) {
+            if (!Array.isArray(values) || values.length === 0) {
+                return 0;
+            }
+            return values.reduce((sum, value) => sum + Number(value || 0), 0) / values.length;
+        }
+
+        function cloneCurrentData(data) {
+            return JSON.parse(JSON.stringify(data));
+        }
+
+        function buildDemoCurrentData(schoolKey) {
+            const charts = schoolData[schoolKey].charts;
+            return Object.fromEntries(
+                Object.entries(charts).map(([subject, values]) => [
+                    subject,
+                    values.map((value) => clampValue(value - 6))
+                ])
+            );
+        }
+
+        function findBreakdownItems(items = [], keywords = []) {
+            return items.filter((item) => keywords.some((keyword) => item.title.includes(keyword)));
+        }
+
+        function estimateTopicDeviation(subjectDeviation, item) {
+            if (!item || !item.max) {
+                return clampValue(subjectDeviation);
+            }
+            const scoreRate = item.score / item.max;
+            const averageRate = item.average / item.max;
+            return clampValue(subjectDeviation + ((scoreRate - averageRate) * 20));
+        }
+
+        function deriveAxisValue(subjectDeviation, items, keywords, fallbackOffset = 0) {
+            const matchedItems = findBreakdownItems(items, keywords);
+            if (matchedItems.length === 0) {
+                return Number(clampValue(subjectDeviation + fallbackOffset).toFixed(1));
+            }
+            return Number(clampValue(averageValues(matchedItems.map((item) => estimateTopicDeviation(subjectDeviation, item)))).toFixed(1));
+        }
+
+        function buildGuideProfileFromLatestTest(latestTest) {
+            const summary = latestTest?.summary || {};
+            const breakdown = latestTest?.breakdown || {};
+            const japaneseDeviation = summary.japanese?.deviation ?? 40;
+            const mathDeviation = summary.math?.deviation ?? 40;
+            const scienceDeviation = summary.science?.deviation ?? 40;
+            const socialDeviation = summary.social?.deviation ?? 40;
+
+            return {
+                testName: latestTest?.displayName || '',
+                overallDeviation: summary.total4?.deviation ?? null,
+                currentData: {
+                    japanese: [
+                        deriveAxisValue(japaneseDeviation, breakdown.japanese || [], ['文学的文章', '物語']),
+                        deriveAxisValue(japaneseDeviation, breakdown.japanese || [], ['説明的文章', '論説']),
+                        deriveAxisValue(japaneseDeviation, breakdown.japanese || [], ['説明的文章', '文学的文章']),
+                        deriveAxisValue(japaneseDeviation, breakdown.japanese || [], ['漢字', '慣用句', '四字熟語'])
+                    ],
+                    math: [
+                        deriveAxisValue(mathDeviation, breakdown.math || [], ['図形'], -1),
+                        deriveAxisValue(mathDeviation, breakdown.math || [], ['図形'], -2),
+                        deriveAxisValue(mathDeviation, breakdown.math || [], ['速さ']),
+                        deriveAxisValue(mathDeviation, breakdown.math || [], ['損益', '水量変化']),
+                        deriveAxisValue(mathDeviation, breakdown.math || [], ['計算問題']),
+                        deriveAxisValue(mathDeviation, breakdown.math || [], ['数表'])
+                    ],
+                    science: [
+                        deriveAxisValue(scienceDeviation, breakdown.science || [], ['てこ']),
+                        deriveAxisValue(scienceDeviation, breakdown.science || [], ['熱']),
+                        deriveAxisValue(scienceDeviation, breakdown.science || [], [], 0),
+                        deriveAxisValue(scienceDeviation, breakdown.science || [], ['気象'], 0),
+                        deriveAxisValue(scienceDeviation, breakdown.science || [], ['アゲハ']),
+                        deriveAxisValue(scienceDeviation, breakdown.science || [], [], -1)
+                    ],
+                    social: [
+                        deriveAxisValue(socialDeviation, breakdown.social || [], ['歴史']),
+                        deriveAxisValue(socialDeviation, breakdown.social || [], ['地理']),
+                        deriveAxisValue(socialDeviation, breakdown.social || [], [], -2),
+                        deriveAxisValue(socialDeviation, breakdown.social || [], ['総合問題', '地理', '歴史'])
+                    ]
+                }
+            };
+        }
+
+        async function preloadLatestGuideProfile() {
+            try {
+                const manifest = await fetchTestResultsManifest();
+                const latestTest = getLatestTestFromManifest(manifest);
+                if (latestTest) {
+                    latestGuideProfile = buildGuideProfileFromLatestTest(latestTest);
+                }
+            } catch (error) {
+                console.warn('latest guide profile fallback:', error);
+            }
+        }
+
+        function getDefaultProfileForSchool(schoolKey) {
+            if (schoolKey === 'kichijo' && latestGuideProfile) {
+                return {
+                    data: cloneCurrentData(latestGuideProfile.currentData),
+                    meta: {
+                        source: 'latest_test',
+                        overallDeviation: latestGuideProfile.overallDeviation,
+                        testName: latestGuideProfile.testName,
+                        manualOverride: false
+                    }
+                };
+            }
+
+            return {
+                data: buildDemoCurrentData(schoolKey),
+                meta: {
+                    source: 'demo',
+                    overallDeviation: null,
+                    testName: '',
+                    manualOverride: false
+                }
+            };
+        }
+
+        function extractTargetDeviation(schoolKey) {
+            const raw = schoolData[schoolKey]?.target?.sapi || '';
+            const match = String(raw).match(/(\d+(?:\.\d+)?)/);
+            return match ? Number(match[1]) : 50;
+        }
+
+        function calculateCurrentOverallDeviation() {
+            if (currentSchool === 'kichijo'
+                && currentProfileMeta.source === 'latest_test'
+                && !currentProfileMeta.manualOverride
+                && Number.isFinite(currentProfileMeta.overallDeviation)) {
+                return currentProfileMeta.overallDeviation;
+            }
+
+            const subjectAverages = ['japanese', 'math', 'science', 'social']
+                .map((subject) => averageValues(currentData[subject] || []))
+                .filter((value) => Number.isFinite(value));
+
+            return Number(averageValues(subjectAverages).toFixed(1));
         }
 
         function createRadarChart(canvasId, labels, target, current, color, bgColor) {
@@ -560,15 +714,19 @@
                     html += `
                     <div class="flex items-center justify-between text-xs mb-3">
                         <label class="w-20">${label}</label>
-                        <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" value="${currentData[subj][i]}" oninput="updateScore('${subj}', ${i}, this.value)">
-                        <span class="font-bold w-6 text-right" id="val-${subj}-${i}">${currentData[subj][i]}</span>
+                        <input type="range" class="range-slider flex-1 mx-2" min="30" max="75" step="0.1" value="${currentData[subj][i]}" oninput="updateScore('${subj}', ${i}, this.value)">
+                        <span class="font-bold w-10 text-right" id="val-${subj}-${i}">${currentData[subj][i]}</span>
                     </div>`;
                 });
                 document.getElementById(`inputs-${subj}`).innerHTML = html;
             });
         }
 
-        function initApp() {
+        async function initApp() {
+            await preloadLatestGuideProfile();
+            const defaultProfile = getDefaultProfileForSchool(currentSchool);
+            currentData = defaultProfile.data;
+            currentProfileMeta = defaultProfile.meta;
             buildInputHTML();
             changeSchool(true);
             updateLatestFileStatus();
@@ -624,11 +782,10 @@
             // Re-render chat for the new school
             renderChat();
 
-            // Reset user data to be slightly below the school's target for demo purposes
             if (!isInit) {
-                ['japanese', 'math', 'science', 'social'].forEach(subj => {
-                    currentData[subj] = data.charts[subj].map(v => Math.max(40, v - Math.floor(Math.random() * 8)));
-                });
+                const defaultProfile = getDefaultProfileForSchool(currentSchool);
+                currentData = defaultProfile.data;
+                currentProfileMeta = defaultProfile.meta;
                 buildInputHTML();
             }
 
@@ -668,11 +825,14 @@
         }
 
         function updateScore(subject, index, value, skipChartUpdate = false) {
-            value = parseInt(value);
+            value = Number.parseFloat(value);
             const valEl = document.getElementById(`val-${subject}-${index}`);
-            if (valEl) valEl.textContent = value;
+            if (valEl) valEl.textContent = Number.isInteger(value) ? value : value.toFixed(1);
 
             currentData[subject][index] = value;
+            if (!skipChartUpdate) {
+                currentProfileMeta.manualOverride = true;
+            }
             if (!skipChartUpdate) {
                 charts[subject].data.datasets[1].data = currentData[subject];
                 charts[subject].update();
@@ -709,6 +869,9 @@
             const subjects = ['japanese', 'math', 'science', 'social'];
             const jpNames = { japanese: '国語', math: '算数', science: '理科', social: '社会' };
             const target = schoolData[currentSchool].charts;
+            const currentOverall = calculateCurrentOverallDeviation();
+            const targetDeviation = extractTargetDeviation(currentSchool);
+            const gap = Number((targetDeviation - currentOverall).toFixed(1));
 
             subjects.forEach(sub => {
                 analyzeGap(sub); // ensure individual advices are updated
@@ -719,12 +882,26 @@
             });
 
             let msg = "";
-            if (criticalTopics.length === 0) {
-                msg = `<span class="text-green-400 font-bold text-lg border-b border-green-400 pb-1 block mb-3">★ 合格圏（A・B判定）が見えています！</span>
-                       素晴らしいバランスです。このまま${schoolData[currentSchool].name}の過去問演習（実践力・時間配分）に移行してください。`;
+            const sourceLabel = currentProfileMeta.testName
+                ? `${currentProfileMeta.testName} の4科偏差値 ${currentOverall.toFixed(1)}`
+                : `現在地の目安 ${currentOverall.toFixed(1)}`;
+
+            if (gap <= 2 && criticalTopics.length <= 2) {
+                msg = `<span class="text-green-400 font-bold text-lg border-b border-green-400 pb-1 block mb-3">★ 合格圏にかなり近づいています</span>
+                       <span class="text-gray-200">${sourceLabel}</span><br><br>
+                       このまま${schoolData[currentSchool].name}の過去問演習（実践力・時間配分）へ比重を移していける状態です。`;
+            } else if (gap <= 8) {
+                msg = `<span class="text-yellow-400 font-bold text-base border-b border-yellow-400 pb-1 block mb-3">▶ ${schoolData[currentSchool].name} 合格まであと一歩</span>
+                       <span class="text-gray-200">${sourceLabel}</span><br>
+                       学校目安の偏差値 ${targetDeviation} まで残り ${gap}。<br><br>
+                       <ul class="list-disc pl-5 space-y-1 mb-3 text-gray-200">
+                           ${criticalTopics.slice(0, 4).map(t => `<li>${t}</li>`).join('')}
+                           ${criticalTopics.length > 4 ? `<li>他 ${criticalTopics.length - 4} 項目</li>` : ''}
+                       </ul>`;
             } else {
-                msg = `<span class="text-yellow-400 font-bold text-base border-b border-yellow-400 pb-1 block mb-3">▶ ${schoolData[currentSchool].name} 合格への課題</span>
-                       以下の分野を重点的に復習すると偏差値の向上が期待できます。<br><br>
+                msg = `<span class="text-red-300 font-bold text-base border-b border-red-300 pb-1 block mb-3">▶ ${schoolData[currentSchool].name} は要立て直しです</span>
+                       <span class="text-gray-200">${sourceLabel}</span><br>
+                       学校目安の偏差値 ${targetDeviation} まで残り ${gap}。まずは苦手分野を絞って戻す段階です。<br><br>
                        <ul class="list-disc pl-5 space-y-1 mb-3 text-gray-200">
                            ${criticalTopics.slice(0, 4).map(t => `<li>${t}</li>`).join('')}
                            ${criticalTopics.length > 4 ? `<li>他 ${criticalTopics.length - 4} 項目</li>` : ''}
@@ -735,20 +912,27 @@
 
         function handleFileUpload(input) {
             if (input.files && input.files[0]) {
-                alert(`「${input.files[0].name}」を読み込みます...\n(デモ: ${schoolData[currentSchool].name}の基準に合わせて数値を自動生成します)`);
+                alert(`「${input.files[0].name}」を読み込みます。\nいまの実装では、この画面のPDF読込は簡易モードです。`);
                 setTimeout(() => {
-                    const subjs = ['japanese', 'math', 'science', 'social'];
-                    subjs.forEach(sub => {
-                        const baseData = schoolData[currentSchool].charts[sub];
-                        currentData[sub] = baseData.map(v => v - Math.floor(Math.random() * 8));
+                    const demoProfile = getDefaultProfileForSchool(currentSchool);
+                    currentData = demoProfile.data;
+                    currentProfileMeta = {
+                        ...demoProfile.meta,
+                        manualOverride: true
+                    };
+
+                    ['japanese', 'math', 'science', 'social'].forEach(sub => {
                         currentData[sub].forEach((v, i) => {
                             const slider = document.querySelector(`input[oninput="updateScore('${sub}', ${i}, this.value)"]`);
-                            if (slider) { slider.value = v; updateScore(sub, i, v, true); }
+                            if (slider) {
+                                slider.value = v;
+                                updateScore(sub, i, v, true);
+                            }
                         });
                     });
                     ['japanese', 'math', 'science', 'social'].forEach(s => charts[s].update());
                     updateTotalFeedback();
-                    alert('解析完了。グラフをグラフを更新しました。');
+                    alert('解析完了。グラフを更新しました。');
                 }, 800);
             }
         }
