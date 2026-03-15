@@ -1,3 +1,6 @@
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 const { buildTestResultsManifest } = require('../data/test_results_service.js');
 
 let cachedManifest = null;

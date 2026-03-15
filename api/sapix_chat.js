@@ -1,3 +1,6 @@
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 const staticTestContexts = require('../data/sapix_test_context.js');
 const { buildTestResultsManifest } = require('../data/test_results_service.js');
 
