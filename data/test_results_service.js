@@ -57,12 +57,35 @@ function listPdfFolders() {
         });
 }
 
+function ensurePdfRuntimeGlobals() {
+    if (globalThis.DOMMatrix && globalThis.DOMPoint && globalThis.DOMRect) {
+        return;
+    }
+
+    try {
+        const geometry = require('../temp_pdf_extract_2/node_modules/@napi-rs/canvas/geometry');
+        if (!globalThis.DOMMatrix && geometry.DOMMatrix) {
+            globalThis.DOMMatrix = geometry.DOMMatrix;
+        }
+        if (!globalThis.DOMPoint && geometry.DOMPoint) {
+            globalThis.DOMPoint = geometry.DOMPoint;
+        }
+        if (!globalThis.DOMRect && geometry.DOMRect) {
+            globalThis.DOMRect = geometry.DOMRect;
+        }
+    } catch (error) {
+        console.warn('PDF geometry polyfill unavailable:', error.message);
+    }
+}
+
 function getPdfParseConstructor() {
     if (PDFParseConstructor) {
         return PDFParseConstructor;
     }
 
     try {
+        // pdf.js still touches DOMMatrix on serverless runtimes during text extraction.
+        ensurePdfRuntimeGlobals();
         ({ PDFParse: PDFParseConstructor } = require('../temp_pdf_extract_2/node_modules/pdf-parse'));
         return PDFParseConstructor;
     } catch (error) {

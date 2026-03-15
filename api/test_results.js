@@ -1,4 +1,5 @@
 const { buildTestResultsManifest } = require('../data/test_results_service.js');
+const { buildFallbackTestResultsManifest } = require('../data/test_results_manifest_fallback.js');
 
 let cachedManifest = null;
 let cachedAt = 0;
@@ -19,6 +20,9 @@ module.exports = async function handler(req, res) {
         return res.status(200).json(cachedManifest);
     } catch (error) {
         console.error('test_results error:', error);
-        return res.status(500).json({ error: 'テスト結果の読み込みに失敗しました。' });
+        const fallbackManifest = buildFallbackTestResultsManifest();
+        cachedManifest = fallbackManifest;
+        cachedAt = Date.now();
+        return res.status(200).json(fallbackManifest);
     }
 }
