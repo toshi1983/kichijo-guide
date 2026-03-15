@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const { PDFParse } = require('../temp_pdf_extract_2/node_modules/pdf-parse');
 
 const TEST_RESULTS_DIR = path.join(process.cwd(), 'テスト結果');
+let PDFParseConstructor = null;
 
 const SUBJECT_KEYS = {
     total4: '４科目計',
@@ -55,6 +55,19 @@ function listPdfFolders() {
             const dateB = extractFolderMeta(b.folderName).sortKey;
             return dateA.localeCompare(dateB);
         });
+}
+
+function getPdfParseConstructor() {
+    if (PDFParseConstructor) {
+        return PDFParseConstructor;
+    }
+
+    try {
+        ({ PDFParse: PDFParseConstructor } = require('../temp_pdf_extract_2/node_modules/pdf-parse'));
+        return PDFParseConstructor;
+    } catch (error) {
+        throw new Error(`PDF parser unavailable: ${error.message}`);
+    }
 }
 
 function extractFolderMeta(folderName) {
@@ -438,6 +451,7 @@ function buildTrendFromTests(tests = []) {
 }
 
 async function parseTestPdf(entry) {
+    const PDFParse = getPdfParseConstructor();
     const buffer = fs.readFileSync(entry.pdfPath);
     const parser = new PDFParse({ data: buffer });
 
