@@ -1,5 +1,5 @@
 const staticTestContexts = require('../data/sapix_test_context.js');
-const { resolveTestResultsManifest } = require('../data/test_results_manifest_store.js');
+const { buildTestResultsManifest } = require('../data/test_results_service.js');
 
 let cachedTestContexts = staticTestContexts;
 let cachedAt = 0;
@@ -45,7 +45,7 @@ module.exports = async function handler(req, res) {
 
     if ((Date.now() - cachedAt) > CACHE_TTL_MS) {
         try {
-            const { manifest } = await resolveTestResultsManifest();
+            const manifest = await buildTestResultsManifest();
             cachedTestContexts = {
                 ...(manifest.chatContexts || {}),
                 ...staticTestContexts

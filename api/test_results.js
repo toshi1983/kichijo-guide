@@ -1,4 +1,5 @@
-const { resolveTestResultsManifest } = require('../data/test_results_manifest_store.js');
+const { buildTestResultsManifest } = require('../data/test_results_service.js');
+const { buildFallbackTestResultsManifest } = require('../data/test_results_manifest_fallback.js');
 
 let cachedManifest = null;
 let cachedAt = 0;
@@ -12,17 +13,16 @@ module.exports = async function handler(req, res) {
     try {
         const now = Date.now();
         if (!cachedManifest || (now - cachedAt) > CACHE_TTL_MS) {
-            const { manifest } = await resolveTestResultsManifest();
-            cachedManifest = manifest;
+            cachedManifest = await buildTestResultsManifest();
             cachedAt = now;
         }
 
         return res.status(200).json(cachedManifest);
     } catch (error) {
         console.error('test_results error:', error);
-        const { manifest } = await resolveTestResultsManifest();
-        cachedManifest = manifest;
+        const fallbackManifest = buildFallbackTestResultsManifest();
+        cachedManifest = fallbackManifest;
         cachedAt = Date.now();
-        return res.status(200).json(manifest);
+        return res.status(200).json(fallbackManifest);
     }
 }
