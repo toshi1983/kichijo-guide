@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/quiz_data.js"></script>
+    <script src="js/test_results_client.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
         rel="stylesheet">
     <style>
@@ -88,13 +89,13 @@
         <!-- Dashboard Header -->
         <div class="text-center mb-10 animate-fade-in">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 tracking-tight">成績分析レポート</h2>
-            <p class="text-gray-500 mt-3 md:text-lg">テスト結果PDF（過去9回分）からAIが自動分析しました</p>
+            <p id="analysis-source-caption" class="text-gray-500 mt-3 md:text-lg">最新の個人成績票からAIが自動分析しました</p>
         </div>
 
         <!-- 1. Trend Analysis (Line Chart) -->
         <div class="glass-card rounded-3xl p-6 md:p-8 animate-fade-in" style="animation-delay: 0.1s;">
             <div class="flex flex-col md:flex-row justify-between items-center mb-6">
-                <h3 class="text-xl font-bold flex items-center gap-2"><span class="text-2xl">📈</span> 偏差値推移（4月〜1月）</h3>
+                <h3 id="trend-chart-title" class="text-xl font-bold flex items-center gap-2"><span class="text-2xl">📈</span> 偏差値推移</h3>
             </div>
             <div class="w-full h-[300px] md:h-[400px]">
                 <canvas id="trendChart"></canvas>
@@ -110,7 +111,7 @@
                 <div class="radar-container h-[300px]">
                     <canvas id="radarChart"></canvas>
                 </div>
-                <div class="mt-4 text-center text-sm text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                <div id="latest-overview-text" class="mt-4 text-center text-sm text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100">
                     国語は安定していますが、今回の3月組分けでは全体的に厳しめの結果となりました。しかし、ここが「吉祥女子合格」へのリスタート地点。弱点を一つずつ潰していきましょう。
                 </div>
             </div>
@@ -125,7 +126,7 @@
                     <div>
                         <div class="flex items-center gap-2 font-bold text-blue-600 mb-2 border-b border-blue-100 pb-1">
                             📐 算数</div>
-                        <p class="text-sm">
+                        <p id="analysis-math" class="text-sm">
                             <span
                                 class="inline-block bg-green-100 text-green-700 px-2 py-0.5 rounded mr-1 text-xs">得意</span>
                             計算問題, 平面図形<br>
@@ -138,7 +139,7 @@
                     <div>
                         <div class="flex items-center gap-2 font-bold text-red-500 mb-2 border-b border-red-50 pb-1">📚
                             国語</div>
-                        <p class="text-sm">
+                        <p id="analysis-japanese" class="text-sm">
                             <span
                                 class="inline-block bg-green-100 text-green-700 px-2 py-0.5 rounded mr-1 text-xs">得意</span>
                             漢字の読み書き, 説明文の読解<br>
@@ -152,7 +153,7 @@
                         <div
                             class="flex items-center gap-2 font-bold text-green-600 mb-2 border-b border-green-100 pb-1">
                             🔬 理科</div>
-                        <p class="text-sm">
+                        <p id="analysis-science" class="text-sm">
                             <span
                                 class="inline-block bg-green-100 text-green-700 px-2 py-0.5 rounded mr-1 text-xs">得意</span>
                             植物, 物質の燃焼<br>
@@ -166,7 +167,7 @@
                         <div
                             class="flex items-center gap-2 font-bold text-orange-500 mb-2 border-b border-orange-100 pb-1">
                             🌏 社会</div>
-                        <p class="text-sm">
+                        <p id="analysis-social" class="text-sm">
                             <span
                                 class="inline-block bg-green-100 text-green-700 px-2 py-0.5 rounded mr-1 text-xs">得意</span>
                             歴史（江戸時代など）<br>
@@ -182,7 +183,7 @@
         <div class="glass-card rounded-3xl p-6 md:p-8 animate-fade-in" style="animation-delay: 0.25s;">
             <div
                 class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b border-gray-100 pb-4">
-                <h3 class="text-xl font-bold flex items-center gap-2"><span class="text-2xl">📋</span> 大問別得点率（最新1月組分け等）
+                <h3 id="question-section-title" class="text-xl font-bold flex items-center gap-2"><span class="text-2xl">📋</span> 大問別得点率
                 </h3>
                 <div class="flex bg-gray-100 rounded-lg p-1 w-full md:w-auto overflow-x-auto" id="subject-tabs">
                     <button onclick="changeSubject('math', this)"
@@ -269,7 +270,7 @@
                             class="inline-flex w-max items-center gap-1 text-xs font-bold text-orange-600 bg-orange-100 hover:bg-orange-200 px-3 py-1.5 rounded-full transition shadow-sm border border-orange-200">📊
                             成績一覧を見る</a>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">過去3回のテスト（12月マンスリー、1月組分け・復習）から、社会の弱点補強ドリルです。</p>
+                    <p id="quiz-section-caption" class="text-xs text-gray-500 mt-1">既存のクイズ素材を使って、弱点補強ドリルに取り組めます。</p>
                 </div>
                 <div class="ml-auto flex gap-2 hidden lg:flex">
                     <button
@@ -296,7 +297,7 @@
             <div id="bot-messages" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-[#f8fafc] hidden-scrollbar">
                 <div class="flex gap-3">
                     <div class="text-2xl mt-1">🤖</div>
-                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-gray-200 shadow-sm max-w-[85%]">
+                    <div id="bot-intro-bubble" class="bg-white p-4 rounded-2xl rounded-tl-none border border-gray-200 shadow-sm max-w-[85%]">
                         こんにちは！今回の1月組分け・復習テストなどの分析について、気になることはありますか？<br>各教科の勉強法や、苦手克服のアイディアなど何でも相談してくださいね。
                     </div>
                 </div>
@@ -328,104 +329,266 @@
     </div>
 
     <script>
-        // Data derived from realistic SAPIX test trends extracted previously
-        const labels = ['4月', '6月', '7月復', '夏期', '8月SO', '10月', '11月SO', '12月', '1月組分け', '1月復習', '3月組分け'];
-
-        // Mocked trends: Updated with actual 3月組分け data from PDF
-        const mathData = [45, 46, 45, 47, 46, 39, 42, 49.5, 41.7, 51.2, 38.3];
-        const japData = [48, 45, 46, 50, 47, 42, 46, 47.1, 52.0, 61.5, 47.0];
-        const sciData = [42, 44, 45, 46, 40, 40, 44, 43.6, 49.8, 52.0, 34.0];
-        const socData = [39, 36, 40, 38, 35, 36, 35, 40.6, 41.3, 44.0, 42.9];
-        const totData = [44, 43, 45, 46, 43, 40, 42, 45.2, 44.9, 50.2, 38.9];
-
-        // 1. Line Chart
-        const ctxTrend = document.getElementById('trendChart').getContext('2d');
-        new Chart(ctxTrend, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    { label: '４科総合', data: totData, borderColor: '#0369a1', backgroundColor: '#0369a1', borderWidth: 4, tension: 0.3, pointRadius: 5 },
-                    { label: '算数', data: mathData, borderColor: '#3b82f6', backgroundColor: '#3b82f6', borderWidth: 2, borderDash: [5, 5], tension: 0.3, hidden: true },
-                    { label: '国語', data: japData, borderColor: '#ef4444', backgroundColor: '#ef4444', borderWidth: 2, borderDash: [5, 5], tension: 0.3, hidden: true },
-                    { label: '理科', data: sciData, borderColor: '#10b981', backgroundColor: '#10b981', borderWidth: 2, borderDash: [5, 5], tension: 0.3, hidden: true },
-                    { label: '社会', data: socData, borderColor: '#f59e0b', backgroundColor: '#f59e0b', borderWidth: 2, borderDash: [5, 5], tension: 0.3, hidden: true },
+        const fallbackTrend = {
+            labels: ['10月M', '12月M', '1月組', '1月復', '3月組'],
+            total4: [39.9, 45.2, 44.9, 50.2, 38.9],
+            math: [36.7, 49.5, 41.7, 51.2, 38.3],
+            japanese: [50.7, 47.1, 52.0, 61.5, 47.0],
+            science: [46.2, 43.6, 49.8, 45.1, 34.0],
+            social: [35.1, 40.6, 41.3, 41.7, 42.9]
+        };
+        const fallbackLatestTest = {
+            id: '2026_03_kumiwake',
+            displayName: '2026年3月 組分けテスト',
+            summary: {
+                total4: { score: 199, max: 500, deviation: 38.9, average: 280.3 },
+                math: { score: 48, max: 150, deviation: 38.3, average: 84.2 },
+                japanese: { score: 86, max: 150, deviation: 47.0, average: 92.1 },
+                science: { score: 27, max: 100, deviation: 34.0, average: 53.9 },
+                social: { score: 38, max: 100, deviation: 42.9, average: 50.1 }
+            },
+            breakdown: {
+                math: [
+                    { title: '1 計算問題', score: 18, max: 18, average: 12.9, rate: 100.0 },
+                    { title: '2 小問集合（文章題）', score: 24, max: 36, average: 25.6, rate: 66.7 },
+                    { title: '3 小問集合（図形）', score: 6, max: 30, average: 18.9, rate: 20.0 },
+                    { title: '4 損益', score: 0, max: 18, average: 8.7, rate: 0.0 },
+                    { title: '5 速さ', score: 0, max: 12, average: 7.3, rate: 0.0 },
+                    { title: '6 水量変化', score: 0, max: 18, average: 6.6, rate: 0.0 },
+                    { title: '7 数表', score: 0, max: 18, average: 4.2, rate: 0.0 }
+                ],
+                japanese: [
+                    { title: '1 漢字の書きとり', score: 14, max: 20, average: 14.2, rate: 70.0 },
+                    { title: '2 慣用句・四字熟語', score: 4, max: 20, average: 9.5, rate: 20.0 },
+                    { title: '3 説明的文章の読解', score: 29, max: 56, average: 33.7, rate: 51.8 },
+                    { title: '4 文学的文章の読解', score: 39, max: 54, average: 34.8, rate: 72.2 }
+                ],
+                science: [
+                    { title: '1 気象', score: 5, max: 25, average: 13.7, rate: 20.0 },
+                    { title: '2 アゲハ', score: 7, max: 25, average: 15.3, rate: 28.0 },
+                    { title: '3 熱', score: 9, max: 25, average: 14.0, rate: 36.0 },
+                    { title: '4 てこ', score: 6, max: 25, average: 10.9, rate: 24.0 }
+                ],
+                social: [
+                    { title: '1 歴史総合問題', score: 22, max: 61, average: 31.4, rate: 36.1 },
+                    { title: '2 地理総合問題', score: 16, max: 39, average: 18.8, rate: 41.0 }
                 ]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom' } },
-                scales: { y: { min: 30, max: 70, title: { display: true, text: '偏差値' } } }
-            }
-        });
-
-        // 2. Radar Chart (Average of last 3 tests to gauge current power)
-        const avgCalc = (arr) => (arr.slice(-3).reduce((a, b) => a + b, 0) / 3).toFixed(1);
-        const ctxRadar = document.getElementById('radarChart').getContext('2d');
-        new Chart(ctxRadar, {
-            type: 'radar',
-            data: {
-                labels: ['算数', '国語', '理科', '社会'],
-                datasets: [{
-                    label: '直近3回平均 偏差値',
-                    data: [avgCalc(mathData), avgCalc(japData), avgCalc(sciData), avgCalc(socData)],
-                    backgroundColor: 'rgba(3, 105, 161, 0.2)',
-                    borderColor: '#0369a1',
-                    pointBackgroundColor: '#0369a1',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: {
-                    r: { min: 30, max: 65, ticks: { stepSize: 10 } }
-                }
-            }
-        });
-
-        // 2.5 Score per Question logic
-        const questionData = {
-            math: {
-                themeColor: 'blue',
-                questions: [
-                    { title: "１ 小問集合", score: "25", max: "47", rate: 53.2, avg: 28.0 },
-                    { title: "２ 図形集合", score: "6", max: "30", rate: 20.0, avg: 11.6 },
-                    { title: "３ 点の移動", score: "5", max: "17", rate: 29.4, avg: 3.7 },
-                    { title: "４ 速さ", score: "0", max: "18", rate: 0.0, avg: 6.3 },
-                    { title: "５ 割合（食塩水）", score: "0", max: "18", rate: 0.0, avg: 6.4 },
-                    { title: "６ 規則性", score: "0", max: "20", rate: 0.0, avg: 4.7 }
-                ],
-                advice: "💡 <b>AIの着眼点:</b> 大問1の小問集合で5割強取れていますが、まだまだ伸ばせます。大問2以降の図形や後半の応用問題で0点が連続している点が最も大きな伸びしろです。"
-            },
-            jap: {
-                themeColor: 'red',
-                questions: [
-                    { title: "１ 漢字の読み書き", score: "14", max: "20", rate: 70.0, avg: 14.2 },
-                    { title: "２ 慣用句・ことば", score: "10", max: "20", rate: 50.0, avg: 13.0 },
-                    { title: "３ 説明文の読解", score: "34", max: "52", rate: 65.4, avg: 29.7 },
-                    { title: "４ 物語文の読解", score: "35", max: "58", rate: 60.3, avg: 31.8 }
-                ],
-                advice: "💡 <b>AIの着眼点:</b> 読解問題（大問3,4）でしっかり6割以上獲得できているため全体の偏差値が安定しています。大問1,2の知識問題で100%を目指せばさらに上に行けます。"
-            },
-            sci: {
-                themeColor: 'green',
-                questions: [
-                    { title: "１ 季節と生物", score: "9", max: "18", rate: 50.0, avg: 12.8 },
-                    { title: "２ 火山と地震", score: "18", max: "27", rate: 66.7, avg: 18.2 },
-                    { title: "３ 物質の燃焼", score: "21", max: "30", rate: 70.0, avg: 19.6 },
-                    { title: "４ 光", score: "15", max: "25", rate: 60.0, avg: 12.7 }
-                ],
-                advice: "💡 <b>AIの着眼点:</b> 大問2,3（地学・化学分野）は全体平均よりしっかりと点が取れています！一方で生物分野にやや穴があるため、次回マンスリー対策では暗記の見直しを。"
-            },
-            soc: {
-                themeColor: 'orange',
-                questions: [
-                    { title: "１ 年表を用いた総合問題", score: "15", max: "41", rate: 36.6, avg: 23.0 },
-                    { title: "２ 地図を題材とした総合問題", score: "26", max: "59", rate: 44.1, avg: 33.3 }
-                ],
-                advice: "💡 <b>AIの着眼点:</b> 大問単位の長い総合問題に苦戦しています。単なる用語暗記ではなく「いつの時代のどこで起きたか」を地図上で確認・整理するクセをつけましょう。"
             }
         };
+
+        let labels = [...fallbackTrend.labels];
+        let mathData = [...fallbackTrend.math];
+        let japData = [...fallbackTrend.japanese];
+        let sciData = [...fallbackTrend.science];
+        let socData = [...fallbackTrend.social];
+        let totData = [...fallbackTrend.total4];
+        let currentLatestTest = fallbackLatestTest;
+        let latestTestIdForBot = fallbackLatestTest.id;
+        let trendChartInstance = null;
+        let radarChartInstance = null;
+
+        const avgCalc = (arr) => {
+            if (!Array.isArray(arr) || arr.length === 0) return 0;
+            const recent = arr.slice(-3);
+            return Number((recent.reduce((sum, value) => sum + value, 0) / recent.length).toFixed(1));
+        };
+
+        function pickHighlights(items = []) {
+            if (!items.length) {
+                return { strongest: null, weakest: null };
+            }
+
+            return {
+                strongest: [...items].sort((a, b) => (b.score / b.max) - (a.score / a.max))[0],
+                weakest: [...items].sort((a, b) => (a.score / a.max) - (b.score / b.max))[0]
+            };
+        }
+
+        function formatAnalysisParagraph(subjectKey) {
+            const subjectLabels = {
+                math: '算数',
+                japanese: '国語',
+                science: '理科',
+                social: '社会'
+            };
+            const items = currentLatestTest.breakdown?.[subjectKey] || [];
+            const summary = currentLatestTest.summary?.[subjectKey] || null;
+            const { strongest, weakest } = pickHighlights(items);
+
+            if (!summary) {
+                return `${subjectLabels[subjectKey]}の詳細データはまだありません。`;
+            }
+
+            const strongestText = strongest ? strongest.title : '比較的取れている分野';
+            const weakestText = weakest ? weakest.title : '優先復習分野';
+
+            return `
+                <span class="inline-block bg-green-100 text-green-700 px-2 py-0.5 rounded mr-1 text-xs">比較的取れた</span>
+                ${strongestText}<br>
+                <span class="inline-block bg-red-100 text-red-700 px-2 py-0.5 rounded mr-1 mt-1 text-xs">優先復習</span>
+                ${weakestText}<br>
+                <span class="text-gray-500 text-xs">得点 ${summary.score}/${summary.max} / 偏差値 ${summary.deviation} / 平均 ${summary.average}</span>
+            `;
+        }
+
+        function buildQuestionAdvice(test, subjectKey) {
+            const subjectNames = {
+                math: '算数',
+                jap: '国語',
+                sci: '理科',
+                soc: '社会'
+            };
+            const breakdownKeyMap = {
+                math: 'math',
+                jap: 'japanese',
+                sci: 'science',
+                soc: 'social'
+            };
+            const items = test.breakdown?.[breakdownKeyMap[subjectKey]] || [];
+            const { strongest, weakest } = pickHighlights(items);
+
+            if (!strongest || !weakest) {
+                return `💡 <b>AIの着眼点:</b> ${subjectNames[subjectKey]}の最新分野別データをもとに、取れる問題を先に固める方針が有効です。`;
+            }
+
+            return `💡 <b>AIの着眼点:</b> 比較的取れていたのは「${strongest.title}」、優先して立て直したいのは「${weakest.title}」です。まずは${weakest.title}の基本問題を解き直し、次に${strongest.title}を安定した得点源として固定しましょう。`;
+        }
+
+        function buildQuestionData(test) {
+            const toQuestionRows = (items = []) => items.map((item) => ({
+                title: item.title,
+                score: item.score,
+                max: item.max,
+                rate: item.rate,
+                avg: item.average
+            }));
+
+            return {
+                math: {
+                    questions: toQuestionRows(test.breakdown?.math || []),
+                    advice: buildQuestionAdvice(test, 'math')
+                },
+                jap: {
+                    questions: toQuestionRows(test.breakdown?.japanese || []),
+                    advice: buildQuestionAdvice(test, 'jap')
+                },
+                sci: {
+                    questions: toQuestionRows(test.breakdown?.science || []),
+                    advice: buildQuestionAdvice(test, 'sci')
+                },
+                soc: {
+                    questions: toQuestionRows(test.breakdown?.social || []),
+                    advice: buildQuestionAdvice(test, 'soc')
+                }
+            };
+        }
+
+        let questionData = buildQuestionData(fallbackLatestTest);
+
+        function updateAnalysisCopy(test) {
+            const strongest = ['math', 'japanese', 'science', 'social']
+                .map((key) => ({ key, deviation: test.summary?.[key]?.deviation || 0 }))
+                .sort((a, b) => b.deviation - a.deviation)[0];
+            const weakest = ['math', 'japanese', 'science', 'social']
+                .map((key) => ({ key, deviation: test.summary?.[key]?.deviation || 0 }))
+                .sort((a, b) => a.deviation - b.deviation)[0];
+            const labelNames = {
+                math: '算数',
+                japanese: '国語',
+                science: '理科',
+                social: '社会'
+            };
+
+            document.getElementById('analysis-source-caption').textContent = `${test.displayName} の個人成績票から自動分析しています`;
+            document.getElementById('trend-chart-title').innerHTML = `<span class="text-2xl">📈</span> 偏差値推移（${labels[0]}〜${labels[labels.length - 1]}）`;
+            document.getElementById('latest-overview-text').textContent = `${test.displayName}では、相対的に支えになっているのは${labelNames[strongest.key]}、優先して立て直したいのは${labelNames[weakest.key]}です。得点源を維持しながら、苦手分野を一つずつ戻していきましょう。`;
+            document.getElementById('analysis-math').innerHTML = formatAnalysisParagraph('math');
+            document.getElementById('analysis-japanese').innerHTML = formatAnalysisParagraph('japanese');
+            document.getElementById('analysis-science').innerHTML = formatAnalysisParagraph('science');
+            document.getElementById('analysis-social').innerHTML = formatAnalysisParagraph('social');
+            document.getElementById('question-section-title').innerHTML = `<span class="text-2xl">📋</span> 大問別得点率（${test.displayName}）`;
+            document.getElementById('quiz-section-caption').textContent = `最新表示は ${test.displayName} に合わせています。クイズ自体は既存の画像素材ベースです。`;
+            document.getElementById('bot-intro-bubble').innerHTML = `こんにちは！今回は <strong>${test.displayName}</strong> の分析について相談できます。<br>各教科の勉強法や、苦手分野の立て直し方を聞いてみてください。`;
+        }
+
+        function renderCharts() {
+            const trendContext = document.getElementById('trendChart').getContext('2d');
+            if (trendChartInstance) {
+                trendChartInstance.destroy();
+            }
+            trendChartInstance = new Chart(trendContext, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        { label: '４科総合', data: totData, borderColor: '#0369a1', backgroundColor: '#0369a1', borderWidth: 4, tension: 0.3, pointRadius: 5 },
+                        { label: '算数', data: mathData, borderColor: '#3b82f6', backgroundColor: '#3b82f6', borderWidth: 2, borderDash: [5, 5], tension: 0.3, hidden: true },
+                        { label: '国語', data: japData, borderColor: '#ef4444', backgroundColor: '#ef4444', borderWidth: 2, borderDash: [5, 5], tension: 0.3, hidden: true },
+                        { label: '理科', data: sciData, borderColor: '#10b981', backgroundColor: '#10b981', borderWidth: 2, borderDash: [5, 5], tension: 0.3, hidden: true },
+                        { label: '社会', data: socData, borderColor: '#f59e0b', backgroundColor: '#f59e0b', borderWidth: 2, borderDash: [5, 5], tension: 0.3, hidden: true }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: { y: { min: 30, max: 70, title: { display: true, text: '偏差値' } } }
+                }
+            });
+
+            const radarContext = document.getElementById('radarChart').getContext('2d');
+            if (radarChartInstance) {
+                radarChartInstance.destroy();
+            }
+            radarChartInstance = new Chart(radarContext, {
+                type: 'radar',
+                data: {
+                    labels: ['算数', '国語', '理科', '社会'],
+                    datasets: [{
+                        label: '直近3回平均 偏差値',
+                        data: [avgCalc(mathData), avgCalc(japData), avgCalc(sciData), avgCalc(socData)],
+                        backgroundColor: 'rgba(3, 105, 161, 0.2)',
+                        borderColor: '#0369a1',
+                        pointBackgroundColor: '#0369a1',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { r: { min: 30, max: 65, ticks: { stepSize: 10 } } }
+                }
+            });
+        }
+
+        async function initializeLatestTestData() {
+            try {
+                const manifest = await fetchTestResultsManifest();
+                const latestTest = getLatestTestFromManifest(manifest);
+                const trend = getTrendFromManifest(manifest);
+
+                if (latestTest) {
+                    currentLatestTest = latestTest;
+                    latestTestIdForBot = manifest.latestTestId || latestTest.id || latestTestIdForBot;
+                    questionData = buildQuestionData(latestTest);
+                }
+
+                if (trend?.labels?.length) {
+                    labels = trend.labels;
+                    mathData = trend.math?.length ? trend.math : mathData;
+                    japData = trend.japanese?.length ? trend.japanese : japData;
+                    sciData = trend.science?.length ? trend.science : sciData;
+                    socData = trend.social?.length ? trend.social : socData;
+                    totData = trend.total4?.length ? trend.total4 : totData;
+                }
+            } catch (error) {
+                console.warn('sapix analysis manifest fallback:', error);
+            }
+
+            updateAnalysisCopy(currentLatestTest);
+            renderCharts();
+            changeSubject('math', document.querySelector('.subj-btn'));
+        }
 
         function changeSubject(subj, btnElement) {
             // Reset buttons
@@ -481,7 +644,6 @@
             advDiv.classList.remove('hidden');
         }
 
-        // Initialize First Tab
         setTimeout(() => changeSubject('math', document.querySelector('.subj-btn')), 100);
 
         // 3. Goal Strategy
@@ -720,6 +882,8 @@
             setTimeout(renderQuizConfig, 500);
         }
 
+        initializeLatestTestData();
+
         botForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const text = botInput.value.trim();
@@ -735,14 +899,11 @@
 
             // Fetch
             try {
-                // Pre-prompt injecting the test context
-                const testContext = `※前提知識：生徒（紬さん）の直近の成績は、国語(約53)が得意で、算数(約47)は波があり速さが苦手。理科(約48)は光が苦手で植物は得意、社会(約42)は歴史が得意だが年表や地理が苦手です。この情報に基づいてユーザーの質問に答えてください。`;
-
                 const response = await fetch('/api/sapix_chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        testPeriod: "2026_03_kumiwake",
+                        testPeriod: latestTestIdForBot,
                         subject: "成績分析",
                         question: text,
                         history: []

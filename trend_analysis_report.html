@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/test_results_client.js"></script>
     <style>
         :root {
             --primary-color: #5D9CEC;
@@ -206,7 +207,7 @@
                 そして、国語が「最強の武器」になったことも証明されました！
             </div>
 
-            <div class="section-title">📊 3回のキセキ（成績の推移）</div>
+            <div id="trend-report-title" class="section-title">📊 直近のキセキ（成績の推移）</div>
             <div class="chart-container">
                 <canvas id="scoreChart"></canvas>
             </div>
@@ -216,7 +217,7 @@
             <div class="card-grid">
                 <div class="card card-good">
                     <h3>📚 国語：覚醒モード突入！</h3>
-                    <p class="analysis-text">
+                    <p id="trend-japanese-text" class="analysis-text">
                         12月(47.1) → 1月組分け(52.0) → 1月復習(61.5) 📈<br>
                         3回連続で成績アップ！特に今回の伸びはスゴイ。
                     </p>
@@ -228,7 +229,7 @@
 
                 <div class="card card-good">
                     <h3>📐 算数：修正力がすごい！</h3>
-                    <p class="analysis-text">
+                    <p id="trend-math-text" class="analysis-text">
                         1月組分けで0点だった「割合」を、復習テストで満点にしました！<br>
                         「やればできる」を証明しましたね。
                     </p>
@@ -240,7 +241,7 @@
 
                 <div class="card card-challenge">
                     <h3>🌏 社会：ここが一番のチャンス</h3>
-                    <p class="analysis-text">
+                    <p id="trend-social-text" class="analysis-text">
                         3回とも偏差値41くらいで止まっています。<br>
                         逆に言えば、ここさえクリアすれば、総合偏差値は一気に55〜58まで上がります！
                     </p>
@@ -252,7 +253,7 @@
 
                 <div class="card card-challenge">
                     <h3>⚗️ 理科：「光」を味方にしよう</h3>
-                    <p class="analysis-text">
+                    <p id="trend-science-text" class="analysis-text">
                         「物の燃え方」は得意だけど、「光」が2回連続で苦戦中。<br>
                         苦手なところがはっきりしているのは良いことです。
                     </p>
@@ -292,109 +293,137 @@
     </div>
 
     <script>
-        const ctx = document.getElementById('scoreChart').getContext('2d');
-        const scoreChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['12月マンスリー', '1月組分け', '1月復習'],
-                datasets: [
-                    {
-                        label: '国語 (急上昇！)',
-                        data: [47.1, 52.0, 61.5],
-                        borderColor: '#FF6B6B', // Red
-                        backgroundColor: 'rgba(255, 107, 107, 0.2)',
-                        borderWidth: 3,
-                        pointRadius: 6,
-                        pointBackgroundColor: '#FF6B6B',
-                        tension: 0.3
-                    },
-                    {
-                        label: '算数 (V字回復)',
-                        data: [49.5, 41.7, 51.2],
-                        borderColor: '#5D9CEC', // Blue
-                        backgroundColor: 'rgba(93, 156, 236, 0.2)',
-                        borderWidth: 3,
-                        pointRadius: 6,
-                        pointBackgroundColor: '#5D9CEC',
-                        tension: 0.3
-                    },
-                    {
-                        label: '4教科総合',
-                        data: [45.2, 44.9, 50.2],
-                        borderColor: '#48CFAD', // Green
-                        backgroundColor: 'rgba(72, 207, 173, 0.2)',
-                        borderWidth: 4,
-                        pointRadius: 8,
-                        pointBackgroundColor: '#48CFAD',
-                        borderDash: [5, 5],
-                        tension: 0.3
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 30,
-                        max: 70,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)'
+        const fallbackTrend = {
+            labels: ['12月M', '1月組', '1月復', '3月組'],
+            total4: [45.2, 44.9, 50.2, 38.9],
+            math: [49.5, 41.7, 51.2, 38.3],
+            japanese: [47.1, 52.0, 61.5, 47.0],
+            science: [43.6, 49.8, 45.1, 34.0],
+            social: [40.6, 41.3, 41.7, 42.9]
+        };
+
+        function renderTrendChart(trend) {
+            const ctx = document.getElementById('scoreChart').getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: trend.labels,
+                    datasets: [
+                        {
+                            label: '国語',
+                            data: trend.japanese,
+                            borderColor: '#FF6B6B',
+                            backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                            borderWidth: 3,
+                            pointRadius: 6,
+                            pointBackgroundColor: '#FF6B6B',
+                            tension: 0.3
                         },
-                        title: {
-                            display: true,
-                            text: '偏差値',
-                            color: '#656D78',
-                            font: {
-                                family: "'Zen Maru Gothic', sans-serif"
+                        {
+                            label: '算数',
+                            data: trend.math,
+                            borderColor: '#5D9CEC',
+                            backgroundColor: 'rgba(93, 156, 236, 0.2)',
+                            borderWidth: 3,
+                            pointRadius: 6,
+                            pointBackgroundColor: '#5D9CEC',
+                            tension: 0.3
+                        },
+                        {
+                            label: '4教科総合',
+                            data: trend.total4,
+                            borderColor: '#48CFAD',
+                            backgroundColor: 'rgba(72, 207, 173, 0.2)',
+                            borderWidth: 4,
+                            pointRadius: 8,
+                            pointBackgroundColor: '#48CFAD',
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 30,
+                            max: 70,
+                            grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                            title: {
+                                display: true,
+                                text: '偏差値',
+                                color: '#656D78',
+                                font: { family: "'Zen Maru Gothic', sans-serif" }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { family: "'Zen Maru Gothic', sans-serif", size: 14 },
+                                color: '#434A54'
                             }
                         }
                     },
-                    x: {
-                        grid: {
-                            display: false
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { family: "'Zen Maru Gothic', sans-serif", size: 14 },
+                                padding: 20
+                            }
                         },
-                        ticks: {
-                            font: {
-                                family: "'Zen Maru Gothic', sans-serif",
-                                size: 14
-                            },
-                            color: '#434A54'
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            font: {
-                                family: "'Zen Maru Gothic', sans-serif",
-                                size: 14
-                            },
-                            padding: 20
+                        tooltip: {
+                            backgroundColor: 'rgba(67, 74, 84, 0.9)',
+                            titleFont: { family: "'Zen Maru Gothic', sans-serif", size: 14 },
+                            bodyFont: { family: "'Zen Maru Gothic', sans-serif", size: 14 },
+                            padding: 12,
+                            cornerRadius: 8
                         }
                     },
-                    tooltip: {
-                        backgroundColor: 'rgba(67, 74, 84, 0.9)',
-                        titleFont: {
-                            family: "'Zen Maru Gothic', sans-serif",
-                            size: 14
-                        },
-                        bodyFont: {
-                            family: "'Zen Maru Gothic', sans-serif",
-                            size: 14
-                        },
-                        padding: 12,
-                        cornerRadius: 8
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeOutQuart'
                     }
-                },
-                animation: {
-                    duration: 2000,
-                    easing: 'easeOutQuart'
                 }
+            });
+        }
+
+        async function applyLatestTrendReport() {
+            let trend = fallbackTrend;
+
+            try {
+                const manifest = await fetchTestResultsManifest();
+                const latestTest = getLatestTestFromManifest(manifest);
+                const manifestTrend = getTrendFromManifest(manifest);
+                if (manifestTrend?.labels?.length) {
+                    const start = Math.max(0, manifestTrend.labels.length - 4);
+                    trend = {
+                        labels: manifestTrend.labels.slice(start),
+                        total4: (manifestTrend.total4 || []).slice(start),
+                        math: (manifestTrend.math || []).slice(start),
+                        japanese: (manifestTrend.japanese || []).slice(start),
+                        science: (manifestTrend.science || []).slice(start),
+                        social: (manifestTrend.social || []).slice(start)
+                    };
+                }
+
+                if (latestTest?.summary) {
+                    document.getElementById('trend-report-title').textContent = `📊 ${latestTest.displayName}までの推移`;
+                    document.getElementById('trend-japanese-text').innerHTML = `${trend.labels.join(' → ')} の中で、国語は ${trend.japanese.join(' → ')} と推移しています。<br>今回も比較的支えになっている教科です。`;
+                    document.getElementById('trend-math-text').innerHTML = `算数は直近で波が大きく、今回は偏差値 ${latestTest.summary.math?.deviation ?? '--'}。<br>後半大問の立て直しがそのまま伸びしろです。`;
+                    document.getElementById('trend-social-text').innerHTML = `社会は偏差値 ${latestTest.summary.social?.deviation ?? '--'}。<br>歴史と地理の総合問題を分けて復習すると、次に上げやすい教科です。`;
+                    document.getElementById('trend-science-text').innerHTML = `理科は偏差値 ${latestTest.summary.science?.deviation ?? '--'}。<br>単元ごとの基礎整理をやり直すと、短期間でも戻しやすい状態です。`;
+                }
+            } catch (error) {
+                console.warn('trend report fallback:', error);
             }
-        });
+
+            renderTrendChart(trend);
+        }
+
+        applyLatestTrendReport();
     </script>
 
 </body>

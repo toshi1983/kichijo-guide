@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>サピックステスト解説</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/test_results_client.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
         rel="stylesheet">
     <style>
@@ -170,7 +171,6 @@
                 <select id="test-period"
                     class="bg-white border text-sm text-gray-700 border-indigo-200 rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-500 shadow-inner flex-1 sm:flex-none">
                     <option value="" disabled selected>テスト時期を選ぶ...</option>
-                    <option value="2026_03_kumiwake">2026年3月 組分けテスト</option>
                 </select>
                 <select id="subject"
                     class="bg-white border text-sm text-gray-700 border-indigo-200 rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-500 shadow-inner flex-1 sm:flex-none">
@@ -241,6 +241,9 @@
         let isComposing = false;
         let currentTestPeriod = '';
         let currentSubject = '';
+        const fallbackTestPeriods = [
+            { id: '2026_03_kumiwake', label: '2026年3月 組分けテスト' }
+        ];
 
         const inputEl = document.getElementById('user-input');
         inputEl.addEventListener('compositionstart', () => { isComposing = true; });
@@ -255,6 +258,36 @@
         function autoResize(el) {
             el.style.height = 'auto';
             el.style.height = Math.min(el.scrollHeight, 128) + 'px';
+        }
+
+        async function initializeTestPeriods() {
+            const select = document.getElementById('test-period');
+            let testPeriods = fallbackTestPeriods;
+            let latestTestId = fallbackTestPeriods[0]?.id || '';
+
+            try {
+                const manifest = await fetchTestResultsManifest();
+                if (Array.isArray(manifest?.chatTests) && manifest.chatTests.length > 0) {
+                    testPeriods = manifest.chatTests;
+                    latestTestId = manifest.latestTestId || testPeriods[0].id;
+                }
+            } catch (error) {
+                console.warn('test period init fallback:', error);
+            }
+
+            select.innerHTML = '<option value="" disabled>テスト時期を選ぶ...</option>';
+            testPeriods.forEach((test) => {
+                const option = document.createElement('option');
+                option.value = test.id;
+                option.textContent = test.label;
+                select.appendChild(option);
+            });
+
+            if (latestTestId) {
+                select.value = latestTestId;
+            } else {
+                select.selectedIndex = 0;
+            }
         }
 
         function applyTestChange() {
@@ -487,6 +520,8 @@
         function escHtml(str) {
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
+
+        initializeTestPeriods();
     </script>
 </body>
 

@@ -7,6 +7,7 @@
     <title>中学受験ナビ - 志望校特化型 研究ガイド</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/test_results_client.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
         rel="stylesheet">
     <style>
@@ -570,6 +571,26 @@
         function initApp() {
             buildInputHTML();
             changeSchool(true);
+            updateLatestFileStatus();
+        }
+
+        async function updateLatestFileStatus() {
+            try {
+                const manifest = await fetchTestResultsManifest();
+                const latestTest = getLatestTestFromManifest(manifest);
+                if (!latestTest) {
+                    return;
+                }
+
+                const fileStatus = document.getElementById('file-status');
+                if (!fileStatus) {
+                    return;
+                }
+
+                fileStatus.innerHTML = `検出: <strong>${latestTest.folderName}</strong> / <strong>個人成績票.pdf</strong><br>最新テスト: ${latestTest.displayName}`;
+            } catch (error) {
+                console.warn('file status update skipped:', error);
+            }
         }
 
         function changeSchool(isInit = false) {

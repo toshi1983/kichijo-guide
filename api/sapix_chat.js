@@ -1,4 +1,9 @@
-const testContexts = require('../data/sapix_test_context.js');
+const staticTestContexts = require('../data/sapix_test_context.js');
+const { buildTestResultsManifest } = require('../data/test_results_service.js');
+
+let cachedTestContexts = staticTestContexts;
+let cachedAt = 0;
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
 function sanitizeText(value, maxLength = 500) {
     return String(value || '').replace(/\s+/g, ' ').trim().slice(0, maxLength);
@@ -38,7 +43,21 @@ export default async function handler(req, res) {
         return res.status(400).json({ reply: '質問、テスト時期、科目が必要です。' });
     }
 
-    const testConfig = testContexts[testPeriod];
+    if ((Date.now() - cachedAt) > CACHE_TTL_MS) {
+        try {
+            const manifest = await buildTestResultsManifest();
+            cachedTestContexts = {
+                ...(manifest.chatContexts || {}),
+                ...staticTestContexts
+            };
+            cachedAt = Date.now();
+        } catch (error) {
+            console.error('sapix_chat manifest refresh error:', error);
+            cachedTestContexts = staticTestContexts;
+        }
+    }
+
+    const testConfig = cachedTestContexts[testPeriod];
     if (!testConfig) {
         return res.status(400).json({ reply: '指定されたテスト時期が見つかりません。' });
     }

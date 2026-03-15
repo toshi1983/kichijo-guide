@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <script src="js/test_results_client.js"></script>
     <style>
         :root {
             --primary-color: #C0392B;
@@ -248,7 +249,7 @@
 
         <div class="content">
 
-            <div class="message-box">
+            <div id="roadmap-message-box" class="message-box">
                 <strong>結論：今のままだと厳しいけれど、絶対に届かない距離じゃない！</strong><br>
                 今回の「V字回復」は、合格への大きな第一歩です。<br>
                 あと偏差値を「3〜5」上げるだけ。点数にすると、各教科あと「5〜8点」です。<br>
@@ -257,8 +258,8 @@
 
             <div class="target-section">
                 <div class="target-item">
-                    <div class="target-value" style="color: #95A5A6;">50.2</div>
-                    <div class="target-label">現在 (1月復習)</div>
+                    <div id="roadmap-current-value" class="target-value" style="color: #95A5A6;">50.2</div>
+                    <div id="roadmap-current-label" class="target-label">現在 (1月復習)</div>
                 </div>
                 <div class="arrow">➔</div>
                 <div class="target-item">
@@ -316,7 +317,7 @@
             <div class="subject-strategy">
                 <div class="subject-card priority">
                     <div class="subject-title"><span class="subject-icon">🌏</span> 社会（最優先！）</div>
-                    <p><strong>今の偏差値41 ➔ 目標50</strong></p>
+                    <p id="roadmap-social-score"><strong>今の偏差値41 ➔ 目標50</strong></p>
                     <p>ここが合格への「カギ」です。一番伸びしろがあります。</p>
                     <ul class="strategy-list">
                         <li>公民（政治）の仕組みを理解する。</li>
@@ -326,7 +327,7 @@
 
                 <div class="subject-card">
                     <div class="subject-title"><span class="subject-icon">📐</span> 算数</div>
-                    <p><strong>今の偏差値51 ➔ 目標55</strong></p>
+                    <p id="roadmap-math-score"><strong>今の偏差値51 ➔ 目標55</strong></p>
                     <p>図形が得意なのは吉祥女子向き！</p>
                     <ul class="strategy-list">
                         <li>「計算ミス」を撲滅する（これだけで+10点！）。</li>
@@ -336,7 +337,7 @@
 
                 <div class="subject-card">
                     <div class="subject-title"><span class="subject-icon">⚗️</span> 理科</div>
-                    <p><strong>今の偏差値45 ➔ 目標53</strong></p>
+                    <p id="roadmap-science-score"><strong>今の偏差値45 ➔ 目標53</strong></p>
                     <ul class="strategy-list">
                         <li>「光」の作図を克服する。</li>
                         <li>得意な「化学」をさらに伸ばす。</li>
@@ -345,7 +346,7 @@
 
                 <div class="subject-card">
                     <div class="subject-title"><span class="subject-icon">📚</span> 国語</div>
-                    <p><strong>今の偏差値61 ➔ キープ！</strong></p>
+                    <p id="roadmap-japanese-score"><strong>今の偏差値61 ➔ キープ！</strong></p>
                     <p>最強の武器です。このまま安定させましょう。</p>
                     <ul class="strategy-list">
                         <li>今の勉強ペースを崩さない。</li>
@@ -366,6 +367,38 @@
         </div>
     </div>
 
+    <script>
+        async function applyLatestRoadmap() {
+            try {
+                const manifest = await fetchTestResultsManifest();
+                const latestTest = getLatestTestFromManifest(manifest);
+                if (!latestTest?.summary?.total4) {
+                    return;
+                }
+
+                const totalDeviation = latestTest.summary.total4.deviation;
+                const gapToGoal = Number((55 - totalDeviation).toFixed(1));
+
+                document.getElementById('roadmap-current-value').textContent = totalDeviation.toFixed(1);
+                document.getElementById('roadmap-current-label').textContent = `現在 (${latestTest.displayName})`;
+                document.getElementById('roadmap-social-score').innerHTML = `<strong>今の偏差値${latestTest.summary.social?.deviation ?? '--'} ➔ 目標50</strong>`;
+                document.getElementById('roadmap-math-score').innerHTML = `<strong>今の偏差値${latestTest.summary.math?.deviation ?? '--'} ➔ 目標55</strong>`;
+                document.getElementById('roadmap-science-score').innerHTML = `<strong>今の偏差値${latestTest.summary.science?.deviation ?? '--'} ➔ 目標53</strong>`;
+                document.getElementById('roadmap-japanese-score').innerHTML = `<strong>今の偏差値${latestTest.summary.japanese?.deviation ?? '--'} ➔ キープ！</strong>`;
+
+                const messageBox = document.getElementById('roadmap-message-box');
+                if (gapToGoal > 0) {
+                    messageBox.innerHTML = `<strong>結論：${latestTest.displayName} 時点でも、まだ十分に巻き返せる距離です。</strong><br>偏差値55まで残りは約 ${gapToGoal}。<br>まずは算数と理科の基礎を戻し、その次に社会の取りこぼしを減らす順で進めると現実的です。`;
+                } else {
+                    messageBox.innerHTML = `<strong>結論：すでに目標ラインが見えています。</strong><br>${latestTest.displayName} 時点で偏差値55に届いています。<br>ここからは安定化と志望校対策の比重を上げる段階です。`;
+                }
+            } catch (error) {
+                console.warn('roadmap fallback:', error);
+            }
+        }
+
+        applyLatestRoadmap();
+    </script>
 </body>
 
 </html>
