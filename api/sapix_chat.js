@@ -1,4 +1,6 @@
 const testContexts = require('../data/sapix_test_context.js');
+const fs = require('fs');
+const path = require('path');
 
 function sanitizeText(value, maxLength = 500) {
     return String(value || '').replace(/\s+/g, ' ').trim().slice(0, maxLength);
@@ -40,56 +42,91 @@ export default async function handler(req, res) {
         return res.status(400).json({ reply: '指定された科目が見つかりません。' });
     }
 
-    if (sanitizedQuestion === '__GET_ADVICE__') {
-        return res.status(200).json({ reply: subjectConfig.initialAdvice });
+    // Determine PDF paths based on testPeriod and subject
+    const folderName = testPeriod === '2026_03_kumiwake' ? '2026-３月組分けテスト' : '';
+    const testDir = path.join(process.cwd(), 'テスト結果', folderName);
+    let pdfPaths = [];
+
+    if (subject === '成績分析') {
+        const scorePdf = path.join(testDir, '個人成績票.pdf');
+        if (fs.existsSync(scorePdf)) pdfPaths.push(scorePdf);
+    } else if (subject === '4教科') {
+        const subs = ['国語', '算数', '理科', '社会'];
+        subs.forEach(s => {
+            const p = path.join(testDir, `三月度組分けテスト　${s}.pdf`);
+            if (fs.existsSync(p)) pdfPaths.push(p);
+        });
+        const ans = path.join(testDir, '三月度組分けテスト　解答.pdf');
+        if (fs.existsSync(ans)) pdfPaths.push(ans);
+    } else {
+        const subPdf = path.join(testDir, `三月度組分けテスト　${subject}.pdf`);
+        const ansPdf = path.join(testDir, '三月度組分けテスト　解答.pdf');
+        if (fs.existsSync(subPdf)) pdfPaths.push(subPdf);
+        if (fs.existsSync(ansPdf)) pdfPaths.push(ansPdf);
     }
 
     const historyText = sanitizedHistory.length > 0
         ? `\n--- これまでの会話 ---\n${sanitizedHistory.map((item) => `${item.role === 'user' ? 'ユーザー' : '講師'}: ${item.text}`).join('\n')}\n--------------------\n`
         : '';
 
-    const isSpecificQuestion = /大問|小問|問\d|[（(]\d+[)）]|図|表|グラフ|選択肢|本文/.test(sanitizedQuestion);
+    const systemInstruction = `あなたはサピックス（SAPIX）のカリスマ塾講師です。
+生徒（西村 紬さん）は現在「${testConfig.targetSchool}」を第一志望として目指しており、今回のテスト結果に少し落ち込んでいます。
+あなたの使命は、提供されたテスト資料（PDF）と成績データに基づき、論理的かつ情熱的にアドバイスを送ることです。
 
-    const prompt = `あなたはサピックス（SAPIX）のカリスマ塾講師です。
-生徒は${testConfig.targetSchool}を第一志望として目指しています。
-今回扱うのは「${testConfig.testName}」の${subject}です。
+【重要方針】
+・結果は重く受け止めつつも、決して突き放さず、やる気が出るようなポジティブな声かけをしてください。
+・今の立ち位置を客観的に伝えつつ、合格に向けた具体的なアクションプランを提示してください。
+・「厳しいことを言うようだけど、ここを乗り越えれば合格が見えてくるよ」という、愛のある指導を心がけてください。
+・回答はプレーンなテキスト（またはMarkdown）で、改行を活用して読みやすくしてください。
 
-【重要ルール】
-- 回答はやさしく、論理的で、前向きにする
-- プレーンなテキストで、改行を使って読みやすくする
-- 必要な範囲で簡潔に答える
-- 手元にある情報だけで誠実に答える
-- 見えていない問題文や図を想像で作らない
-
-【参照可能なテスト情報】
+【生徒の成績状況】
 ${testConfig.sharedContext}
 
-【${subject}の整理メモ】
+【${subject}の分析状況】
 ${subjectConfig.context}
+`;
 
-【詳細質問時の扱い】
-${testConfig.detailPolicy}
+    let promptText = "";
+    if (sanitizedQuestion === '__GET_ADVICE__') {
+        promptText = `${systemInstruction}\n指示: 添付のPDF（問題・解答・成績表）を読み込んでください。そして、この科目の成績を上げるために、今後どう勉強・対策すればよいか、具体的なアドバイスを作成してください。`;
+    } else {
+        promptText = `${systemInstruction}${historyText}\nユーザーからの質問: ${sanitizedQuestion}\n※添付のPDFを参考にして、具体的に解説やアドバイスを行ってください。`;
+    }
 
-${isSpecificQuestion ? '【追加注意】ユーザーはかなり具体的な問題を聞いています。問題文や図が見えていない場合は、その限界を最初に短く伝えたうえで、一般的な考え方や復習手順を案内してください。' : ''}
-${historyText}
-ユーザーからの質問: ${sanitizedQuestion}`;
+    let contents = [{
+        parts: [{ text: promptText }]
+    }];
+
+    // Read PDFs
+    pdfPaths.forEach(p => {
+        try {
+            const data = fs.readFileSync(p);
+            contents[0].parts.push({
+                inline_data: {
+                    mime_type: 'application/pdf',
+                    data: data.toString('base64')
+                }
+            });
+        } catch (e) {
+            console.error(`Error reading PDF ${p}:`, e);
+        }
+    });
 
     try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
+                contents,
                 generationConfig: {
                     temperature: 0.4,
-                    maxOutputTokens: 700
+                    maxOutputTokens: 1024
                 }
             })
         });
 
         const data = await response.json();
-
         if (data.error) {
             console.error('Gemini API Error:', JSON.stringify(data.error));
             return res.status(500).json({ reply: `エラー: ${data.error.message}` });
@@ -97,7 +134,6 @@ ${historyText}
 
         const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!reply) {
-            console.error('No reply in response:', JSON.stringify(data));
             return res.status(500).json({ reply: 'AIからの返答を取得できませんでした。' });
         }
 

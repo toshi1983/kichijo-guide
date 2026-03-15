@@ -282,21 +282,21 @@
             currentTestPeriod = period;
             currentSubject = subj;
 
-            // Reset chat and wait for an explicit action before consuming AI quota.
+            // Reset chat and generate advice immediately
             document.getElementById('messages').innerHTML = `
                 <div class="flex gap-3 mb-4 fade-in">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-100 rounded-3xl flex items-center justify-center shadow-inner flex-none text-4xl select-none">
                         👨‍🏫
                     </div>
                     <div class="bubble-bot p-4 max-w-[85%] text-gray-800 text-sm leading-relaxed">
-                        <strong>${subj}</strong> に切り替えました。<br>
-                        必要なら上の<strong>「初回アドバイス」</strong>を押してください。すぐに質問しても大丈夫です。<br><br>
-                        細かい図や問題文そのものが必要なときは、<a href="usa_talk.html" class="text-indigo-700 underline font-bold">うさトークで画像を送る</a>のが最短です。📝
+                        <strong>${subj}</strong> に切り替えました！<br>
+                        最新のテスト資料と成績表を読み取って、${subj}の学習アドバイスを作成しています… 少々お待ちください📝
                     </div>
                 </div>
             `;
             conversationHistory = [];
             document.getElementById('generate-advice-btn').disabled = false;
+            fetchAdvice(currentTestPeriod, currentSubject);
         }
 
         function requestInitialAdvice() {
