@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "node scripts/generate_test_results_manifest.js",
   "rewrites": [
     {
       "source": "/",
