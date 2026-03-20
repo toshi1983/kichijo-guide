@@ -383,6 +383,90 @@
 
         const MAX_PLANNER_HISTORY_TO_SEND = 8;
 
+        function buildLocalPlannerFallback(dateStr, text, detail = '') {
+            const dateLabel = getDisplayText(dateStr);
+            const isRestDay = /(休み|休日|春休み|夏休み|冬休み|土曜|日曜|祝日)/.test(text);
+            const intro = detail
+                ? `AIとの通信が不安定だったため、${dateLabel}用の仮プランを先に出します。`
+                : `${dateLabel}用の仮プランです。`;
+            const blocks = isRestDay
+                ? [
+                    '- [ ] 9:00-9:15 今日やることを3つに絞る',
+                    '- [ ] 9:15-10:00 算数 45分',
+                    '- [ ] 10:15-10:55 国語 40分',
+                    '- [ ] 11:10-11:35 理科・社会の暗記 25分',
+                    '- [ ] 14:00-14:30 間違い直し 30分'
+                ]
+                : [
+                    '- [ ] 帰宅後 15分 休憩と準備',
+                    '- [ ] 1コマ目 35分 算数または苦手科目',
+                    '- [ ] 2コマ目 30分 国語',
+                    '- [ ] 3コマ目 20分 理科・社会',
+                    '- [ ] 最後 15分 間違い直し'
+                ];
+
+            return `${intro}
+
+相談内容: ${text}
+
+${blocks.join('\n')}
+
+必要なら、科目別にもっと細かく組み直します。`;
+        }
+
+        async function readReplyPayload(response) {
+            const contentType = response.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+                const data = await response.json().catch(() => null);
+                return {
+                    reply: data?.reply || data?.message || '',
+                    fallback: Boolean(data?.fallback)
+                };
+            }
+
+            const text = await response.text().catch(() => '');
+            return { reply: text.trim(), fallback: false };
+        }
+
+        function appendPlannerReply(dateStr, text) {
+            plannerDailyData[dateStr].push({ isUser: false, text });
+            localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
+            renderPlanChat();
+            renderCalendar();
+        }
+
+        async function requestPlannerReply(payload) {
+            const retryableStatuses = new Set([429, 500, 502, 503, 504]);
+
+            for (let attempt = 0; attempt < 2; attempt++) {
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const parsed = await readReplyPayload(response);
+                    if (response.ok && parsed.reply) {
+                        return parsed;
+                    }
+
+                    if (attempt === 0 && retryableStatuses.has(response.status)) {
+                        await new Promise(resolve => setTimeout(resolve, 800));
+                        continue;
+                    }
+
+                    throw new Error(parsed.reply || `HTTPエラー ${response.status}`);
+                } catch (error) {
+                    if (attempt === 0) {
+                        await new Promise(resolve => setTimeout(resolve, 800));
+                        continue;
+                    }
+                    throw error;
+                }
+            }
+        }
+
         document.getElementById('plan-chat-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('plan-user-input');
@@ -418,36 +502,17 @@
                 const contextPrefix = `※現在ユーザーはカレンダー上の「${getDisplayText(dateStr)}」の計画について相談しています。\n`;
                 const recentHistory = plannerDailyData[dateStr].slice(-(MAX_PLANNER_HISTORY_TO_SEND + 1), -1);
 
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        question: contextPrefix + text,
-                        isPlanner: true,
-                        history: recentHistory
-                    })
+                const data = await requestPlannerReply({
+                    question: contextPrefix + text,
+                    isPlanner: true,
+                    history: recentHistory
                 });
 
                 document.getElementById(loadingId)?.remove();
-
-                if (response.ok) {
-                    const data = await response.json();
-                    plannerDailyData[dateStr].push({ isUser: false, text: data.reply });
-                    localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
-                    renderPlanChat();
-                    renderCalendar(); // update progress if checkboxes added
-                } else {
-                    alert('エラーが発生しました。インターネット接続を確認してください。');
-                    plannerDailyData[dateStr].pop();
-                    localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
-                    renderPlanChat();
-                }
+                appendPlannerReply(dateStr, data.reply);
             } catch (err) {
                 document.getElementById(loadingId)?.remove();
-                alert('通信エラーです。');
-                plannerDailyData[dateStr].pop();
-                localStorage.setItem('plannerDailyData', JSON.stringify(plannerDailyData));
-                renderPlanChat();
+                appendPlannerReply(dateStr, buildLocalPlannerFallback(dateStr, text, err?.message || 'network_error'));
             }
         }
 
